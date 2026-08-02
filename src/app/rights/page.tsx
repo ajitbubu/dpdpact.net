@@ -46,7 +46,7 @@ const DUTIES = [
 export const metadata: Metadata = {
   title: "DPDP Act Rights & Duties (§§ 11–15)",
   description:
-    "Chapter III of the DPDP Act: the four rights of a Data Principal — access, correction and erasure, grievance redressal, nomination — and the five duties under section 15.",
+    "Learn the four rights and five duties of a Data Principal under DPDP Act sections 11–15, including access, erasure, grievances and nomination.",
   alternates: { canonical: "/rights" },
 };
 

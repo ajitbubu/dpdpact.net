@@ -1,10 +1,15 @@
 import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
+import {
+  EDITORIAL_AUTHOR,
+  EDITORIAL_REVIEWER,
+  LEGAL_REVIEWED_ON,
+} from "@/lib/editorial";
 import { routes } from "@/lib/routes";
 
 export function EditorialReview({
-  reviewed = "2 August 2026",
+  reviewed = LEGAL_REVIEWED_ON,
   scope = "the DPDP Act, 2023 and notified DPDP Rules, 2025",
 }: {
   reviewed?: string;
@@ -21,17 +26,21 @@ export function EditorialReview({
           />
           <p className="m-0 max-w-[78ch] text-[13px] leading-[1.65] text-text-secondary">
             <strong className="font-semibold text-text">
-              Editorial review:
+              {EDITORIAL_AUTHOR.name}:
             </strong>{" "}
-            checked {reviewed} against {scope}. Educational information, not
-            legal advice.
+            {EDITORIAL_AUTHOR.role}.{" "}
+            <strong className="font-semibold text-text">
+              {EDITORIAL_REVIEWER.name}:
+            </strong>{" "}
+            {EDITORIAL_REVIEWER.role}; last checked {reviewed} against {scope}.
+            Educational information, not legal advice.
           </p>
         </div>
         <Link
           href={routes.editorialPolicy}
           className="shrink-0 text-[12.5px] font-semibold text-primary-text no-underline"
         >
-          How we review content →
+          Review standards and attribution →
         </Link>
       </div>
     </section>

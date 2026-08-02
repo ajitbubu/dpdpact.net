@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AlertTriangle, CheckSquare2 } from "lucide-react";
 
+import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -91,6 +92,7 @@ export default function DpdpComplianceChecklistPage() {
         </section>
       </main>
 
+      <EditorialReview scope="the DPDP Act, 2023 and notified DPDP Rules, 2025" />
       <SiteFooter />
     </div>
   );

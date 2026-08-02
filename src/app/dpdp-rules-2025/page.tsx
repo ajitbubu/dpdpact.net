@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { Faq } from "@/components/faq";
+import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -302,6 +303,7 @@ export default function DpdpRulesPage() {
         </section>
       </main>
 
+      <EditorialReview scope="the notified DPDP Rules, 2025 and commencement notifications" />
       <SiteFooter />
     </div>
   );

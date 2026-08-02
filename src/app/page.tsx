@@ -158,11 +158,11 @@ export default function HomePage() {
                       className="absolute bottom-[8px] right-[8px] size-[10px] rotate-45 bg-primary-text"
                     />
 
-                    <span className="font-display text-[14px] font-semibold leading-none text-text">
-                      Certificate of
+                    <span className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.14em] text-primary-text">
+                      DPDP Academy
                     </span>
                     <span className="font-display text-[clamp(24px,3.4vw,32px)] font-bold leading-[1.06] tracking-[-0.03em] text-text [text-wrap:balance]">
-                      Professional Achievement
+                      Certified DPDP Practitioner
                     </span>
 
                     <span className="flex w-full max-w-[250px] items-center gap-[10px]">
@@ -175,16 +175,16 @@ export default function HomePage() {
                     </span>
 
                     <span className="font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-text-secondary">
-                      Awarded to
+                      DPDP Certificate awarded to
                     </span>
                     <span className="block w-full max-w-[300px] border-b-2 border-text pb-[8px] font-script text-[clamp(30px,4.2vw,40px)] font-normal leading-[1.25] text-text">
                       Your Name Here
                     </span>
 
                     <span className="max-w-[34ch] text-[12px] leading-[1.7] text-text-secondary [text-wrap:pretty]">
-                      for a working command of the Digital Personal Data
-                      Protection Act, 2023 — nine chapters and the Schedule of
-                      penalties.
+                      for passing the DPDP Academy examination on the Digital
+                      Personal Data Protection Act, 2023 — all nine chapters,
+                      44 sections and the Schedule of penalties.
                     </span>
 
                     <div className="flex w-full items-end justify-between gap-[14px] pt-[2px]">

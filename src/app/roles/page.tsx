@@ -121,7 +121,7 @@ const glossarySchema = {
 export const metadata: Metadata = {
   title: "DPDP Act Key Roles Explained",
   description:
-    "The six defined roles in the DPDP Act 2023: Data Principal, Data Fiduciary, Data Processor, Consent Manager, Significant Data Fiduciary and the Data Protection Board of India.",
+    "Understand six key DPDP Act roles, including Data Principal, Data Fiduciary, Processor, Consent Manager, SDF and the Data Protection Board.",
   alternates: { canonical: "/roles" },
 };
 

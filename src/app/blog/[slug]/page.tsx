@@ -7,6 +7,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { LinkButton } from "@/components/ui/button";
 import { BLOG_POSTS, getBlogPost } from "@/lib/blog-posts";
+import {
+  EDITORIAL_AUTHOR,
+  EDITORIAL_REVIEWER,
+  LEGAL_REVIEWED_ON,
+} from "@/lib/editorial";
 import { routes } from "@/lib/routes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -55,10 +60,15 @@ export default async function BlogArticlePage({
     datePublished: post.published,
     dateModified: post.updated,
     articleSection: post.category,
-    author: { "@type": "Organization", name: SITE_NAME + " Editorial" },
+    author: {
+      "@type": "Organization",
+      name: EDITORIAL_AUTHOR.name,
+      description: EDITORIAL_AUTHOR.role,
+    },
     reviewedBy: {
       "@type": "Organization",
-      name: SITE_NAME + " Editorial Review",
+      name: EDITORIAL_REVIEWER.name,
+      description: EDITORIAL_REVIEWER.role,
     },
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     mainEntityOfPage: SITE_URL + "/blog/" + post.slug,
@@ -98,8 +108,12 @@ export default async function BlogArticlePage({
               </p>
               <div className="mt-[8px] flex flex-wrap gap-x-[18px] gap-y-[6px] font-mono text-[12px] text-text-muted">
                 <span>Published 2 August 2026</span>
-                <span>DPDP Academy Editorial</span>
-                <span>Reviewed against official sources</span>
+                <span>
+                  By {EDITORIAL_AUTHOR.name} · {EDITORIAL_AUTHOR.role}
+                </span>
+                <span>
+                  Reviewed by {EDITORIAL_REVIEWER.name} · {LEGAL_REVIEWED_ON}
+                </span>
               </div>
             </div>
           </div>
@@ -177,10 +191,11 @@ export default async function BlogArticlePage({
                   </h2>
                 </div>
                 <p className="m-0 text-[13.5px] leading-[1.7] text-text-muted">
-                  DPDP Academy separates statutory text, notified Rules and
-                  practical interpretation. This article was reviewed against
-                  the sources below on 2 August 2026. It is educational content,
-                  not legal advice.
+                  Prepared by {EDITORIAL_AUTHOR.name} ({EDITORIAL_AUTHOR.role}).
+                  Reviewed by {EDITORIAL_REVIEWER.name} using the sources below
+                  on {LEGAL_REVIEWED_ON}. Statutory text, notified Rules and
+                  practical interpretation are kept distinct. Educational
+                  content, not legal advice.
                 </p>
                 <div className="mt-[14px] flex flex-col gap-[8px]">
                   {post.sources.map((source) => (

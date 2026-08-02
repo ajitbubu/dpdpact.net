@@ -133,10 +133,10 @@ export function CertificateBody() {
             />
 
             <span className="font-display text-[clamp(15px,2vw,22px)] font-semibold leading-none tracking-[0.02em] text-text">
-              Certificate of
+              DPDP Academy
             </span>
             <h2 className="m-0 w-full font-display text-[clamp(30px,5.6vw,62px)] font-bold leading-[1.04] tracking-[-0.03em] text-text [text-wrap:balance]">
-              Professional Achievement
+              DPDP Certified
             </h2>
 
             <span className="flex w-full max-w-[520px] items-center gap-[12px]">

@@ -4,6 +4,11 @@ import { BookOpenCheck, FileSearch, RefreshCw, Scale } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
+import {
+  EDITORIAL_AUTHOR,
+  EDITORIAL_REVIEWER,
+  LEGAL_REVIEWED_ON,
+} from "@/lib/editorial";
 
 const PRINCIPLES = [
   {
@@ -71,6 +76,38 @@ export default function EditorialPolicyPage() {
                 </article>
               ))}
             </div>
+
+            <section>
+              <h2 className="m-0 font-display text-[27px] font-semibold text-text">
+                Who prepares and reviews the material
+              </h2>
+              <dl className="mb-0 mt-[16px] grid gap-[12px] min-[720px]:grid-cols-2">
+                <div className="rounded-lg border border-border bg-surface p-[20px]">
+                  <dt className="font-display text-[18px] font-semibold text-text">
+                    {EDITORIAL_AUTHOR.name}
+                  </dt>
+                  <dd className="mb-0 ml-0 mt-[7px] text-[14px] leading-[1.7] text-text-secondary">
+                    {EDITORIAL_AUTHOR.role}. The team prepares explanations,
+                    implementation notes and learning materials.
+                  </dd>
+                </div>
+                <div className="rounded-lg border border-border bg-surface p-[20px]">
+                  <dt className="font-display text-[18px] font-semibold text-text">
+                    {EDITORIAL_REVIEWER.name}
+                  </dt>
+                  <dd className="mb-0 ml-0 mt-[7px] text-[14px] leading-[1.7] text-text-secondary">
+                    {EDITORIAL_REVIEWER.role}. The current legal-source review
+                    date is {LEGAL_REVIEWED_ON}.
+                  </dd>
+                </div>
+              </dl>
+              <p className="mb-0 mt-[14px] text-[14px] leading-[1.75] text-text-muted">
+                These are organisation-level bylines, not claims that a named
+                advocate has reviewed the material. Named professional
+                credentials will appear only when the contributor has agreed to
+                publish them.
+              </p>
+            </section>
 
             <section>
               <h2 className="m-0 font-display text-[27px] font-semibold text-text">

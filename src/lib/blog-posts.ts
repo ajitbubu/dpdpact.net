@@ -351,6 +351,158 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "Data Fiduciary obligations", href: "/obligations" },
     ],
   },
+  {
+    slug: "dpdp-data-retention-erasure-guide",
+    title: "DPDP data retention and erasure: build the lifecycle",
+    description:
+      "Build a DPDP retention and erasure workflow that connects purpose completion, legal holds, processor deletion, notices and evidence.",
+    category: "Retention & erasure",
+    published: "2026-08-02",
+    updated: "2026-08-02",
+    readTime: "8 min read",
+    intro:
+      "DPDP retention is not a single number that can be copied into a policy. The defensible unit is a rule connecting a specified purpose, the event that completes it, any lawful retention requirement, every system copy and evidence of eventual erasure.",
+    sections: [
+      {
+        heading: "Start with purpose completion",
+        paragraphs: [
+          "Section 8(7) connects erasure to the specified purpose no longer being served and retention no longer being necessary for compliance with law. Teams therefore need an operational event—such as account closure, delivery completion or the end of a support case—that systems can recognise.",
+          "Do not turn one schedule into a universal DPDP period. Different data may remain necessary for a continuing service, a legal obligation, security evidence or another documented purpose. Record the reason and the system of record for each exception.",
+        ],
+        bullets: [
+          "Name the purpose and the event that completes it.",
+          "Identify each production system, processor, backup and export.",
+          "Record the legal authority and expiry date for every retention override.",
+        ],
+      },
+      {
+        heading: "Model the Rules without flattening them",
+        paragraphs: [
+          "Rule 8 creates specific inactivity-based erasure periods for the classes and purposes listed in its Third Schedule. For those cases, the Data Principal must receive notice at least forty-eight hours before the period completes unless renewed activity or an exercise of rights changes the position.",
+          "The same rule also prescribes a minimum one-year period for specified processing records and logs, followed by erasure unless another law or Government notification requires longer retention. These provisions are scheduled to commence on 13 May 2027, so readiness work should preserve the distinction between current and future duties.",
+        ],
+      },
+      {
+        heading: "Make deletion testable across processors",
+        paragraphs: [
+          "A deletion request is incomplete if the primary database changes while search indexes, analytics stores, support attachments or processors keep active copies. Define deletion states, retry behaviour, processor acknowledgements and the treatment of immutable backups.",
+          "Test a sample record from trigger to completion. The evidence should show the governing rule, systems reached, exceptions applied, processor responses and final status without retaining the personal data merely to prove that it was erased.",
+        ],
+        bullets: [
+          "Use machine-readable retention classes rather than free-text notes.",
+          "Alert when a processor misses its deletion service level.",
+          "Reconcile legal holds and delete promptly when they expire.",
+        ],
+      },
+    ],
+    sources: [
+      { label: "DPDP Act reader — sections 6 and 8", href: "/reader" },
+      { label: "DPDP Rules, 2025 Gazette — rule 8", href: RULES_SOURCE },
+      { label: "Act commencement notification", href: COMMENCEMENT_SOURCE },
+    ],
+    related: [
+      { label: "Data Principal request workflow", href: "/blog/data-principal-request-workflow" },
+      { label: "Compliance checklist", href: "/dpdp-compliance-checklist" },
+    ],
+  },
+  {
+    slug: "dpdp-processor-contracts-vendor-management",
+    title: "DPDP processor contracts: clauses operations can prove",
+    description:
+      "Turn DPDP processor contracts into workable controls for instructions, safeguards, incidents, rights support, retention and evidence.",
+    category: "Processors & vendors",
+    published: "2026-08-02",
+    updated: "2026-08-02",
+    readTime: "8 min read",
+    intro:
+      "A processor clause is useful only when product, security, support and procurement can perform it. DPDP vendor governance should connect the signed terms to the real data flow, responsible owner and evidence produced during ordinary operations and incidents.",
+    sections: [
+      {
+        heading: "Keep accountability with the Data Fiduciary",
+        paragraphs: [
+          "Section 8 makes the Data Fiduciary responsible for compliance in respect of processing undertaken by it or on its behalf. Section 8(2) permits engagement of a Data Processor only under a valid contract, so outsourcing the system does not outsource the accountability.",
+          "Build a processor register from actual integrations, expense records and infrastructure—not only the contracts folder. For each processor, record the service, personal data, purpose, locations, sub-processors, owner and exit path.",
+        ],
+      },
+      {
+        heading: "Translate safeguards into enforceable terms",
+        paragraphs: [
+          "Rule 6 requires reasonable security safeguards for processing performed by a Data Fiduciary or its processor and specifically calls for an appropriate contractual provision on safeguards wherever applicable. The contract should point to a security schedule that can be assessed and updated.",
+          "Incident escalation must arrive early enough for the Data Fiduciary to meet its own notification duties. Define the trigger, initial facts, continuing updates, evidence preservation and named communication channel instead of waiting for a complete forensic report.",
+        ],
+        bullets: [
+          "Document instructions and permitted purposes.",
+          "Set minimum access, logging, resilience and incident controls.",
+          "Require cooperation with rights, erasure and regulatory inquiries.",
+          "Define sub-processor notice, review and flow-down obligations.",
+        ],
+      },
+      {
+        heading: "Test the contract before renewal",
+        paragraphs: [
+          "Ask the service owner to demonstrate one rights request, one deletion path and one incident escalation. Compare the result with the signed terms and record gaps as renewal conditions or remediation work.",
+          "Plan exit while the relationship is healthy. Specify export format, return or deletion, backup treatment, residual access, evidence and the time at which the processor must stop using the data. A termination clause without an executable owner is not an exit plan.",
+        ],
+      },
+    ],
+    sources: [
+      { label: "DPDP Act reader — section 8", href: "/reader" },
+      { label: "DPDP Rules, 2025 Gazette — rule 6", href: RULES_SOURCE },
+    ],
+    related: [
+      { label: "DPDP guide for SaaS companies", href: "/blog/dpdp-act-for-saas-companies" },
+      { label: "Breach notification guide", href: "/blog/dpdp-breach-notification-guide" },
+    ],
+  },
+  {
+    slug: "dpdp-data-inventory-purpose-mapping",
+    title: "DPDP data inventory: map purpose, systems and owners",
+    description:
+      "Create a practical DPDP data inventory linking personal data, purposes, legal grounds, notices, processors, retention and accountable owners.",
+    category: "Data governance",
+    published: "2026-08-02",
+    updated: "2026-08-02",
+    readTime: "7 min read",
+    intro:
+      "The DPDP Act does not prescribe a document called a record of processing activities. A maintained data inventory is nevertheless one of the simplest ways to make notices, consent, rights, safeguards, retention and processor oversight operate from the same facts.",
+    sections: [
+      {
+        heading: "Map decisions, not just databases",
+        paragraphs: [
+          "A list of systems cannot explain why data is processed or what should happen when consent is withdrawn. Use one row or record per meaningful processing purpose and connect it to the data, people, source, destination and responsible owner.",
+          "Begin with customer, workforce, applicant, vendor and prospect journeys. Interview the teams that run them and validate the answers against forms, event schemas, integrations, processor consoles and retention jobs.",
+        ],
+        bullets: [
+          "Specified purpose and lawful ground.",
+          "Data Principal group, data categories and collection source.",
+          "Systems, processors, recipients and access owners.",
+          "Notice or consent version, retention trigger and deletion method.",
+        ],
+      },
+      {
+        heading: "Use the map to test the notice",
+        paragraphs: [
+          "Rule 3 expects a standalone notice with an itemised description of personal data and the specified purpose. Compare each public notice with the current inventory to find hidden collection, vague purposes and secondary use that the user journey does not explain.",
+          "Where consent is the ground, connect the purpose to the affirmative action and withdrawal control. Where section 7 is relied on, record the exact legitimate use rather than a generic label such as legal basis or business need.",
+        ],
+      },
+      {
+        heading: "Keep ownership and evidence current",
+        paragraphs: [
+          "Assign a business owner who can confirm the purpose and a technical owner who can identify systems and execute change. Review records when a product launches, a processor changes, an incident reveals an unknown flow or the law changes.",
+          "Treat completeness as a managed risk rather than a one-time promise. Track unverified systems, stale records and unresolved owner questions, then prioritise the flows with the greatest volume, sensitivity or consequence for Data Principals.",
+        ],
+      },
+    ],
+    sources: [
+      { label: "DPDP Act reader — sections 4 to 8", href: "/reader" },
+      { label: "DPDP Rules, 2025 Gazette — rules 3 and 6", href: RULES_SOURCE },
+    ],
+    related: [
+      { label: "Consent notice guide", href: "/blog/dpdp-consent-notice-guide" },
+      { label: "Startup 90-day readiness plan", href: "/blog/dpdp-act-for-startups" },
+    ],
+  },
 ];
 
 export function getBlogPost(slug: string) {
