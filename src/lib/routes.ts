@@ -12,6 +12,8 @@ export const routes = {
   obligations: "/obligations",
   penalties: "/penalties",
   reader: "/reader",
+  blog: "/blog",
+  blogPrimer: "/blog/dpdp-act-2023-practical-primer",
   certification: "/certification",
   schedule: "/certification#schedule",
   practiceTest: "/practice-test",
@@ -29,4 +31,5 @@ export type NavKey =
   | "obligations"
   | "penalties"
   | "reader"
+  | "blog"
   | "cert";

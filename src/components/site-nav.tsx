@@ -42,12 +42,14 @@ const DPDP_KEYS = DPDP_ITEMS.map((i) => i.key);
 /** Top-level items that sit outside the DPDP group. */
 const TOP_ITEMS: { key: NavKey; href: string; label: string }[] = [
   { key: "overview", href: routes.overview, label: "Overview" },
-  { key: "reader", href: routes.reader, label: "Full Text" },
+  { key: "reader", href: routes.reader, label: "Learn" },
+  { key: "blog", href: routes.blog, label: "Blog" },
   { key: "cert", href: routes.certification, label: "Certification" },
 ];
 
 const MOBILE_TAIL: { href: string; label: string }[] = [
   { href: routes.reader, label: "Full Text Reader" },
+  { href: routes.blog, label: "Blog" },
   { href: routes.certification, label: "Certification" },
   { href: routes.practiceTest, label: "Practice Test" },
   { href: routes.certificate, label: "My Certificate" },
