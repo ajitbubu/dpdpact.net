@@ -1,0 +1,441 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* --------------------------------------------------------------------------
+   shadcn semantic vars -> Tailwind namespaces.
+
+   `--color-primary`, `--color-border` and `--radius-*` are deliberately NOT
+   mapped here: those names belong to the Sentinel design system below, which
+   owns them for both inline `var()` use and Tailwind utilities. The raw
+   shadcn vars (`--primary`, `--border`, `--radius`) are still bridged to the
+   Bulletin palette further down, so shadcn primitives stay on-theme.
+   -------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+}
+
+/* ==========================================================================
+   Sentinel design system — tokens registered with Tailwind.
+
+   Names are verbatim from the source design system so that:
+     1. inline `var(--color-…)` references resolve exactly as they do in the
+        Claude Design source, and
+     2. Tailwind generates matching utilities (`bg-canvas`, `text-text-muted`,
+        `border-border`, `rounded-lg`, `shadow-card`, `font-display`, …).
+
+   Values here are the Sentinel *base* (dark, security-operations palette).
+   The Bulletin light theme overrides them in the `:root` block below —
+   exactly as the design does by loading bulletin.css after the token sheets.
+   ========================================================================== */
+@theme {
+  /* ---- Base canvas & surfaces ---- */
+  --color-canvas: #0b1220;
+  --color-canvas-sunken: #080e1a;
+  --color-surface: #111a2b;
+  --color-surface-raised: #16223a;
+  --color-surface-inset: #0e1626;
+
+  /* ---- Borders & dividers ---- */
+  --color-border: #243049;
+  --color-border-strong: #2e3c58;
+  --color-border-subtle: #1a2438;
+
+  /* ---- Text ---- */
+  --color-text: #e6ecf5;
+  --color-text-secondary: #9fb0c9;
+  --color-text-muted: #6b7b96;
+  --color-text-inverse: #0b1220;
+
+  /* ---- Primary action ---- */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-active: #1e40af;
+  --color-primary-tint: rgba(37, 99, 235, 0.15);
+  --color-primary-text: #93b4ff;
+
+  /* ---- Semantic states ---- */
+  --color-safe: #16a34a;
+  --color-safe-tint: rgba(22, 163, 74, 0.15);
+  --color-safe-text: #4ade80;
+
+  --color-warning: #d97706;
+  --color-warning-tint: rgba(217, 119, 6, 0.15);
+  --color-warning-text: #fbbf24;
+
+  --color-critical: #dc2626;
+  --color-critical-tint: rgba(220, 38, 38, 0.15);
+  --color-critical-text: #f87171;
+
+  --color-info: #0284c7;
+  --color-info-tint: rgba(2, 132, 199, 0.15);
+  --color-info-text: #38bdf8;
+
+  /* ---- Typography ---- */
+  --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace,
+    "SF Mono", Menlo, Consolas, monospace;
+  --font-display: var(--font-fraunces), Fraunces, Georgia, "Times New Roman",
+    serif;
+  --font-script: var(--font-pinyon-script), "Pinyon Script", cursive;
+
+  --text-display: 44px;
+  --text-h1: 36px;
+  --text-h2: 28px;
+  --text-h3: 22px;
+  --text-h4: 18px;
+  --text-body-lg: 16px;
+  --text-body: 15px;
+  --text-sm: 13px;
+  --text-xs: 12px;
+  --text-mono: 13px;
+  --text-mono-sm: 12px;
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-body: 1.6;
+
+  --tracking-tight: -0.02em;
+  --tracking-eyebrow: 0.08em;
+  --tracking-badge: 0.06em;
+
+  /* ---- Spacing (8px grid; 4px half-step) ---- */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 64px;
+
+  /* ---- Radius ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Sentinel layout + semantic aliases.
+   `--space-*`, `--bg-*`, `--surface-*` are not Tailwind namespaces, so they
+   live in plain `:root`; the ported markup references them as the design does.
+   -------------------------------------------------------------------------- */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --nav-width: 248px;
+  --topbar-height: 60px;
+  --panel-width: 400px;
+  --content-max: 1440px;
+
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+
+  /* Shadows live outside `@theme` on purpose: Tailwind resolves `shadow-*`
+     utilities at build time, which would bake in the Sentinel values and
+     ignore Bulletin's `none`. Consume them as `shadow-[var(--shadow-card)]`
+     so the override applies at runtime. */
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-raised: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.35);
+
+  --bg-app: var(--color-canvas);
+  --bg-sunken: var(--color-canvas-sunken);
+  --surface-card: var(--color-surface);
+  --surface-raised: var(--color-surface-raised);
+  --surface-input: var(--color-surface-inset);
+  --border-default: var(--color-border);
+  --border-strong: var(--color-border-strong);
+  --text-label: var(--color-text-secondary);
+  --text-meta: var(--color-text-muted);
+  --action: var(--color-primary);
+  --action-hover: var(--color-primary-hover);
+  --focus-ring: var(--color-primary);
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+}
+
+/* ==========================================================================
+   Bulletin — light editorial theme (option 1c).
+
+   Sentinel's structure and components, re-skinned: paper ground, ink text,
+   a rust accent, Fraunces for display type, JetBrains Mono for chrome.
+   Hairlines carry structure — radii collapse to near-square and the card
+   shadows are removed, so surfaces read as ruled regions, not raised boxes.
+
+   Loaded AFTER the Sentinel token sheets, so these win the cascade for both
+   inline `var()` references and the Tailwind utilities generated above.
+   ========================================================================== */
+:root {
+  /* canvas & surfaces — paper, not panels */
+  --color-canvas: #f5f5f2;
+  --color-canvas-sunken: #edede8;
+  --color-surface: #fbfbf9;
+  --color-surface-raised: #efefea;
+  --color-surface-inset: #ffffff;
+
+  /* rules */
+  --color-border: #dcdad3;
+  --color-border-strong: #14140f;
+  --color-border-subtle: #e7e5de;
+
+  /* ink */
+  --color-text: #14140f;
+  --color-text-secondary: #4a483f;
+  --color-text-muted: #66645c;
+  --color-text-inverse: #f5f5f2;
+
+  /* primary action is ink; the rust accent carries emphasis */
+  --color-primary: #14140f;
+  --color-primary-hover: #33322a;
+  --color-primary-active: #000000;
+  --color-primary-tint: rgba(180, 50, 26, 0.1);
+  --color-primary-text: #b4321a;
+
+  /* semantic states, muted to the paper ground */
+  --color-safe: #2e6b4f;
+  --color-safe-tint: rgba(46, 107, 79, 0.12);
+  --color-safe-text: #23543e;
+  --color-warning: #a66a00;
+  --color-warning-tint: rgba(166, 106, 0, 0.12);
+  --color-warning-text: #7a4e00;
+  --color-critical: #b4321a;
+  --color-critical-tint: rgba(180, 50, 26, 0.1);
+  --color-critical-text: #8c2513;
+  --color-info: #2a5b7a;
+  --color-info-tint: rgba(42, 91, 122, 0.1);
+  --color-info-text: #1f4459;
+
+  /* geometry — near-square, and no elevation */
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --shadow-card: none;
+  --shadow-raised: none;
+  --shadow-focus: 0 0 0 3px rgba(180, 50, 26, 0.25);
+  --focus-ring: #b4321a;
+
+  /* shadcn semantic vars, bridged to the Bulletin palette so shadcn
+     primitives inherit this theme rather than the default neutral one. */
+  --background: var(--color-canvas);
+  --foreground: var(--color-text);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-text);
+  --popover: var(--color-surface);
+  --popover-foreground: var(--color-text);
+  --primary: var(--color-primary);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-surface-raised);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-canvas-sunken);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-primary-tint);
+  --accent-foreground: var(--color-primary-text);
+  --destructive: var(--color-critical);
+  --border: var(--color-border);
+  --input: var(--color-border);
+  --ring: var(--focus-ring);
+  --radius: 4px;
+  --sidebar: var(--color-surface);
+  --sidebar-foreground: var(--color-text);
+  --sidebar-primary: var(--color-primary);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--color-primary-tint);
+  --sidebar-accent-foreground: var(--color-primary-text);
+  --sidebar-border: var(--color-border);
+  --sidebar-ring: var(--focus-ring);
+}
+
+/* ==========================================================================
+   Sentinel base resets & primitives
+   ========================================================================== */
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg-app);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    line-height: var(--leading-tight);
+  }
+  h1 {
+    font-size: var(--text-h1);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+  }
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-size: var(--text-h3);
+    font-weight: 600;
+  }
+  h4 {
+    font-size: var(--text-h4);
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: var(--color-primary-text);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-primary-text);
+  }
+
+  ::selection {
+    background: rgba(180, 50, 26, 0.18);
+    color: var(--color-text);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+    border: 2px solid var(--color-canvas);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* Eyebrow label — uppercase, tracked, 12px */
+.eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--text-meta);
+}
+
+/* Mono — IDs, hashes, timestamps, logs */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Native selects on the booking form — matches the Input primitive. */
+.field-select {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--color-text);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--surface-input);
+  outline: none;
+}
+.field-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+/* Certificate print sheet — A4 landscape. */
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .cert-sheet {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    background: #fff !important;
+    border-color: var(--color-border-strong) !important;
+  }
+  .cert-sheet * {
+    color: #14140f !important;
+  }
+  .cert-sheet-frame {
+    border-color: var(--color-primary-text) !important;
+  }
+  .cert-sheet .cert-seal,
+  .cert-sheet .cert-seal * {
+    color: #fbfaf6 !important;
+  }
+}

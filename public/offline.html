@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Offline — DPDP Academy</title>
+    <!--
+      Deliberately plain HTML, not a Next route.
+
+      The service worker serves this for a URL it has never cached, so the
+      document and the address bar disagree by definition. A Next page would
+      try to hydrate its own RSC payload against that other URL, mismatch, and
+      fall into the global error boundary — which is exactly what happened when
+      this was `app/offline/page.tsx`. No framework, no hydration, no mismatch.
+
+      Styles are inlined because the built CSS filename is content-hashed and
+      would go stale.
+    -->
+    <style>
+      :root {
+        --canvas: #f5f5f2;
+        --surface: #fbfbf9;
+        --border: #dcdad3;
+        --ink: #14140f;
+        --ink-secondary: #4a483f;
+        --ink-muted: #66645c;
+        --rust: #b4321a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 24px;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 22px; }
+      .eyebrow {
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--rust);
+      }
+      h1 {
+        margin: 0; font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(28px, 6vw, 42px); font-weight: 700;
+        line-height: 1.15; letter-spacing: -0.03em;
+      }
+      p { margin: 0; max-width: 56ch; font-size: 16px; line-height: 1.7; color: var(--ink-secondary); }
+      ul { margin: 8px 0 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); overflow: hidden; }
+      li + li { border-top: 1px solid var(--border); }
+      a.row {
+        display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+        padding: 14px 20px; text-decoration: none; color: var(--ink);
+        font-size: 15px; font-weight: 600;
+      }
+      a.row:hover { background: var(--canvas); }
+      a.row .note {
+        flex: 0 0 auto;
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--ink-muted);
+      }
+      .foot { font-size: 13px; line-height: 1.7; color: var(--ink-muted); }
+      button {
+        align-self: flex-start; margin-top: 4px; height: 44px; padding: 0 20px;
+        border: 1px solid var(--ink); border-radius: 4px; background: var(--ink);
+        color: var(--canvas); font: 600 15px/1 inherit; cursor: pointer;
+      }
+      button:hover { background: #33322a; }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <span class="eyebrow">No connection</span>
+      <h1>You&rsquo;re offline</h1>
+      <p>
+        This page hasn&rsquo;t been saved to your device. Anything you have already
+        opened still works &mdash; including the Act itself, the practice test and
+        the exam, which all run entirely in your browser.
+      </p>
+
+      <ul>
+        <li><a class="row" href="/reader">Full text reader<span class="note">44 sections</span></a></li>
+        <li><a class="row" href="/overview">Overview &amp; scope<span class="note">Chapter I</span></a></li>
+        <li><a class="row" href="/roles">Key roles<span class="note">Definitions</span></a></li>
+        <li><a class="row" href="/rights">Rights &amp; duties<span class="note">Chapter III</span></a></li>
+        <li><a class="row" href="/obligations">Obligations<span class="note">Chapter II</span></a></li>
+        <li><a class="row" href="/penalties">Penalties<span class="note">The Schedule</span></a></li>
+        <li><a class="row" href="/practice-test">Practice test<span class="note">Works offline</span></a></li>
+        <li><a class="row" href="/exam">Certification exam<span class="note">Works offline</span></a></li>
+      </ul>
+
+      <button type="button" onclick="location.reload()">Try again</button>
+      <span class="foot">Reconnect and this page will load normally.</span>
+    </main>
+  </body>
+</html>
