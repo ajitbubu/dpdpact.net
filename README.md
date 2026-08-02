@@ -9,9 +9,73 @@ Ported from the **DPDPA** Claude Design project
 ## Running it
 
 ```bash
-npm run dev     # http://localhost:3000
+npm run dev        # http://localhost:3000
 npm run build
+npm run start      # serve the production build
+
 npm run lint
+npm run typecheck
+npm run verify     # lint + typecheck + build — the same gate CI runs
+```
+
+### First-time setup after a clone
+
+```bash
+npm install
+git config core.hooksPath .githooks
+```
+
+`core.hooksPath` is **local git config and is not carried by a clone.** Without
+that second line the pre-push hook below is silently inactive — the file is
+there, git just never runs it.
+
+## Branches and deploying
+
+```
+dev  ──PR──►  main  ──auto──►  dpdpact.net
+```
+
+- **`main`** is production. Protected: no direct pushes, PR required, CI must be
+  green, and the PR branch must be up to date with `main` first.
+- **`dev`** is where work lands. Pushing it publishes a preview deploy.
+
+Vercel deploys from git automatically — there is no `vercel deploy` step. A push
+to `dev` builds a preview; a merge to `main` builds production and re-aliases
+`dpdpact.net`. Deployments are immutable, so a failed build leaves the previous
+one serving and `vercel rollback` is instant.
+
+| URL | Serves |
+| --- | --- |
+| `dpdpact.net` | production (`main`) |
+| `www.dpdpact.net`, `dpdpact-net.vercel.app` | 308 → `dpdpact.net`, via `redirects()` in `next.config.ts` |
+| `dpdpact-net-git-dev-asahus-projects.vercel.app` | latest `dev` — requires a Vercel login |
+
+### The gates
+
+| Gate | When | Checks |
+| --- | --- | --- |
+| `.githooks/pre-push` | every push | lint + typecheck (~8s) |
+| `.github/workflows/ci.yml` | push to `dev`, PR to `main` | lint + typecheck + build + smoke-test every route |
+
+The hook skips branch deletions, which push no content to verify. Bypass it with
+`git push --no-verify` — but the same checks run in CI, so it only defers the
+failure.
+
+The CI smoke test boots the production server and asserts each route returns
+200. `next build` proves pages *compile*; it does not prove they *serve*.
+
+**Next.js 16 removed `next lint`,** so `next build` no longer runs ESLint —
+meaning Vercel builds this site without linting it. The hook and CI are the only
+things that run ESLint at all.
+
+### Typical loop
+
+```bash
+git switch dev
+# ...work...
+git push origin dev                     # hook runs, preview deploys
+gh pr create --base main --head dev     # CI runs on the PR
+gh pr merge --merge                     # → production
 ```
 
 ## PWA
@@ -23,6 +87,7 @@ Installable, and the whole Act works offline.
 | Web app manifest | `src/app/manifest.ts` → `/manifest.webmanifest` |
 | Service worker | `public/sw.js` |
 | Registration | `src/components/service-worker.tsx` (production only) |
+| Install prompt | `src/components/install-prompt.tsx` |
 | Offline fallback | `public/offline.html` |
 | Icons | `public/icon-{192,512}.png`, `icon-maskable-512.png`, `apple-touch-icon.png` |
 
@@ -35,8 +100,9 @@ Installable, and the whole Act works offline.
 | Other same-origin | stale-while-revalidate | icons, manifest |
 | Cross-origin | untouched | analytics must never be cached or replayed |
 
-The eleven main routes are precached on install, so the app opens offline from
-a cold start. The practice test, the exam and the full Act all run offline —
+The fifteen main routes in `PRECACHE_URLS` are precached on install, so the app
+opens offline from a cold start. The practice test, the exam and the full Act
+all run offline —
 the question bank and the statutory text are bundled, and progress lives in
 `localStorage`.
 
@@ -59,35 +125,58 @@ payload against another route's URL — it mismatched and fell into the global
 error boundary, rendering "This page couldn't load" instead of the offline page.
 Plain HTML has nothing to hydrate.
 
+### The install prompt
+
+Browsers do not guarantee their own install banner, so `install-prompt.tsx`
+supplies one. It renders **nothing** unless there is a real install path, which
+makes it easy to think it is broken:
+
+| Condition | Result |
+| --- | --- |
+| Chromium fired `beforeinstallprompt` | Banner with a working "Install app" button |
+| iOS Safari, not installed | Banner with manual "Share → Add to Home Screen" text |
+| Already installed | Nothing — `display-mode` is `standalone`/`fullscreen`, or `navigator.standalone` |
+| Dismissed this page load | Nothing |
+| Anything else | Nothing |
+
+Two things worth knowing before editing it:
+
+- **iOS has no `beforeinstallprompt`.** There is no API to trigger the iOS
+  install flow, which is why that path is instructional text rather than a
+  button.
+- **A `BeforeInstallPromptEvent` is single-use.** The stored event is cleared
+  after prompting; the browser re-fires it later if installation is still
+  available. Reusing the old one silently does nothing.
+
+Because it renders `null` on the server, the banner text will not appear in
+`curl` output of a deployed page. Check the JS bundle, not the HTML.
+
 ### Updating cached assets
 
 Bump `CACHE_VERSION` in `public/sw.js` to invalidate every cache. Old caches are
-deleted on activate.
+deleted on activate. It is currently at `v6`.
 
 ## SEO
 
-### ⚠️ Set `NEXT_PUBLIC_SITE_URL` at **build** time
+### The canonical origin is a constant, not an env var
 
-Canonical tags, the sitemap and Open Graph URLs are absolute and are baked into
-the statically prerendered output. Setting the variable only at runtime is too
-late — verified:
+`SITE_URL` in `src/lib/site.ts` is hardcoded to `https://dpdpact.net`. There is
+no `NEXT_PUBLIC_SITE_URL`, and nothing reads Vercel's deployment URL.
 
-```
-build without it, start with it
-  → <link rel="canonical" href="http://localhost:3000/penalties">
-```
+That is deliberate. Canonical tags, the sitemap and Open Graph URLs are absolute
+and are baked into the prerendered output, so deriving them from the deployment
+URL gave every preview build its own canonical origin — the duplicate-content
+problem the canonical tag exists to prevent. Pinning the constant means every
+build, everywhere, agrees on one origin.
 
-Localhost canonicals on a live site will keep every page out of the index. On
-Vercel this is handled: env vars are present during the build, and
-`VERCEL_PROJECT_PRODUCTION_URL` is the fallback. Anywhere else — Docker, a VPS,
-a CI pipeline — the variable must be in the **build** environment:
+The tradeoff, so it is not a surprise: **preview deployments emit production
+canonicals, OG URLs and sitemap entries.** That is correct for SEO, but it means
+a preview is the wrong place to verify canonical behaviour — you will always see
+`dpdpact.net` regardless of which deployment you are looking at.
 
-```bash
-NEXT_PUBLIC_SITE_URL=https://yourdomain.in npm run build
-```
-
-Resolution order lives in `src/lib/site.ts`: `NEXT_PUBLIC_SITE_URL` →
-Vercel production URL → `http://localhost:3000`.
+**Forking this project?** Change the one constant in `src/lib/site.ts`. Leaving
+it pointed at `dpdpact.net` will make your deployment declare someone else's
+domain as canonical and keep your pages out of the index.
 
 ### What's wired up
 
@@ -161,9 +250,10 @@ freshness date that moves while the content sits still is a false signal.
 
 The Act's 44 sections live on one URL and their body text is client-rendered,
 so ~9,700 words of statutory text are not indexable. Splitting them into
-per-section routes is the largest remaining SEO win. There is also no coverage
-of the **DPDP Rules 2025** (compliance deadline 13 May 2027), which is where
-most current search demand sits.
+per-section routes is the largest remaining SEO win.
+
+DPDP Rules 2025 coverage — previously listed here as the other gap — now exists
+at `/dpdp-rules-2025` and `/dpdp-compliance-checklist`.
 
 ## Analytics
 
@@ -206,6 +296,8 @@ Two things to know:
 
 ## Routes
 
+### Ported from the design source
+
 | Route            | Source file                    |
 | ---------------- | ------------------------------ |
 | `/`              | `Home.dc.html`                 |
@@ -226,6 +318,18 @@ Two things to know:
 `Certificate-standalone.dc.html`, so `/certificate/standalone` covers it. Both
 certificate routes render the same `CertificateBody`; the standalone one just
 drops the nav and footer.
+
+### Written since the port
+
+These have no design-source origin.
+
+| Route | What it is |
+| --- | --- |
+| `/dpdp-rules-2025` | DPDP Rules 2025 — compliance deadline 13 May 2027 |
+| `/dpdp-compliance-checklist` | Practical checklist derived from the Rules |
+| `/blog`, `/blog/[slug]` | Index plus 10 articles from `src/lib/blog-posts.ts` |
+| `/blog/dpdp-act-2023-practical-primer` | A hand-written route, not driven by `blog-posts.ts` |
+| `/editorial-policy` | Sourcing and correction policy — an E-E-A-T signal |
 
 `support.js` is the Claude Design component runtime (it interprets `<x-dc>`,
 `<sc-if>`, `<sc-for>` and `<x-import>`). It has no equivalent here — those
