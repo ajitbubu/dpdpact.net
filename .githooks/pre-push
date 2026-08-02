@@ -1,0 +1,30 @@
+#!/bin/sh
+# Fast local gate so a broken push never burns a Vercel preview build.
+# Deliberately lint + typecheck only: together they run in seconds, while a
+# full `next build` takes ~25s. CI runs the build on the PR.
+#
+# Bypass with `git push --no-verify` when you genuinely need to.
+
+# A branch deletion pushes no content, so there is nothing to verify.
+# Without this, `git push origin --delete <branch>` would run the whole gate.
+all_deletes=1
+while read -r _local_ref local_sha _remote_ref _remote_sha; do
+  case "$local_sha" in
+    *[!0]*) all_deletes=0 ;;
+  esac
+done
+[ "$all_deletes" -eq 1 ] && exit 0
+
+echo "pre-push: lint + typecheck (full build runs in CI)"
+
+npm run lint || {
+  echo "pre-push: lint failed — push aborted."
+  exit 1
+}
+
+npm run typecheck || {
+  echo "pre-push: typecheck failed — push aborted."
+  exit 1
+}
+
+echo "pre-push: ok"

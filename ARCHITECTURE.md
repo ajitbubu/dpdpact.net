@@ -78,7 +78,7 @@ flowchart TB
 - `src/app/` uses the Next.js App Router. Most informational routes are server components that prerender crawlable HTML.
 - Interactive routes use a server `page.tsx` for metadata/structured data and a colocated client component for browser behavior.
 - `src/app/layout.tsx` supplies global fonts, metadata defaults, organization/website JSON-LD, service-worker registration, and production-only GA4.
-- `src/lib/site.ts` resolves the canonical origin at build time from `NEXT_PUBLIC_SITE_URL`, then Vercel's production URL, then localhost.
+- `src/lib/site.ts` pins the canonical origin as a hardcoded constant (`https://dpdpact.net`). It is deliberately not derived from the environment or the deployment URL, so preview, production and local builds all agree on one origin rather than each declaring its own.
 
 ### Presentation and design system
 
@@ -112,6 +112,8 @@ Practice-test answers and live exam state remain in React memory. Reloading an a
 | Area | Routes | Rendering and behavior |
 | --- | --- | --- |
 | Landing and study | `/`, `/overview`, `/roles`, `/rights`, `/obligations`, `/penalties` | Static educational pages with shared navigation/footer and selected schema markup |
+| Rules and compliance | `/dpdp-rules-2025`, `/dpdp-compliance-checklist` | Static pages covering the DPDP Rules 2025 and the derived practical checklist |
+| Editorial | `/blog`, `/blog/[slug]`, `/editorial-policy` | Static long-form articles plus the sourcing and correction policy |
 | Statute reader | `/reader` | Server metadata shell plus client-side table of contents, full-text search, keyboard navigation, and stored progress |
 | Certification | `/certification` | Static course/schema shell plus client-side slot booking persisted locally |
 | Assessment | `/practice-test`, `/exam` | Client-side randomized questions; practice gives feedback, exam uses a wall-clock deadline and grades locally |
@@ -179,21 +181,28 @@ flowchart LR
     PR -->|miss| OF[offline.html]
 ```
 
-`public/sw.js` owns a versioned precache and runtime cache. Main routes, the offline page, manifest, and core icons are seeded on installation. The production-only registration component waits until page load and deliberately avoids `skipWaiting()` to reduce stale chunk failures.
+`public/sw.js` owns a versioned precache and runtime cache. Main routes, the offline page, manifest, and core icons are seeded on installation. The production-only registration component waits until page load and deliberately avoids `skipWaiting()` to reduce stale chunk failures. It registers with an explicit root scope and `updateViaCache: "none"` so worker updates are fetched from the network rather than served from the HTTP cache.
+
+Installation is surfaced by `src/components/install-prompt.tsx`, which holds Chromium's deferred `beforeinstallprompt` event and falls back to manual instructions on iOS, where no such event exists. It renders nothing when the app is already installed, when no install path is available, or once dismissed.
 
 ## 5. Deployment architecture
 
 ```mermaid
 flowchart LR
-    S[Source repository] --> B[next build<br/>Turbopack]
-    E[NEXT_PUBLIC_SITE_URL<br/>build-time setting] --> B
-    B --> O[Prerendered routes<br/>and static assets]
-    O --> V[Vercel or equivalent<br/>HTTPS static/Next host]
-    V --> CDN[CDN/browser delivery]
+    D[dev branch] -->|push| H[pre-push hook<br/>lint + typecheck]
+    H --> G[GitHub]
+    G --> CI[CI: lint, typecheck,<br/>build, route smoke test]
+    G -->|preview build| P[Preview deployment]
+    CI -->|required green| PR[PR to main]
+    PR -->|merge| M[main branch]
+    M -->|production build| V[dpdpact.net]
 ```
 
+- Deployment is driven by the Vercel git integration, not by a CLI step. A push to `dev` produces a preview; a merge to `main` produces production.
+- `main` is protected: pull request required, the `verify` check must pass, and the branch must be current with `main` before merging.
+- Deployments are immutable and aliased, so a failed build leaves the previous production deployment serving and rollback is a re-alias rather than a rebuild.
 - The application is naturally suited to Vercel, but any host capable of serving the Next.js build can run it.
-- Canonical URLs, sitemap URLs, and Open Graph URLs require the production origin during the build.
+- The canonical origin is compiled in rather than supplied by the environment, so no build-time origin configuration is required on any host.
 - The service worker requires HTTPS outside localhost.
 - GA4 is enabled whenever `NODE_ENV` is `production`; `NEXT_PUBLIC_GA_ID` can override its property.
 

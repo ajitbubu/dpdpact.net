@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [dev]
+
+# A newer push to the same branch makes the in-flight run irrelevant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Match the Node major Vercel builds with, so a green CI run means the
+      # production build will behave the same way.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run typecheck
+
+      - run: npm run build
+
+      # `next build` proves the pages compile; it does not prove they serve.
+      # Boot the production server and assert the real routes return 200, so a
+      # page that builds but throws at request time fails here rather than in
+      # production.
+      - name: Smoke test routes
+        run: |
+          npm run start &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+
+          for _ in $(seq 1 30); do
+            curl -sf -o /dev/null http://localhost:3000/ && break
+            sleep 1
+          done
+
+          failed=0
+          for route in / /overview /exam /reader /rights /roles /penalties \
+                       /obligations /certification /practice-test /themes \
+                       /blog /blog/dpdp-act-2023-practical-primer \
+                       /sitemap.xml /robots.txt /manifest.webmanifest; do
+            # `|| true` matters: curl reports 000 and exits non-zero on a
+            # refused connection, and `set -e` would otherwise abort here
+            # before reporting which route actually broke.
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:3000${route}" || true)
+            if [ "$code" = "200" ]; then
+              echo "ok   $code  $route"
+            else
+              echo "FAIL $code  $route"
+              failed=1
+            fi
+          done
+
+          exit "$failed"
