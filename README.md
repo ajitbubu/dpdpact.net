@@ -282,9 +282,47 @@ Two things to know:
   builds run with `NODE_ENV=production`, so their traffic lands in the same
   property. Set `NEXT_PUBLIC_GA_ID` to a staging property on the preview
   environment if that matters.
-- **Not wired to consent.** GA4 sets cookies and starts collecting on load. For
-  a site that teaches DPDP notice-and-consent, a banner gating it is the obvious
-  next step.
+- **Tag Manager runs alongside GA4.** `GTM-T44V6VLW` loads in addition to the
+  `GoogleAnalytics` component. If the container also holds a GA4 tag for
+  `G-4CRHNPWKYX`, pageviews are counted twice — check the container and drop one
+  of the two paths.
+
+## Cookie consent
+
+Google Consent Mode v2, gating both GA4 and GTM. Everything is denied until the
+visitor chooses.
+
+| Piece | Where |
+| --- | --- |
+| Consent defaults (denied) | `public/cc-bootstrap.js` |
+| Banner + preference UI | `public/cookie-consent.js` |
+| Configuration | `CONSENT_CONFIG` in `src/app/layout.tsx` |
+
+**Load order is load-bearing.** The bootstrap pushes `consent: default` with
+every storage type denied and must execute *before* `gtm.js` — once GTM has
+loaded without a default, tags can fire ungated. All of it runs as
+`beforeInteractive`, which `next/script` executes in the order placed.
+
+**The SDK is self-hosted, not loaded from a CDN.** A site about data protection
+should not hand visitors to a third party in order to ask them about tracking.
+It also removes a supply-chain dependency from the consent gate itself and keeps
+it working offline. Files are vendored from
+`@ajitbubu/cookie-banner-sdk@0.1.0`; re-copy `dist/*.global.js` into `public/`
+to update, and note they are excluded from ESLint as vendored minified code.
+
+**Configuration goes through `CookieConsent.init()`, not `data-config`.** The
+SDK's attribute path (`data-auto-init`) reads only a handful of scalar
+`data-*` values and cannot express categories, cookie disclosures, theme or
+labels. There is no `data-config` attribute — passing one is silently ignored.
+
+**Disclosed cookies must match reality.** `_ga_*` is named after the measurement
+ID minus its `G-` prefix, so `G-4CRHNPWKYX` yields `_ga_4CRHNPWKYX`. The banner
+copy is overridden because the SDK's default text claims personalisation and
+content-targeting cookies this site does not set, and cites a Privacy Policy and
+Cookie Policy that do not exist here yet.
+
+Retention is disclosed as "Up to 13 months" — confirm against the property's
+cookie-expiry setting in GA4 if it is changed.
 
 ## Stack
 
