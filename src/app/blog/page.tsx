@@ -12,6 +12,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/button";
+import { BLOG_POSTS } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
 
 const TOPICS = [
@@ -33,7 +34,7 @@ const TOPICS = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "DPDP Blog — Guides, Analysis & Practical Notes",
+  title: "DPDP Blog — Practical Guides & Analysis",
   description:
     "Practical explainers, implementation notes and compliance guides for India's Digital Personal Data Protection Act, 2023.",
   alternates: { canonical: "/blog" },
@@ -125,6 +126,57 @@ export default function BlogPage() {
                 </div>
               </div>
             </article>
+          </div>
+        </section>
+
+        <section className="border-t border-border bg-[var(--bg-app)]">
+          <div className="mx-auto w-full max-w-[1180px] px-[var(--space-5)] py-[clamp(42px,6vw,72px)]">
+            <div className="mb-[24px] flex flex-wrap items-end justify-between gap-[14px]">
+              <div>
+                <span className="mb-[9px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+                  Latest guidance
+                </span>
+                <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+                  Put the framework into practice
+                </h2>
+              </div>
+              <span className="font-mono text-[12px] text-text-muted">
+                Reviewed 02 August 2026
+              </span>
+            </div>
+
+            <div className="grid gap-[14px] min-[720px]:grid-cols-2 min-[1040px]:grid-cols-3">
+              {BLOG_POSTS.map((post) => (
+                <article
+                  key={post.slug}
+                  className="flex min-h-[285px] flex-col justify-between rounded-lg border border-border bg-surface p-[22px]"
+                >
+                  <div>
+                    <div className="mb-[14px] flex items-center justify-between gap-[10px] font-mono text-[11px] uppercase tracking-[0.08em] text-text-muted">
+                      <span className="text-primary-text">{post.category}</span>
+                      <span>{post.readTime}</span>
+                    </div>
+                    <h3 className="m-0 font-display text-[21px] font-semibold leading-[1.25] tracking-[-0.02em] text-text">
+                      {post.title}
+                    </h3>
+                    <p className="mb-0 mt-[10px] text-[14px] leading-[1.7] text-text-secondary">
+                      {post.description}
+                    </p>
+                  </div>
+                  <Link
+                    href={"/blog/" + post.slug}
+                    className="group mt-[22px] inline-flex items-center gap-[8px] text-[13.5px] font-semibold text-primary-text no-underline"
+                  >
+                    Read guide
+                    <ArrowRight
+                      size={16}
+                      aria-hidden="true"
+                      className="transition-transform group-hover:translate-x-[2px]"
+                    />
+                  </Link>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

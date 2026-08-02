@@ -7,7 +7,7 @@ import { CHAPTERS } from "@/lib/dpdpa-data";
 export const metadata: Metadata = {
   title: "DPDP Act 2023 Full Text — 44 Sections",
   description:
-    "Read the Digital Personal Data Protection Act, 2023 in full: 9 chapters, 44 sections and the Schedule of penalties, with search, illustrations and reading progress.",
+    "Read all 44 sections of the DPDP Act, 2023 and its penalty Schedule with chapter navigation, search, illustrations and reading progress.",
   alternates: { canonical: "/reader" },
 };
 

@@ -50,7 +50,10 @@ pages are editorial summaries and cite the provisions they describe.
 - [Rights and duties](${SITE_URL}/rights): Chapter III, sections 11–15
 - [Obligations](${SITE_URL}/obligations): Chapter II, sections 4–10 — notice, consent, safeguards, breach reporting, erasure
 - [Penalties](${SITE_URL}/penalties): Chapters VI–VIII and the Schedule
+- [DPDP Rules 2025](${SITE_URL}/dpdp-rules-2025): notified rules, phased commencement dates and implementation changes
+- [DPDP compliance checklist](${SITE_URL}/dpdp-compliance-checklist): 24 evidence-focused controls saved privately in the browser
 - [Blog](${SITE_URL}/blog): practical explainers and implementation notes about the DPDP Act
+- [Editorial policy](${SITE_URL}/editorial-policy): source hierarchy, review standards and correction process
 - [Certification](${SITE_URL}/certification): free 15-question graded exam, 70% to pass
 - [Practice test](${SITE_URL}/practice-test): free 10-question test with explanations
 
@@ -65,8 +68,9 @@ The certification is an educational assessment. It is not a government-issued
 qualification, not accredited by the Data Protection Board of India, and
 nothing on this site is legal advice.
 
-This site covers the Act as assented in 2023. It does not currently cover the
-DPDP Rules, 2025.
+This site covers the Act as assented in 2023 and the notified DPDP Rules, 2025.
+Implementation dates are phased; each current guide distinguishes provisions
+already in force from those scheduled for November 2026 and May 2027.
 `;
 
   return new Response(body, {

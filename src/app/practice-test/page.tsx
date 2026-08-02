@@ -5,7 +5,7 @@ import { PracticeTestClient } from "./practice-test-client";
 export const metadata: Metadata = {
   title: "Free DPDP Act Practice Test",
   description:
-    "Test yourself on the Digital Personal Data Protection Act, 2023. Ten questions drawn at random, an explanation and the governing section after every answer. Free and unlimited.",
+    "Take a free 10-question DPDP Act practice test with random questions, instant explanations and the governing section after every answer.",
   alternates: { canonical: "/practice-test" },
 };
 

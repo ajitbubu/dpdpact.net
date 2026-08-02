@@ -34,7 +34,7 @@ const FAQ = [
 export const metadata: Metadata = {
   title: "Free DPDP Act Certification",
   description:
-    "Get certified on the Digital Personal Data Protection Act, 2023. Fifteen questions, twenty minutes, 70% to pass — certificate and credential ID issued the moment you submit.",
+    "Earn a free DPDP Act certificate: 15 questions, 20 minutes and 70% to pass, with an instant result and credential ID.",
   alternates: { canonical: "/certification" },
 };
 

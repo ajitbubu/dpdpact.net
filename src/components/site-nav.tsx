@@ -35,6 +35,12 @@ const DPDP_ITEMS: { key: NavKey; href: string; label: string; note: string }[] =
       label: "Penalties",
       note: "Chapters VI–VIII · Schedule",
     },
+    {
+      key: "rules",
+      href: routes.rules,
+      label: "DPDP Rules 2025",
+      note: "Phased commencement · 2025–2027",
+    },
   ];
 
 const DPDP_KEYS = DPDP_ITEMS.map((i) => i.key);

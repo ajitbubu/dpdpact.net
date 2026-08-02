@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CircleSlash, Globe } from "lucide-react";
 
 import { CtaBand } from "@/components/cta-band";
+import { EditorialReview } from "@/components/editorial-review";
 import { Faq } from "@/components/faq";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
@@ -241,6 +242,7 @@ export default function OverviewPage() {
         primary={{ href: routes.roles, label: "Next: Key Roles" }}
       />
 
+      <EditorialReview />
       <SiteFooter />
     </div>
   );

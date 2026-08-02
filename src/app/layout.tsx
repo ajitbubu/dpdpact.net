@@ -6,6 +6,7 @@ import {
   Pinyon_Script,
 } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { InstallPrompt } from "@/components/install-prompt";
 import { ServiceWorker } from "@/components/service-worker";
 import {
   SITE_DESCRIPTION,
@@ -130,6 +131,7 @@ const siteSchema = {
       name: SITE_NAME,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
+      publishingPrinciples: `${SITE_URL}/editorial-policy`,
     },
     {
       "@type": "WebSite",
@@ -162,6 +164,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         {children}
+        <InstallPrompt />
         <ServiceWorker />
       </body>
       {gaId ? <GoogleAnalytics gaId={gaId} /> : null}

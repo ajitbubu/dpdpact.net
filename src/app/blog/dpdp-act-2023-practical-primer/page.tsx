@@ -1,8 +1,10 @@
+
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { SiteFooter } from "@/components/site-footer";
+import { EditorialReview } from "@/components/editorial-review";
 import { SiteNav } from "@/components/site-nav";
 import { LinkButton } from "@/components/ui/button";
 import { routes } from "@/lib/routes";
@@ -231,6 +233,7 @@ export default function BlogPrimerPage() {
         </article>
       </main>
 
+      <EditorialReview scope="the Gazette text of the DPDP Act, 2023" />
       <SiteFooter />
     </div>
   );
