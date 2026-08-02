@@ -15,9 +15,11 @@ export function ServiceWorker() {
 
     // Register after load so the worker never competes with the first paint.
     const register = () => {
-      navigator.serviceWorker.register("/sw.js").catch(() => {
-        /* registration failures are not worth surfacing to a reader */
-      });
+      navigator.serviceWorker
+        .register("/sw.js", { scope: "/", updateViaCache: "none" })
+        .catch(() => {
+          /* registration failures are not worth surfacing to a reader */
+        });
     };
 
     if (document.readyState === "complete") register();
