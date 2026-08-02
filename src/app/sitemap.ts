@@ -15,6 +15,8 @@ const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Si
   { path: "/rights", priority: 0.8, changeFrequency: "monthly" },
   { path: "/obligations", priority: 0.8, changeFrequency: "monthly" },
   { path: "/penalties", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/blog", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/blog/dpdp-act-2023-practical-primer", priority: 0.7, changeFrequency: "monthly" },
   { path: "/certification", priority: 0.9, changeFrequency: "monthly" },
   { path: "/practice-test", priority: 0.7, changeFrequency: "monthly" },
   { path: "/exam", priority: 0.7, changeFrequency: "monthly" },

@@ -10,6 +10,7 @@ const ACT_LINKS = [
   { href: routes.obligations, label: "Obligations" },
   { href: routes.penalties, label: "Penalties & the Board" },
   { href: routes.reader, label: "Full text reader" },
+  { href: routes.blog, label: "DPDP blog" },
 ];
 
 const CERT_LINKS = [
