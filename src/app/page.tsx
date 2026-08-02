@@ -101,7 +101,7 @@ export default function HomePage() {
               India · Act No. 22 of 2023 · DPDP
             </span>
             <h1 className="m-0 font-display text-[clamp(32px,5.4vw,52px)] font-semibold leading-[1.12] tracking-[-0.03em] text-text [text-wrap:pretty]">
-              Learn the Data Protection Act,{" "}
+              Learn the DPDP Act,{" "}
               <span className="text-primary-text">Certify It Today</span>
             </h1>
             <p className="m-0 max-w-[56ch] text-[clamp(15px,1.6vw,17px)] leading-[1.7] text-text-secondary [text-wrap:pretty]">

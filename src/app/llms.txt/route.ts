@@ -50,6 +50,7 @@ pages are editorial summaries and cite the provisions they describe.
 - [Rights and duties](${SITE_URL}/rights): Chapter III, sections 11–15
 - [Obligations](${SITE_URL}/obligations): Chapter II, sections 4–10 — notice, consent, safeguards, breach reporting, erasure
 - [Penalties](${SITE_URL}/penalties): Chapters VI–VIII and the Schedule
+- [Blog](${SITE_URL}/blog): practical explainers and implementation notes about the DPDP Act
 - [Certification](${SITE_URL}/certification): free 15-question graded exam, 70% to pass
 - [Practice test](${SITE_URL}/practice-test): free 10-question test with explanations
 
