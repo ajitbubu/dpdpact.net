@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { CtaBand } from "@/components/cta-band";
+import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -120,7 +121,7 @@ const glossarySchema = {
 export const metadata: Metadata = {
   title: "DPDP Act Key Roles Explained",
   description:
-    "The six defined roles in the DPDP Act 2023: Data Principal, Data Fiduciary, Data Processor, Consent Manager, Significant Data Fiduciary and the Data Protection Board of India.",
+    "Understand six key DPDP Act roles, including Data Principal, Data Fiduciary, Processor, Consent Manager, SDF and the Data Protection Board.",
   alternates: { canonical: "/roles" },
 };
 
@@ -213,6 +214,7 @@ export default function RolesPage() {
         primary={{ href: routes.rights, label: "Next: Rights & Duties" }}
       />
 
+      <EditorialReview />
       <SiteFooter />
     </div>
     </>

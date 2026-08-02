@@ -5,7 +5,7 @@ import { ExamClient } from "./exam-client";
 export const metadata: Metadata = {
   title: "DPDP Act Certification Exam",
   description:
-    "Sit the Certified DPDP Practitioner exam: 15 single-choice questions drawn from the Act, 20 minutes, pass at 70%. Every answer is reviewed with the provision it tests.",
+    "Take the 15-question Certified DPDP Practitioner exam in 20 minutes. Score 70% to pass; every answer cites the provision tested.",
   alternates: { canonical: "/exam" },
 };
 

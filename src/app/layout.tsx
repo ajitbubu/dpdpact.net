@@ -130,6 +130,7 @@ const siteSchema = {
       name: SITE_NAME,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
+      publishingPrinciples: `${SITE_URL}/editorial-policy`,
     },
     {
       "@type": "WebSite",

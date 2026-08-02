@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Gavel, Handshake, Search } from "lucide-react";
 
 import { PageHero } from "@/components/page-hero";
+import { EditorialReview } from "@/components/editorial-review";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { LinkButton } from "@/components/ui/button";
@@ -86,7 +87,7 @@ const FACTORS = [
 export const metadata: Metadata = {
   title: "DPDP Act Penalties & The Schedule",
   description:
-    "The seven penalty heads in the Schedule to the DPDP Act 2023, from ₹10,000 for a Data Principal's duties to ₹250 crore for failing to take reasonable security safeguards.",
+    "Understand the seven DPDP Act penalty heads, the Board's inquiry process, statutory factors and maximum penalties from ₹10,000 to ₹250 crore.",
   alternates: { canonical: "/penalties" },
 };
 
@@ -107,6 +108,9 @@ export default function PenaltiesPage() {
         <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[clamp(30px,4vw,44px)] px-[var(--space-5)] py-[clamp(40px,5.4vw,70px)]">
           {/* -------------------------------------------- The Schedule table */}
           <div className="flex flex-col gap-[12px]">
+            <h2 className="m-0 font-display text-[clamp(23px,3.2vw,32px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              Penalties in the Schedule
+            </h2>
             {PENALTIES.map((row) => (
               <div
                 key={row.entry}
@@ -160,9 +164,13 @@ export default function PenaltiesPage() {
           </div>
 
           {/* ------------------------------------------------- Enforcement */}
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(288px,1fr))] gap-[18px]">
-            {ENFORCEMENT.map(({ icon: Icon, ...item }) => (
-              <Card key={item.title} className="block h-full">
+          <div className="flex flex-col gap-[16px]">
+            <h2 className="m-0 font-display text-[clamp(23px,3.2vw,32px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              How enforcement works
+            </h2>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(288px,1fr))] gap-[18px]">
+              {ENFORCEMENT.map(({ icon: Icon, ...item }) => (
+                <Card key={item.title} className="block h-full">
                 <span className="mb-[14px] flex items-center gap-[10px]">
                   <span className="inline-flex size-[40px] items-center justify-center rounded-sm bg-primary-tint text-primary-text">
                     <Icon size={20} />
@@ -177,12 +185,16 @@ export default function PenaltiesPage() {
                 <span className="mt-[10px] block text-[13px] leading-[1.6] text-text-muted">
                   {item.ref}
                 </span>
-              </Card>
-            ))}
+                </Card>
+              ))}
+            </div>
           </div>
 
           {/* --------------------------------------------- Section 33(2) */}
           <div className="flex flex-col gap-[12px] rounded-lg border border-border bg-[var(--bg-sunken)] p-[clamp(20px,3vw,28px)]">
+            <h2 className="m-0 font-display text-[clamp(21px,2.8vw,28px)] font-semibold leading-[1.2] tracking-[-0.02em] text-text">
+              How the Board determines an amount
+            </h2>
             <span className="font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
               Seven factors the Board must weigh · § 33(2)
             </span>
@@ -225,6 +237,7 @@ export default function PenaltiesPage() {
         </div>
       </section>
 
+      <EditorialReview />
       <SiteFooter />
     </div>
   );

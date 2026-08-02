@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Baby, ShieldAlert } from "lucide-react";
 
 import { CtaBand } from "@/components/cta-band";
+import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -89,7 +90,7 @@ const LEGITIMATE_USES = [
 export const metadata: Metadata = {
   title: "DPDP Act Obligations (§§ 4–10)",
   description:
-    "Chapter II of the DPDP Act, sections 4–10: the compliance lifecycle from lawful basis and notice through safeguards, breach reporting and erasure, plus children and Significant Data Fiduciaries.",
+    "DPDP Act sections 4–10 explained: lawful purpose, notice, consent, safeguards, breach reporting, erasure, children's data and SDF duties.",
   alternates: { canonical: "/obligations" },
 };
 
@@ -214,6 +215,7 @@ export default function ObligationsPage() {
         primary={{ href: routes.penalties, label: "Next: Penalties" }}
       />
 
+      <EditorialReview />
       <SiteFooter />
     </div>
   );

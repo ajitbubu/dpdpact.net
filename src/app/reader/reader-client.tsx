@@ -189,6 +189,7 @@ export function ReaderClient() {
    * empty. Storage is now a persistence layer, not the source of truth.
    */
   const [navIdx, setNavIdx] = React.useState<number | null>(null);
+  const [pageScrollProgress, setPageScrollProgress] = React.useState(0);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   // Position and reading progress live in localStorage, so a return visit
@@ -207,6 +208,7 @@ export function ReaderClient() {
     writeStored("dpdpa.pos", i);
     setModeOverride("read");
     setOpenOverride((prev) => ({ ...prev, [PAGES[i].chId]: true }));
+    setPageScrollProgress(0);
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, []);
 
@@ -249,6 +251,28 @@ export function ReaderClient() {
   const readCount = Object.keys(read).filter((k) => read[k]).length;
   const readLabel = `${readCount} / ${TOTAL}`;
   const page = idx >= 0 ? PAGES[idx] : null;
+  const readingProgress =
+    mode === "read" && idx >= 0
+      ? Math.min(100, ((idx + pageScrollProgress) / TOTAL) * 100)
+      : 0;
+
+  // Include progress within the current section. Previously the header bar
+  // changed only when a reader selected another section, so scrolling appeared
+  // to do nothing.
+  React.useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const element = scrollRef.current;
+      if (!element || mode !== "read") {
+        setPageScrollProgress(0);
+        return;
+      }
+      const maxScroll = element.scrollHeight - element.clientHeight;
+      setPageScrollProgress(
+        maxScroll <= 0 ? 1 : Math.min(1, element.scrollTop / maxScroll),
+      );
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [idx, mode]);
 
   function toggleRead() {
     const k = pageKey(idx);
@@ -506,18 +530,33 @@ export function ReaderClient() {
               <span>step</span>
             </div>
           </div>
-          <div className="h-[3px] bg-surface-raised">
+          <div
+            className="h-[3px] bg-surface-raised"
+            role="progressbar"
+            aria-label="Overall reading position"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(readingProgress)}
+          >
             <div
               className="h-full bg-primary transition-[width] duration-[300ms] ease-[cubic-bezier(.4,0,.2,1)]"
-              style={{
-                width: `${mode === "read" ? Math.round(((idx + 1) / TOTAL) * 100) : 0}%`,
-              }}
+              style={{ width: `${readingProgress}%` }}
             />
           </div>
         </header>
 
         <div
           ref={scrollRef}
+          onScroll={(event) => {
+            if (mode !== "read") return;
+            const element = event.currentTarget;
+            const maxScroll = element.scrollHeight - element.clientHeight;
+            setPageScrollProgress(
+              maxScroll <= 0
+                ? 1
+                : Math.min(1, element.scrollTop / maxScroll),
+            );
+          }}
           className="min-h-0 flex-1 overflow-y-auto px-[32px] pb-[96px] pt-[30px]"
         >
           {/* --------------------------------------------------- Contents */}
