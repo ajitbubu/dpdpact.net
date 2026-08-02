@@ -84,7 +84,7 @@ const PROMISES = [
 export const metadata: Metadata = {
   title: "DPDP Academy — Learn the DPDP Act 2023, Certify Free",
   description:
-    "Study India's Digital Personal Data Protection Act, 2023 — 9 chapters, 44 sections and the Schedule of penalties — then sit a free graded exam and get a certificate instantly.",
+    "Study India's DPDP Act, 2023 section by section, practise with cited answers, and earn a free certificate through a graded online exam.",
   alternates: { canonical: "/" },
 };
 
@@ -98,27 +98,28 @@ export default function HomePage() {
         <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center gap-[clamp(28px,5vw,56px)] px-[var(--space-5)] pb-[clamp(40px,6vw,80px)] pt-[clamp(36px,6vw,72px)]">
           <div className="flex min-w-0 flex-[1_1_380px] flex-col gap-[clamp(16px,2.2vw,22px)]">
             <span className="font-mono text-[12px] font-medium uppercase tracking-[0.08em] text-primary-text">
-              India · Act No. 22 of 2023 · DPDP
+              India&apos;s DPDP Act · Act No. 22 of 2023
             </span>
             <h1 className="m-0 font-display text-[clamp(32px,5.4vw,52px)] font-semibold leading-[1.12] tracking-[-0.03em] text-text [text-wrap:pretty]">
-              Learn the DPDP Act,{" "}
-              <span className="text-primary-text">Certify It Today</span>
+              Learn the Digital Personal Data Protection Act, 2023{" "}
+              <span className="text-primary-text">Section by Section</span>
             </h1>
             <p className="m-0 max-w-[56ch] text-[clamp(15px,1.6vw,17px)] leading-[1.7] text-text-secondary [text-wrap:pretty]">
-              Nine chapters, forty-four sections, one Schedule of penalties —
-              broken into study pages you can finish in an afternoon. Then sit a
-              graded exam and walk away with a certificate the same minute.
+              The DPDP Act is India&apos;s law for processing digital personal
+              data. Study all 44 sections to understand consent, Data Principal
+              rights, Data Fiduciary obligations, breach duties, enforcement,
+              and penalties of up to ₹250 crore.
             </p>
             <div className="flex flex-wrap gap-[12px] pt-[4px]">
               <LinkButton href={routes.exam} variant="primary" size="lg">
                 Get Certified
               </LinkButton>
               <LinkButton
-                href={routes.practiceTest}
+                href={routes.reader}
                 variant="secondary"
                 size="lg"
               >
-                Free Practice Test
+                Learn
               </LinkButton>
             </div>
             <span className="text-[13px] text-text-muted">

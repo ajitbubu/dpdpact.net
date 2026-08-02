@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Check } from "lucide-react";
 
 import { CtaBand } from "@/components/cta-band";
+import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -140,6 +141,7 @@ export default function RightsPage() {
         primary={{ href: routes.obligations, label: "Next: Obligations" }}
       />
 
+      <EditorialReview />
       <SiteFooter />
     </div>
   );

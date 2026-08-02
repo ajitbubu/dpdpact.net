@@ -9,11 +9,13 @@ const ACT_LINKS = [
   { href: routes.rights, label: "Rights & duties" },
   { href: routes.obligations, label: "Obligations" },
   { href: routes.penalties, label: "Penalties & the Board" },
+  { href: routes.rules, label: "DPDP Rules 2025" },
   { href: routes.reader, label: "Full text reader" },
   { href: routes.blog, label: "DPDP blog" },
 ];
 
 const CERT_LINKS = [
+  { href: routes.checklist, label: "Compliance checklist" },
   { href: routes.certification, label: "Programme overview" },
   { href: routes.practiceTest, label: "Free practice test" },
   { href: routes.exam, label: "Instant certification exam" },
@@ -73,6 +75,9 @@ export function SiteFooter() {
           <span className="text-[14px] leading-[1.7] text-text-secondary">
             Ministry of Law and Justice, Legislative Department.
           </span>
+          <Link href={routes.editorialPolicy} className={columnLinkClass}>
+            Editorial policy & corrections
+          </Link>
         </div>
       </div>
 

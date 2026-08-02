@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { BLOG_POSTS } from "@/lib/blog-posts";
 import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
 /**
@@ -15,8 +16,16 @@ const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Si
   { path: "/rights", priority: 0.8, changeFrequency: "monthly" },
   { path: "/obligations", priority: 0.8, changeFrequency: "monthly" },
   { path: "/penalties", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/dpdp-rules-2025", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/dpdp-compliance-checklist", priority: 0.9, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog/dpdp-act-2023-practical-primer", priority: 0.7, changeFrequency: "monthly" },
+  ...BLOG_POSTS.map((post) => ({
+    path: "/blog/" + post.slug,
+    priority: 0.7,
+    changeFrequency: "monthly" as const,
+  })),
+  { path: "/editorial-policy", priority: 0.4, changeFrequency: "monthly" },
   { path: "/certification", priority: 0.9, changeFrequency: "monthly" },
   { path: "/practice-test", priority: 0.7, changeFrequency: "monthly" },
   { path: "/exam", priority: 0.7, changeFrequency: "monthly" },
