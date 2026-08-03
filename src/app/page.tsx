@@ -158,10 +158,15 @@ export default function HomePage() {
                       className="absolute bottom-[8px] right-[8px] size-[10px] rotate-45 bg-primary-text"
                     />
 
-                    <span className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.14em] text-primary-text">
-                      DPDP Academy
+                    <span className="flex flex-col items-center gap-[3px]">
+                      <span className="font-display text-[13px] font-semibold leading-none tracking-[-0.01em] text-text">
+                        DPDP<span className="text-primary-text">Academy</span>
+                      </span>
+                      <span className="font-mono text-[12px] font-medium uppercase tracking-[0.18em] text-text-muted">
+                        Certificate of Professional Competence
+                      </span>
                     </span>
-                    <span className="font-display text-[clamp(24px,3.4vw,32px)] font-bold leading-[1.06] tracking-[-0.03em] text-text [text-wrap:balance]">
+                    <span className="font-display text-[clamp(22px,3.1vw,29px)] font-bold leading-[1.08] tracking-[-0.03em] text-text [text-wrap:balance]">
                       Certified DPDP Practitioner
                     </span>
 
@@ -175,38 +180,48 @@ export default function HomePage() {
                     </span>
 
                     <span className="font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-text-secondary">
-                      DPDP Certificate awarded to
+                      This is to certify that
                     </span>
-                    <span className="block w-full max-w-[300px] border-b-2 border-text pb-[8px] font-script text-[clamp(30px,4.2vw,40px)] font-normal leading-[1.25] text-text">
-                      Your Name Here
+                    <span className="block w-full max-w-[310px] border-b-2 border-text pb-[8px] font-script text-[clamp(30px,4.2vw,40px)] font-normal leading-[1.25] text-text">
+                      Ananya Raghunathan
                     </span>
 
-                    <span className="max-w-[34ch] text-[12px] leading-[1.7] text-text-secondary [text-wrap:pretty]">
-                      for passing the DPDP Academy examination on the Digital
-                      Personal Data Protection Act, 2023 — all nine chapters,
-                      44 sections and the Schedule of penalties.
+                    <span className="max-w-[38ch] text-[12px] leading-[1.75] text-text-secondary [text-wrap:pretty]">
+                      has passed the certification examination on the{" "}
+                      <strong className="font-semibold text-text">
+                        Digital Personal Data Protection Act, 2023
+                      </strong>{" "}
+                      (Act No. 22 of 2023), covering Chapters I–IX and the
+                      Schedule of penalties.
+                    </span>
+
+                    <span className="flex w-full flex-wrap justify-center gap-x-[16px] gap-y-[8px] border-y border-border py-[9px] font-mono text-[12px] font-medium tracking-[0.06em] text-text-secondary tabular-nums">
+                      <span>
+                        Score <span className="text-primary-text">92%</span>
+                      </span>
+                      <span>Credential DPDP-2026-0417</span>
                     </span>
 
                     <div className="flex w-full items-end justify-between gap-[14px] pt-[2px]">
                       <span className="flex min-w-0 flex-[1_1_0] flex-col items-start gap-[4px]">
-                        <span className="font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-text-secondary">
-                          Issued
-                        </span>
                         <span className="whitespace-nowrap font-display text-[14px] font-semibold text-text">
-                          Today
+                          14 July 2026
                         </span>
-                        <span className="h-px w-full max-w-[110px] bg-text opacity-[0.45]" />
+                        <span className="h-px w-full max-w-[112px] bg-text opacity-[0.45]" />
+                        <span className="font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
+                          Date of issue
+                        </span>
                       </span>
 
                       <CertificateSeal size={78} iconSize={24} labelSize={8} />
 
                       <span className="flex min-w-0 flex-[1_1_0] flex-col items-end gap-[4px]">
-                        <span className="whitespace-nowrap font-script text-[20px] font-normal leading-[1.1] text-text">
+                        <span className="whitespace-nowrap font-script text-[21px] font-normal leading-[1.1] text-text">
                           R. Iyer
                         </span>
-                        <span className="h-px w-full max-w-[110px] bg-text opacity-[0.45]" />
+                        <span className="h-px w-full max-w-[112px] bg-text opacity-[0.45]" />
                         <span className="font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
-                          Director
+                          Programme Director
                         </span>
                       </span>
                     </div>

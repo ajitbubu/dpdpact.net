@@ -257,6 +257,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Script id="cc-init" strategy="beforeInteractive">
           {`window.CookieConsent&&window.CookieConsent.init(${JSON.stringify(CONSENT_CONFIG)});`}
         </Script>
+        <Script src="/cookie-branding.js" strategy="beforeInteractive" />
 
         {gtmId ? (
           <noscript>
