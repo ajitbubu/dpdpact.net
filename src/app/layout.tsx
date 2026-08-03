@@ -5,6 +5,7 @@ import {
   JetBrains_Mono,
   Pinyon_Script,
 } from "next/font/google";
+import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { InstallPrompt } from "@/components/install-prompt";
 import { ServiceWorker } from "@/components/service-worker";
@@ -21,6 +22,62 @@ import "./globals.css";
  * site that uses it — so it lives here rather than in env config.
  */
 const GA_MEASUREMENT_ID = "G-4CRHNPWKYX";
+const GTM_CONTAINER_ID = "GTM-T44V6VLW";
+
+/**
+ * Cookie consent, self-hosted from `public/` rather than a CDN. A site about
+ * data protection should not hand its visitors to a third party in order to
+ * ask them about tracking, and it keeps the consent gate working offline.
+ *
+ * The disclosed cookies must match what the site actually sets. `_ga_*` is
+ * named after the measurement ID with the `G-` prefix removed, so
+ * `G-4CRHNPWKYX` produces `_ga_4CRHNPWKYX`.
+ */
+const CONSENT_COOKIE_NAME = "cc_consent";
+
+const CONSENT_CONFIG = {
+  cookieName: CONSENT_COOKIE_NAME,
+  categories: {
+    necessary: {
+      enabled: true,
+      locked: true,
+      cookies: [
+        {
+          name: CONSENT_COOKIE_NAME,
+          provider: "DPDP Academy",
+          domain: "dpdpact.net",
+          duration: "182 days",
+        },
+      ],
+    },
+    analytics: {
+      cookies: [
+        {
+          name: "_ga",
+          provider: "Google Analytics",
+          domain: ".dpdpact.net",
+          duration: "Up to 13 months",
+        },
+        {
+          name: `_ga_${GA_MEASUREMENT_ID.replace(/^G-/, "")}`,
+          provider: "Google Analytics (GA4 property)",
+          domain: ".dpdpact.net",
+          duration: "Up to 13 months",
+        },
+      ],
+    },
+    functional: { cookies: [] },
+    marketing: { cookies: [] },
+  },
+  theme: { "--cc-accent": "#b4321a" },
+  labels: {
+    // The SDK's default text claims personalisation and content-targeting
+    // cookies. This site sets neither — functional and marketing are empty —
+    // and it links to a Privacy and Cookie Policy that do not exist here yet.
+    bannerText:
+      "We use strictly necessary cookies to make this site work, and only with your consent Google Analytics to understand how it is used. We do not use advertising or personalisation cookies, and we do not sell or share personal data.",
+  },
+};
 
 /**
  * Analytics stay off in development so local browsing never lands in the
@@ -30,6 +87,15 @@ const GA_MEASUREMENT_ID = "G-4CRHNPWKYX";
 const gaId =
   process.env.NEXT_PUBLIC_GA_ID ??
   (process.env.NODE_ENV === "production" ? GA_MEASUREMENT_ID : undefined);
+
+/**
+ * Gated the same way as `gaId`. The consent scripts themselves always load, so
+ * the banner can be exercised locally without local browsing reaching the
+ * container.
+ */
+const gtmId =
+  process.env.NEXT_PUBLIC_GTM_ID ??
+  (process.env.NODE_ENV === "production" ? GTM_CONTAINER_ID : undefined);
 
 const inter = Inter({
   variable: "--font-inter",
@@ -159,6 +225,51 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} ${pinyonScript.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col overflow-x-hidden">
+        {/*
+         * Order is load-bearing and `beforeInteractive` scripts run in the
+         * order they are placed. The bootstrap pushes `consent: default` with
+         * every storage type denied, so it has to execute before gtm.js — once
+         * GTM has loaded without a default, tags may fire ungated.
+         */}
+        <Script id="cc-bootstrap-config" strategy="beforeInteractive">
+          {`window.CC_BOOTSTRAP=${JSON.stringify({ cookieName: CONSENT_COOKIE_NAME })};`}
+        </Script>
+        <Script src="/cc-bootstrap.js" strategy="beforeInteractive" />
+
+        {gtmId ? (
+          <Script id="google-tag-manager" strategy="beforeInteractive">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${gtmId}');`}
+          </Script>
+        ) : null}
+
+        {/*
+         * The SDK auto-initialises only from `data-auto-init`, and that path
+         * reads a handful of `data-*` attributes — it has no way to express
+         * categories, cookie disclosures, theme or labels. Those have to go
+         * through `CookieConsent.init()`, which the bundle exposes on `window`
+         * as it executes, hence the explicit call placed after it.
+         */}
+        <Script src="/cookie-consent.js" strategy="beforeInteractive" />
+        <Script id="cc-init" strategy="beforeInteractive">
+          {`window.CookieConsent&&window.CookieConsent.init(${JSON.stringify(CONSENT_CONFIG)});`}
+        </Script>
+        <Script src="/cookie-branding.js" strategy="beforeInteractive" />
+
+        {gtmId ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}

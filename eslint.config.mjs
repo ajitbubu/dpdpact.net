@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored, minified consent SDK. `public/sw.js` is ours and stays linted.
+    "public/cc-bootstrap.js",
+    "public/cookie-consent.js",
   ]),
 ]);
 
