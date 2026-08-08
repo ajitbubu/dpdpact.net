@@ -8,6 +8,7 @@ import {
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { InstallPrompt } from "@/components/install-prompt";
+import { PageViewTracker } from "@/components/page-view-tracker";
 import { ServiceWorker } from "@/components/service-worker";
 import {
   SITE_DESCRIPTION,
@@ -22,7 +23,6 @@ import "./globals.css";
  * site that uses it — so it lives here rather than in env config.
  */
 const GA_MEASUREMENT_ID = "G-4CRHNPWKYX";
-const GTM_CONTAINER_ID = "GTM-T44V6VLW";
 
 /**
  * Cookie consent, self-hosted from `public/` rather than a CDN. A site about
@@ -87,15 +87,6 @@ const CONSENT_CONFIG = {
 const gaId =
   process.env.NEXT_PUBLIC_GA_ID ??
   (process.env.NODE_ENV === "production" ? GA_MEASUREMENT_ID : undefined);
-
-/**
- * Gated the same way as `gaId`. The consent scripts themselves always load, so
- * the banner can be exercised locally without local browsing reaching the
- * container.
- */
-const gtmId =
-  process.env.NEXT_PUBLIC_GTM_ID ??
-  (process.env.NODE_ENV === "production" ? GTM_CONTAINER_ID : undefined);
 
 const inter = Inter({
   variable: "--font-inter",
@@ -228,23 +219,13 @@ export default function RootLayout({
         {/*
          * Order is load-bearing and `beforeInteractive` scripts run in the
          * order they are placed. The bootstrap pushes `consent: default` with
-         * every storage type denied, so it has to execute before gtm.js — once
-         * GTM has loaded without a default, tags may fire ungated.
+         * every storage type denied, so it has to execute before gtag.js — once
+         * gtag has loaded without a default, tags may fire ungated.
          */}
         <Script id="cc-bootstrap-config" strategy="beforeInteractive">
           {`window.CC_BOOTSTRAP=${JSON.stringify({ cookieName: CONSENT_COOKIE_NAME })};`}
         </Script>
         <Script src="/cc-bootstrap.js" strategy="beforeInteractive" />
-
-        {gtmId ? (
-          <Script id="google-tag-manager" strategy="beforeInteractive">
-            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${gtmId}');`}
-          </Script>
-        ) : null}
 
         {/*
          * The SDK auto-initialises only from `data-auto-init`, and that path
@@ -254,22 +235,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
          * as it executes, hence the explicit call placed after it.
          */}
         <Script src="/cookie-consent.js" strategy="beforeInteractive" />
-        <Script id="cc-init" strategy="beforeInteractive">
-          {`window.CookieConsent&&window.CookieConsent.init(${JSON.stringify(CONSENT_CONFIG)});`}
+        <Script id="cc-config" strategy="beforeInteractive">
+          {`window.CC_CONFIG=${JSON.stringify(CONSENT_CONFIG)};`}
         </Script>
+        <Script src="/cc-init.js" strategy="beforeInteractive" />
         <Script src="/cookie-branding.js" strategy="beforeInteractive" />
 
-        {gtmId ? (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-              title="Google Tag Manager"
-            />
-          </noscript>
-        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
@@ -277,6 +248,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         {children}
         <InstallPrompt />
         <ServiceWorker />
+        {gaId ? <PageViewTracker /> : null}
       </body>
       {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
     </html>
