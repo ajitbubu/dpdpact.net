@@ -273,35 +273,55 @@ excluded on `NODE_ENV` so local browsing never lands in the property.
 Set `NEXT_PUBLIC_GA_ID` to override — point a deployment at a staging property,
 or switch analytics on locally while testing.
 
-`@next/third-parties` handles App Router client-side navigation, so `page_view`
-fires on route changes, not just the first load.
+### Page views are sent by this repo, not inferred
 
-Two things to know:
+`@next/third-parties` reports the entry page and nothing else — it does not hook
+the router. Two gaps followed from that, and both are closed in code rather than
+in the GA4 UI:
 
-- **Preview deployments count as production.** On Vercel and most hosts, preview
-  builds run with `NODE_ENV=production`, so their traffic lands in the same
-  property. Set `NEXT_PUBLIC_GA_ID` to a staging property on the preview
-  environment if that matters.
-- **Tag Manager runs alongside GA4.** `GTM-T44V6VLW` loads in addition to the
-  `GoogleAnalytics` component. If the container also holds a GA4 tag for
-  `G-4CRHNPWKYX`, pageviews are counted twice — check the container and drop one
-  of the two paths.
+| Gap | Fixed by |
+| --- | --- |
+| Client-side navigation sent no `page_view` | `src/components/page-view-tracker.tsx` |
+| The entry `page_view` of a first visit was discarded by consent mode | `public/cc-init.js` |
+
+**Leave "page changes based on browser history events" off** in the GA4 data
+stream's enhanced measurement settings. It covers the same navigations as
+`PageViewTracker`; with both on, every navigation is counted twice.
+
+The consent one is the subtler gap. `cc-bootstrap.js` denies `analytics_storage`
+before gtag loads, so a first visit's entry `page_view` goes out as a cookieless
+ping (`gcs=G100`) that GA4 keeps out of standard reports. Accepting afterwards
+does not resend it — gtag applies the new state only to later events — so
+`cc-init.js` resends it from the SDK's `onConsent` callback. It fires only when
+the visitor did *not* arrive already consenting, since gtag's own `config` call
+covers that case.
+
+**Preview deployments count as production.** On Vercel and most hosts, preview
+builds run with `NODE_ENV=production`, so their traffic lands in the same
+property. Set `NEXT_PUBLIC_GA_ID` to a staging property on the preview
+environment if that matters.
 
 ## Cookie consent
 
-Google Consent Mode v2, gating both GA4 and GTM. Everything is denied until the
-visitor chooses.
+Google Consent Mode v2, gating GA4. Everything is denied until the visitor
+chooses.
 
 | Piece | Where |
 | --- | --- |
 | Consent defaults (denied) | `public/cc-bootstrap.js` |
 | Banner + preference UI | `public/cookie-consent.js` |
 | Configuration | `CONSENT_CONFIG` in `src/app/layout.tsx` |
+| `init()` call + page-view recovery | `public/cc-init.js` |
 
 **Load order is load-bearing.** The bootstrap pushes `consent: default` with
-every storage type denied and must execute *before* `gtm.js` — once GTM has
+every storage type denied and must execute *before* `gtag.js` — once gtag has
 loaded without a default, tags can fire ungated. All of it runs as
 `beforeInteractive`, which `next/script` executes in the order placed.
+
+**The config reaches `cc-init.js` on `window.CC_CONFIG`.** `CONSENT_CONFIG` is
+serialised with `JSON.stringify`, which cannot carry the `onConsent` function
+that the page-view recovery hangs off, so the callback is attached in
+`cc-init.js` after the JSON lands.
 
 **The SDK is self-hosted, not loaded from a CDN.** A site about data protection
 should not hand visitors to a third party in order to ask them about tracking.
