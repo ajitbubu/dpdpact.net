@@ -20,6 +20,8 @@ const ACT_LINKS = [
 
 const CERT_LINKS = [
   { href: routes.checklist, label: "Compliance checklist" },
+  { href: routes.applicability, label: "Does DPDP apply to you?" },
+  { href: routes.penaltyCalculator, label: "Penalty calculator" },
   { href: routes.certification, label: "Programme overview" },
   { href: routes.practiceTest, label: "Free practice test" },
   { href: routes.exam, label: "Instant certification exam" },
