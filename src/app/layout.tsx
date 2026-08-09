@@ -106,10 +106,21 @@ const fraunces = Fraunces({
   weight: ["600", "700"],
 });
 
+/**
+ * The certificate's signature face, and the only font here that is not
+ * site-wide.
+ *
+ * `preload: false` because `font-script` renders on exactly two routes — the
+ * homepage seal and `/certificate` — while a preload link is emitted on every
+ * page. That was 28 KiB fetched eagerly on 75 of 77 pages to draw nothing. It
+ * still loads on the two pages that use it, discovered through the CSS, which
+ * is the right trade for a decorative face that sits below the fold.
+ */
 const pinyonScript = Pinyon_Script({
   variable: "--font-pinyon-script",
   subsets: ["latin"],
   weight: "400",
+  preload: false,
 });
 
 export const metadata: Metadata = {
