@@ -6,7 +6,7 @@ import {
   Pinyon_Script,
 } from "next/font/google";
 import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { AnalyticsOnConsent } from "@/components/analytics-on-consent";
 import { InstallPrompt } from "@/components/install-prompt";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { ServiceWorker } from "@/components/service-worker";
@@ -273,7 +273,9 @@ export default function RootLayout({
         <ServiceWorker />
         {gaId ? <PageViewTracker /> : null}
       </body>
-      {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
+      {gaId ? (
+        <AnalyticsOnConsent gaId={gaId} cookieName={CONSENT_COOKIE_NAME} />
+      ) : null}
     </html>
   );
 }
