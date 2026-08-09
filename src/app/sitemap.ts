@@ -42,6 +42,8 @@ const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Si
   { path: "/dpdp-vs-gdpr", priority: 0.8, changeFrequency: "monthly" },
   { path: "/consent-manager", priority: 0.8, changeFrequency: "monthly" },
   { path: "/significant-data-fiduciary", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/dpdp-applicability", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/dpdp-penalty-calculator", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog/dpdp-act-2023-practical-primer", priority: 0.7, changeFrequency: "monthly" },
   ...BLOG_POSTS.map((post) => ({

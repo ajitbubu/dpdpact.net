@@ -17,6 +17,8 @@ export const routes = {
   gdpr: "/dpdp-vs-gdpr",
   consentManager: "/consent-manager",
   sdf: "/significant-data-fiduciary",
+  applicability: "/dpdp-applicability",
+  penaltyCalculator: "/dpdp-penalty-calculator",
   editorialPolicy: "/editorial-policy",
   reader: "/reader",
   readerFullText: "/reader/full-text",
