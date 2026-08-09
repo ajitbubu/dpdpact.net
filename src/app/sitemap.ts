@@ -9,12 +9,16 @@ import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
  * `/certificate/standalone` (a chrome-free duplicate of `/certificate`) are
  * deliberately excluded and carry `noindex`.
  *
- * `/exam` and `/certificate` are excluded for a different reason: they are
- * application screens, not documents. The exam is an interface with 225 words
- * of chrome and the certificate renders a personal artefact — submitting
- * either for indexing invites a thin-content judgement and neither can rank
- * for anything. Both carry `noindex`. `/practice-test` stays: "DPDP quiz" is
- * a real query, so that page needs content rather than removal.
+ * `/certificate` is excluded for a different reason: it renders a personal
+ * artefact rather than a document, so there is nothing there to rank. It
+ * carries `noindex`.
+ *
+ * `/exam` was excluded on the same grounds until it was given a server-rendered
+ * FAQ answering the questions people actually search before sitting a paper —
+ * whether it is proctored, what happens on a fail, whether an account is
+ * needed. That is readable content rather than chrome, so the page is indexed
+ * and listed here. The FAQ deliberately avoids `/certification`'s questions:
+ * the two pages should not compete for the same query.
  */
 const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] }[] = [
   { path: "/", priority: 1.0, changeFrequency: "monthly" },
@@ -48,6 +52,7 @@ const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Si
   { path: "/editorial-policy", priority: 0.4, changeFrequency: "monthly" },
   { path: "/certification", priority: 0.9, changeFrequency: "monthly" },
   { path: "/practice-test", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/exam", priority: 0.7, changeFrequency: "monthly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
