@@ -159,6 +159,18 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
+  /**
+   * Bing Webmaster Tools ownership.
+   *
+   * The same token already sits in `public/BingSiteAuth.xml`, which Bing
+   * fetches and matches — so verification passes without this tag. It is here
+   * as a second route to the same proof: the meta tag travels with the app and
+   * survives a stray deletion under `public/`. Either method alone is enough.
+   */
+  verification: {
+    other: { "msvalidate.01": "001B46FCC28AEB209FB176CB917EBA1E" },
+  },
+
   manifest: "/manifest.webmanifest",
   // iOS ignores most of the manifest, so standalone mode and the home-screen
   // icon have to be declared the old way as well.
