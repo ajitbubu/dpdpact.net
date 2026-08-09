@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ReaderClient } from "./reader-client";
 import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { routes } from "@/lib/routes";
-import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
+import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 import { CHAPTERS } from "@/lib/dpdpa-data";
 
 export const metadata: Metadata = {
@@ -44,6 +44,7 @@ const legislationSchema = {
   },
   inLanguage: "en",
   url: `${SITE_URL}/reader`,
+  isBasedOn: ACT_SOURCE_PDF,
   description:
     "An Act to provide for the processing of digital personal data in a manner that recognises both the right of individuals to protect their personal data and the need to process such personal data for lawful purposes.",
   // Chapters as parts, so the structure of the Act is explicit.
@@ -85,6 +86,15 @@ function SectionDirectory() {
           >
             Read the complete Act on one page
           </Link>
+          . Every provision is reproduced verbatim from{" "}
+          <a
+            href={ACT_SOURCE_PDF}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-primary-text"
+          >
+            the Act as published by MeitY (PDF)
+          </a>
           .
         </p>
 

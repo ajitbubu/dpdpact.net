@@ -9,6 +9,8 @@ import {
   Users,
 } from "lucide-react";
 
+import { CommencementTimeline } from "@/components/diagrams";
+import { ProvisionNotes } from "@/components/provision-notes";
 import { Faq } from "@/components/faq";
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
@@ -100,6 +102,65 @@ const FAQ = [
   },
 ];
 
+
+/**
+ * The seven Schedules, read from the Gazette PDF rather than from commentary.
+ *
+ * Most summaries cover the rules and stop. The Schedules are where the
+ * operative numbers live — the net worth figure, the retention thresholds, the
+ * children's exemptions — and two of them are barely written about at all.
+ */
+const SCHEDULES = [
+  {
+    ref: "First",
+    title: "Conditions for registering as a Consent Manager",
+    body: "See rule 4. Part A sets eligibility: a company incorporated in India, sufficient technical, operational and financial capacity, sound financial condition and general character of management, and a net worth of not less than two crore rupees. Part B sets the operating obligations.",
+    note: "Covered in depth on the Consent Managers page.",
+  },
+  {
+    ref: "Second",
+    title: "Standards for processing by the State",
+    body: "See rules 5(1) and 16. Technical and organisational standards for the State and its instrumentalities processing under section 7(b), and for processing necessary for the purposes in section 17(2)(b) — lawfulness, and the rest of the listed observances.",
+    note: "The least-discussed Schedule of the seven. It is the only place the Rules set standards specifically for State processing.",
+  },
+  {
+    ref: "Third",
+    title: "Retention periods, by class and user count",
+    body: "See rule 8(1). Named classes of Data Fiduciary must erase personal data three years after the Data Principal last approached them or exercised a right — or after the Rules commenced, whichever is latest — unless retention is required by law.",
+    note: "Thresholds and carve-outs are set out below. This is the Schedule most organisations need to check against themselves.",
+  },
+  {
+    ref: "Fourth",
+    title: "Where the children's provisions do not apply",
+    body: "See rule 12. Part A lists classes of Data Fiduciary exempt from section 9(1) and 9(3) — beginning with clinical establishments, mental health establishments and healthcare professionals, where processing is restricted to providing health services to the child. Part B lists exempt purposes.",
+    note: "This is the mechanism section 9(4) anticipated. Without it, verifiable parental consent would gate a child's emergency care.",
+  },
+  {
+    ref: "Fifth",
+    title: "What the Board is paid",
+    body: "See rule 18. The Chairperson receives a consolidated salary of ₹4,50,000 per month and every other Member ₹4,00,000, in both cases without house or car.",
+    note: "Dry, but it tells you the seniority the Government intends for the Board — and it is public, fixed and consolidated rather than negotiated.",
+  },
+  {
+    ref: "Sixth",
+    title: "The Board's officers and employees",
+    body: "See rule 21(2). Terms of appointment and service, including appointment on deputation from central or state government or from an autonomous body, under the Fundamental Rules and DoPT guidelines.",
+  },
+  {
+    ref: "Seventh",
+    title: "Who may demand data from you, and for what",
+    body: "See rules 23(1) and 8(3). Pairs each purpose with the authorised person who may act on it — beginning with use by the State in the interest of the sovereignty and integrity of India or the security of the State, exercised by an officer designated under section 17(2)(a).",
+    note: "It also fixes the one-year floor for retaining processing logs, since rule 8(3) points here.",
+  },
+];
+
+/** Third Schedule, rule 8(1): the classes and the thresholds, verbatim in substance. */
+const RETENTION_CLASSES = [
+  { cls: "E-commerce entity", threshold: "≥ 2 crore registered users in India" },
+  { cls: "Online gaming intermediary", threshold: "≥ 50 lakh registered users in India" },
+  { cls: "Social media intermediary", threshold: "≥ 2 crore registered users in India" },
+];
+
 export const metadata: Metadata = {
   title: "DPDP Rules 2025 — Requirements & Timeline",
   description:
@@ -155,6 +216,8 @@ export default function DpdpRulesPage() {
                   Three dates to plan around
                 </h2>
               </div>
+
+              <CommencementTimeline />
 
               <div className="grid gap-[16px] min-[780px]:grid-cols-3">
                 {TIMELINE.map((item, index) => (
@@ -303,6 +366,73 @@ export default function DpdpRulesPage() {
           </div>
         </section>
       </main>
+
+      <ProvisionNotes
+        eyebrow="23 rules · 7 schedules"
+        heading="The Schedules are where the numbers live"
+        intro="The rules state obligations; the Schedules carry the figures that decide whether one applies to you. Read from the Gazette text rather than from summaries — two of these seven are barely covered anywhere."
+        items={SCHEDULES}
+        tone="sunken"
+      />
+
+      <section className="border-t border-border bg-[var(--bg-app)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[20px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <div>
+            <span className="mb-[10px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+              Third Schedule · rule 8(1)
+            </span>
+            <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              Does the three-year erasure clock apply to you?
+            </h2>
+            <p className="mb-0 mt-[12px] max-w-[76ch] text-[15px] leading-[1.75] text-text-secondary">
+              Only three classes of Data Fiduciary are named, and each carries a
+              registered-user threshold. Below the threshold, or outside the
+              class, this Schedule does not reach you — the general erasure duty
+              in section 8(7) still does.
+            </p>
+          </div>
+
+          <div className="grid gap-[12px] min-[720px]:grid-cols-3">
+            {RETENTION_CLASSES.map((r) => (
+              <div
+                key={r.cls}
+                className="flex flex-col gap-[8px] rounded-lg border border-border bg-surface px-[20px] py-[18px]"
+              >
+                <span className="font-display text-[17px] font-semibold leading-[1.3] text-text">
+                  {r.cls}
+                </span>
+                <span className="font-mono text-[13px] font-semibold text-primary-text">
+                  {r.threshold}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-[10px] rounded-lg border border-border bg-[var(--bg-sunken)] p-[22px]">
+            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-text-muted">
+              What the clock actually measures
+            </span>
+            <p className="m-0 max-w-[76ch] text-[14.5px] leading-[1.75] text-text-secondary">
+              Three years from the date the Data Principal last approached you
+              for the specified purpose or exercised a right — or from the
+              commencement of the Rules, <em>whichever is latest</em>. That last
+              limb matters: it means the clock does not start expired for a user
+              who went quiet in 2023.
+            </p>
+            <p className="m-0 max-w-[76ch] text-[14.5px] leading-[1.75] text-text-secondary">
+              Two things are carved out and must survive the erasure: what is
+              needed to let her access her user account, and what is needed to
+              let her access a virtual token issued by or for you, held on your
+              platform, that can be exchanged for money, goods or services.
+            </p>
+            <p className="m-0 max-w-[76ch] text-[14.5px] leading-[1.75] text-text-secondary">
+              And at least <strong>forty-eight hours</strong> before the period
+              completes, you must tell her the data is about to be erased unless
+              she logs in or otherwise makes contact.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <EditorialReview scope="the notified DPDP Rules, 2025 and commencement notifications" />
       <SiteFooter />

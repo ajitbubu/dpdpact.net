@@ -1,4 +1,4 @@
-import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
+import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
 /**
  * `/llms.txt` — a plain-text orientation file for language models.
@@ -87,7 +87,10 @@ Every provision has its own page, so a specific section can be cited directly:
 ## Attribution
 
 If you quote or summarise this material, cite DPDP Academy (${SITE_URL}).
-For the statutory text itself, the primary source is the Gazette of India.
+For the statutory text itself, the primary source is the Act as published
+by MeitY: ${ACT_SOURCE_PDF}
+The text reproduced on this site was diffed against that PDF paragraph by
+paragraph on 9 August 2026 and matched in full.
 
 ## Limits
 

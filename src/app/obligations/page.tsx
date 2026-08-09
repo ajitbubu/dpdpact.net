@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Baby, ShieldAlert } from "lucide-react";
+import Link from "next/link";
 
 import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
+import { ConsentLifecycle } from "@/components/diagrams";
 import { PageHero } from "@/components/page-hero";
 import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
@@ -86,6 +88,64 @@ const LEGITIMATE_USES = [
   {
     letter: "(i)",
     body: "Employment purposes, or safeguarding the employer from loss or liability",
+  },
+];
+
+/**
+ * What the DPDP Rules, 2025 turn each statutory duty into.
+ *
+ * The Act states duties at the level of principle — "reasonable security
+ * safeguards", "in such form and manner as may be prescribed". This is where
+ * the prescribing happened, and it is the difference between knowing the
+ * section and being able to implement it.
+ */
+const RULE_LAYER = [
+  {
+    act: "§ 5 — Notice",
+    rule: "Rule 3",
+    title: "The notice must itemise, not summarise",
+    body: "An itemised description of the personal data to be processed, the specified purpose, and a specific description of the goods, services or uses that the processing enables. It must be presented in clear and plain language and stand independently of other information, with links to withdraw consent, exercise rights and complain to the Board.",
+    build: "A privacy policy does not satisfy this. The notice is a discrete artefact tied to the consent request, and it has to name the data rather than gesture at categories.",
+  },
+  {
+    act: "§ 8(5) — Safeguards",
+    rule: "Rule 6",
+    title: "Named measures, and a one-year log floor",
+    body: "Encryption, obfuscation, masking or virtual tokens; appropriate access controls with visibility over who accessed what; retention of access logs and processing logs for at least one year; regular monitoring and review of those logs; business continuity and recovery arrangements; and the same obligations flowed down to processors by contract.",
+    build: "The log floor is the operationally expensive one. One year of access and processing logs, monitored rather than merely stored, is an infrastructure commitment more than a policy commitment.",
+  },
+  {
+    act: "§ 8(6) — Breach",
+    rule: "Rule 7",
+    title: "Two audiences, two clocks, no threshold",
+    body: "Affected Data Principals are told without delay. The Board receives an initial intimation without delay, then a detailed report within 72 hours, extendable only by the Board. There is no harm threshold anywhere in the section or the rule.",
+    build: "This is the widest gap from GDPR. Article 33 lets you skip notification where a breach is unlikely to result in risk, and only tells individuals when risk is high. Here every personal data breach is reportable to both.",
+  },
+  {
+    act: "§ 8(7)–(8) — Erasure",
+    rule: "Rule 8",
+    title: "An inactivity clock, and a warning before deletion",
+    body: "For specified classes of platform above stated user thresholds — e-commerce, online gaming and social media — personal data is erased after three years of user inactivity, with at least 48 hours notice to the individual before deletion. Separately, logs are kept a minimum of one year for lawful requests and investigations before being erased.",
+    build: "Two systems, pulling opposite ways: delete the person's data on an inactivity timer, keep the logs about it for a year. Both need to be automated, and the 48-hour notice needs a delivery path that still works for a dormant account.",
+  },
+];
+
+/** § 8(6) with Rule 7 laid out as the sequence you actually run. */
+const BREACH_SEQUENCE = [
+  {
+    when: "On becoming aware",
+    who: "Every affected Data Principal",
+    what: "A description of the breach, its likely consequences, the measures being taken to mitigate it, and what the individual can do to protect themselves. Delivered through the channels you already hold for them.",
+  },
+  {
+    when: "Without delay",
+    who: "The Data Protection Board",
+    what: "An initial intimation covering the nature and extent of the breach, when and where it occurred, and its likely impact.",
+  },
+  {
+    when: "Within 72 hours",
+    who: "The Data Protection Board",
+    what: "A detailed report: the events and circumstances that led to the breach, the mitigation measures taken, the remedial steps to prevent recurrence, and confirmation of the intimations given to affected Data Principals. Extendable only on the Board's allowance.",
   },
 ];
 
@@ -208,6 +268,227 @@ export default function ObligationsPage() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-[var(--bg-app)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[20px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <div>
+            <span className="mb-[10px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+              At a glance
+            </span>
+            <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              The consent lifecycle, end to end
+            </h2>
+          </div>
+          <ConsentLifecycle />
+        </div>
+      </section>
+
+      {/* ------------------------------- Accountability is non-delegable */}
+      <section className="border-t border-border bg-[var(--bg-sunken)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[16px] px-[var(--space-5)] py-[clamp(34px,5vw,58px)]">
+          <span className="font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+            Section 8(1)
+          </span>
+          <h2 className="m-0 max-w-[24ch] font-display text-[clamp(24px,3.4vw,34px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+            The obligation you cannot contract away
+          </h2>
+          <p className="m-0 max-w-[76ch] text-[15.5px] leading-[1.75] text-text-secondary">
+            Section 8(1) makes the Data Fiduciary responsible for compliance
+            <em> irrespective of any agreement to the contrary</em>, and
+            irrespective of any failure by the Data Principal to carry out her
+            own duties. Two consequences follow, and both are easy to miss.
+          </p>
+          <p className="m-0 max-w-[76ch] text-[15.5px] leading-[1.75] text-text-secondary">
+            First, a processor contract allocates work and cost, never
+            liability. When a processor loses data, the Board still looks at the
+            Data Fiduciary. Second, a Data Principal who breaches her section 15
+            duties — say, by supplying false information — does not thereby
+            reduce your obligations towards her data. Her breach is separately
+            penalisable at up to ₹10,000; yours is not offset by it.
+          </p>
+          <p className="m-0 max-w-[76ch] text-[15.5px] leading-[1.75] text-text-muted">
+            Note also the narrower scope of section 8(3). The duty to ensure
+            completeness, accuracy and consistency bites only where the data is
+            likely to be used for a decision affecting the Data Principal, or
+            disclosed to another Data Fiduciary. It is not the general accuracy
+            principle GDPR applies to all processing.
+          </p>
+        </div>
+      </section>
+
+      {/* ------------------------------- What the Rules turn duties into */}
+      <section className="border-t border-border bg-[var(--bg-app)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[24px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <div>
+            <span className="mb-[10px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+              Act meets Rules
+            </span>
+            <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              Where &ldquo;as may be prescribed&rdquo; got prescribed
+            </h2>
+            <p className="mb-0 mt-[12px] max-w-[76ch] text-[15px] leading-[1.75] text-text-secondary">
+              Four of these duties are stated in the Act as principles and
+              filled in by the DPDP Rules, 2025. The Rules are where the
+              engineering work actually lives.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-[14px]">
+            {RULE_LAYER.map((item) => (
+              <div
+                key={item.act}
+                className="flex flex-wrap gap-[18px] rounded-lg border border-border bg-surface p-[clamp(18px,2.6vw,24px)]"
+              >
+                <div className="flex flex-[0_0_150px] flex-col gap-[6px]">
+                  <span className="font-mono text-[12.5px] font-semibold text-primary-text">
+                    {item.act}
+                  </span>
+                  <span className="font-mono text-[11.5px] uppercase tracking-[0.1em] text-text-muted">
+                    {item.rule}
+                  </span>
+                </div>
+                <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-[9px]">
+                  <span className="font-display text-[18px] font-semibold leading-[1.3] text-text">
+                    {item.title}
+                  </span>
+                  <span className="text-[14.5px] leading-[1.75] text-text-secondary">
+                    {item.body}
+                  </span>
+                  <span className="border-t border-border pt-[10px] text-[13.5px] leading-[1.7] text-text-muted">
+                    <strong className="text-primary-text">
+                      What it means to build:
+                    </strong>{" "}
+                    {item.build}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* -------------------------------------------------- Worked example */}
+      <section className="border-t border-border bg-[var(--bg-app)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[20px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <div>
+            <span className="mb-[10px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+              Worked example
+            </span>
+            <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              One phone number, four sections
+            </h2>
+            <p className="mb-0 mt-[12px] max-w-[76ch] text-[15px] leading-[1.75] text-text-secondary">
+              A delivery app collects a customer&apos;s mobile number so it can
+              send order updates. Six months later, marketing wants to use the
+              same numbers for promotional messages. Follow the sections in
+              order and the answer is not a judgement call.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-[12px]">
+            {[
+              {
+                s: "§ 4",
+                q: "Is there a lawful basis for the original collection?",
+                a: "Yes. The number is collected for order updates, a lawful purpose not forbidden by law, on the customer's consent. Nothing here is difficult.",
+              },
+              {
+                s: "§ 5 + Rule 3",
+                q: "What did the notice have to say?",
+                a: "It had to itemise the personal data (the mobile number), state the specified purpose (delivery updates for orders placed), describe the service that enables, and link to withdrawal, rights and Board complaints — in plain language, standing on its own rather than buried in terms of service.",
+              },
+              {
+                s: "§ 6(1)",
+                q: "Does that consent stretch to marketing?",
+                a: "No. Consent is limited to the personal data necessary for the specified purpose, and the specified purpose was order updates. Marketing is a different purpose, so it needs its own notice and its own consent. There is no legitimate-interest basis to fall back on, and none of the nine certain legitimate uses in section 7 covers promotional messaging.",
+              },
+              {
+                s: "§ 8(7)–(8)",
+                q: "When must the number be deleted?",
+                a: "When the customer withdraws consent, or as soon as it is reasonable to assume the purpose is no longer served — whichever is earlier. The Act deems the purpose served-out once the customer neither approaches you for it nor exercises any right for the prescribed period, and section 8(11) clarifies that means no contact initiated by her. You must also cause your SMS processor to erase its copy.",
+              },
+            ].map((row) => (
+              <div
+                key={row.s}
+                className="flex flex-wrap gap-[16px] rounded-lg border border-border bg-surface px-[20px] py-[18px]"
+              >
+                <span className="flex-[0_0_92px] font-mono text-[13px] font-semibold text-primary-text">
+                  {row.s}
+                </span>
+                <span className="flex min-w-0 flex-[1_1_420px] flex-col gap-[7px]">
+                  <span className="font-sans text-[15px] font-semibold leading-[1.45] text-text">
+                    {row.q}
+                  </span>
+                  <span className="text-[14.5px] leading-[1.75] text-text-secondary">
+                    {row.a}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <p className="m-0 max-w-[76ch] text-[14px] leading-[1.7] text-text-muted">
+            The trap is step three. Teams arriving from GDPR reach for
+            legitimate interests to justify the marketing use, find it missing,
+            and then try to read section 7(a) — data voluntarily provided — as a
+            substitute. It is not: 7(a) is tied to the purpose for which the
+            data was volunteered, which brings you back to order updates.
+          </p>
+        </div>
+      </section>
+
+      {/* ------------------------------------------ Breach, as a sequence */}
+      <section className="border-t border-border bg-[var(--bg-sunken)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[22px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <div>
+            <span className="mb-[10px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+              § 8(6) · Rule 7
+            </span>
+            <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              The breach sequence, in order
+            </h2>
+            <p className="mb-0 mt-[12px] max-w-[76ch] text-[15px] leading-[1.75] text-text-secondary">
+              Two audiences and two clocks. Run them in parallel, because the
+              obligation to the individual does not wait on the report to the
+              Board.
+            </p>
+          </div>
+
+          <div className="grid gap-[14px] min-[860px]:grid-cols-3">
+            {BREACH_SEQUENCE.map((stage, i) => (
+              <div
+                key={stage.when}
+                className="flex flex-col gap-[10px] rounded-lg border border-border bg-surface p-[20px]"
+              >
+                <span className="font-mono text-[12px] font-semibold text-primary-text tabular-nums">
+                  0{i + 1} · {stage.when}
+                </span>
+                <span className="font-display text-[17px] font-semibold leading-[1.3] text-text">
+                  {stage.who}
+                </span>
+                <span className="text-[14px] leading-[1.72] text-text-secondary">
+                  {stage.what}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <p className="m-0 max-w-[76ch] text-[14px] leading-[1.7] text-text-muted">
+            Sections 4 to 10 sit in the eighteen-month tranche of the
+            commencement notification, so these duties bite in mid-May 2027. The
+            Rules are already notified, which means what they will require is
+            known rather than speculative — see{" "}
+            <Link href={routes.rules} className="font-semibold text-primary-text">
+              the commencement timeline
+            </Link>{" "}
+            and{" "}
+            <Link href={routes.spdi} className="font-semibold text-primary-text">
+              what binds you until then
+            </Link>
+            .
+          </p>
         </div>
       </section>
 

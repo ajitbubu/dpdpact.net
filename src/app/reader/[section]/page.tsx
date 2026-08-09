@@ -19,7 +19,7 @@ import {
 import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { ACT } from "@/lib/dpdpa-data";
 import { routes } from "@/lib/routes";
-import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
+import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -79,6 +79,7 @@ export default async function ActSectionPage({
         inLanguage: "en",
         url,
         dateModified: CONTENT_UPDATED,
+        isBasedOn: ACT_SOURCE_PDF,
         isPartOf: {
           "@type": "Legislation",
           name: ACT.title,
@@ -149,8 +150,17 @@ export default async function ActSectionPage({
                 )}
               </h1>
               <p className="m-0 text-[14px] leading-[1.7] text-text-muted">
-                {ACT.title} ({ACT.actNo}) · assented {ACT.assent} · statutory
-                text as published in the Gazette of India.
+                {ACT.title} ({ACT.actNo}) · assented {ACT.assent} · reproduced
+                verbatim from{" "}
+                <a
+                  href={ACT_SOURCE_PDF}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-primary-text"
+                >
+                  the Act as published by MeitY (PDF)
+                </a>
+                .
               </p>
             </div>
           </div>
