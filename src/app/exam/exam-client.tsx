@@ -23,7 +23,7 @@ const LETTERS = ["A", "B", "C", "D"];
 
 const PASS_COUNT = Math.ceil((PASS_MARK / 100) * EXAM_COUNT);
 
-export function ExamClient() {
+export function ExamClient({ faq }: { faq?: React.ReactNode }) {
   const [phase, setPhase] = React.useState<"intro" | "live" | "result">("intro");
   const [nameInput, setNameInput] = React.useState<string | null>(null);
   const [nameError, setNameError] = React.useState(false);
@@ -485,6 +485,10 @@ export function ExamClient() {
           )}
         </div>
       </section>
+
+      {/* Intro only. Once the clock is running it is a distraction, and on the
+          result screen the questions have already been answered. */}
+      {phase === "intro" && faq}
 
       <SiteFooter />
     </div>
