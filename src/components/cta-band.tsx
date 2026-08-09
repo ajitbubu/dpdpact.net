@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import { LinkButton } from "@/components/ui/button";
 
 /**
@@ -12,8 +13,8 @@ export function CtaBand({
 }: {
   heading: string;
   sub: string;
-  secondary: { href: string; label: string };
-  primary: { href: string; label: string };
+  secondary: { href: Route; label: string };
+  primary: { href: Route; label: string };
 }) {
   return (
     <section className="border-t border-border bg-[var(--bg-sunken)]">

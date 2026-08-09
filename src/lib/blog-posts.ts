@@ -1,3 +1,5 @@
+import type { Route } from "next";
+
 export interface BlogSection {
   heading: string;
   paragraphs: string[];
@@ -15,7 +17,7 @@ export interface BlogPost {
   intro: string;
   sections: BlogSection[];
   sources: { label: string; href: string }[];
-  related: { label: string; href: string }[];
+  related: { label: string; href: Route }[];
 }
 
 const RULES_SOURCE =
@@ -261,8 +263,8 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "DPDP Rules, 2025 Gazette", href: RULES_SOURCE },
     ],
     related: [
-      { label: "Consent notice guide", href: "/blog/dpdp-consent-notice-guide" },
-      { label: "Breach notification guide", href: "/blog/dpdp-breach-notification-guide" },
+      { label: "Consent notice guide", href: blogPath("dpdp-consent-notice-guide") },
+      { label: "Breach notification guide", href: blogPath("dpdp-breach-notification-guide") },
     ],
   },
   {
@@ -401,7 +403,7 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "Act commencement notification", href: COMMENCEMENT_SOURCE },
     ],
     related: [
-      { label: "Data Principal request workflow", href: "/blog/data-principal-request-workflow" },
+      { label: "Data Principal request workflow", href: blogPath("data-principal-request-workflow") },
       { label: "Compliance checklist", href: "/dpdp-compliance-checklist" },
     ],
   },
@@ -450,8 +452,8 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "DPDP Rules, 2025 Gazette — rule 6", href: RULES_SOURCE },
     ],
     related: [
-      { label: "DPDP guide for SaaS companies", href: "/blog/dpdp-act-for-saas-companies" },
-      { label: "Breach notification guide", href: "/blog/dpdp-breach-notification-guide" },
+      { label: "DPDP guide for SaaS companies", href: blogPath("dpdp-act-for-saas-companies") },
+      { label: "Breach notification guide", href: blogPath("dpdp-breach-notification-guide") },
     ],
   },
   {
@@ -499,11 +501,35 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "DPDP Rules, 2025 Gazette — rules 3 and 6", href: RULES_SOURCE },
     ],
     related: [
-      { label: "Consent notice guide", href: "/blog/dpdp-consent-notice-guide" },
-      { label: "Startup 90-day readiness plan", href: "/blog/dpdp-act-for-startups" },
+      { label: "Consent notice guide", href: blogPath("dpdp-consent-notice-guide") },
+      { label: "Startup 90-day readiness plan", href: blogPath("dpdp-act-for-startups") },
     ],
   },
 ];
+
+/**
+ * Every slug that actually exists, as a type.
+ *
+ * `typedRoutes` validates static routes but accepts anything after `/blog/`,
+ * so it cannot catch a renamed post. This can: `blogPath` only compiles for a
+ * slug that is really in `BLOG_POSTS` (or the hand-built primer route).
+ */
+export type BlogSlug =
+  | "dpdp-consent-notice-guide"
+  | "dpdp-breach-notification-guide"
+  | "data-principal-request-workflow"
+  | "dpdp-act-for-startups"
+  | "dpdp-act-for-saas-companies"
+  | "childrens-data-under-dpdp"
+  | "data-protection-officer-india-dpdp"
+  | "dpdp-data-retention-erasure-guide"
+  | "dpdp-processor-contracts-vendor-management"
+  | "dpdp-data-inventory-purpose-mapping"
+  | "dpdp-act-2023-practical-primer";
+
+export function blogPath(slug: BlogSlug): Route {
+  return `/blog/${slug}` as Route;
+}
 
 export function getBlogPost(slug: string) {
   return BLOG_POSTS.find((post) => post.slug === slug);

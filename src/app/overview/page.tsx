@@ -5,10 +5,12 @@ import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
 import { Faq } from "@/components/faq";
 import { PageHero } from "@/components/page-hero";
+import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { blogPath } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
 
 const BIG_IDEAS = [
@@ -102,6 +104,7 @@ export default function OverviewPage() {
 
       <PageHero
         breadcrumb="Overview & Scope"
+        path="/overview"
         eyebrow="Chapter I · Sections 1–3"
         title="What the Act Governs,"
         titleAccent="And Where It Stops"
@@ -240,6 +243,30 @@ export default function OverviewPage() {
         sub="The practice test is free, unlimited, and shows the governing provision after every answer."
         secondary={{ href: routes.practiceTest, label: "Practice Test" }}
         primary={{ href: routes.roles, label: "Next: Key Roles" }}
+      />
+
+      <RelatedGuides
+        heading="Where to start"
+        guides={[
+          {
+            href: blogPath("dpdp-act-2023-practical-primer"),
+            label: "The DPDP Act, 2023: a practical primer",
+            blurb:
+              "Scope, lawful grounds, obligations and rights, with a practical starting point.",
+          },
+          {
+            href: blogPath("dpdp-act-for-startups"),
+            label: "DPDP readiness for Indian startups: the first 90 days",
+            blurb:
+              "Data mapping, notices, consent, vendors, rights, retention and breach response.",
+          },
+          {
+            href: blogPath("dpdp-act-for-saas-companies"),
+            label: "DPDP for SaaS companies: map the role before the controls",
+            blurb:
+              "Customer, workforce and product data as a Data Fiduciary, a processor, or both.",
+          },
+        ]}
       />
 
       <EditorialReview />

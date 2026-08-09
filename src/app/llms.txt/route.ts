@@ -42,15 +42,42 @@ pages are editorial summaries and cite the provisions they describe.
 - Regulator: the Data Protection Board of India (sections 18–26)
 - Appeals: to the Appellate Tribunal (TDSAT) within 60 days, section 29
 
+## Commencement — commonly stated incorrectly
+
+The Act commences in tranches under section 1(2), and not every provision is in
+force. Three points are widely misreported:
+
+- Section 44(2), which omits section 43A of the Information Technology Act,
+  2000, has NOT commenced. Section 43A remains live law.
+- The SPDI Rules, 2011 therefore remain in force. They were framed under
+  section 87(2)(ob) of the IT Act, which the same sub-section omits. Both
+  fall away when section 44(2) commences, eighteen months after the Rules were
+  published on 13 November 2025.
+- Section 44(3) HAS commenced. It substituted section 8(1)(j) of the Right to
+  Information Act, 2005 with a flat exemption for "information which relates
+  to personal information".
+
+## Statutory text
+
+Every provision has its own page, so a specific section can be cited directly:
+
+- ${SITE_URL}/reader/section-1 through ${SITE_URL}/reader/section-44
+- ${SITE_URL}/reader/schedule — the Schedule of penalties
+- [Complete Act on one page](${SITE_URL}/reader/full-text): all 44 sections and the Schedule, verbatim
+
 ## Pages
 
-- [Full text reader](${SITE_URL}/reader): all 44 sections and the Schedule, verbatim, with search
+- [Act reader](${SITE_URL}/reader): chapter navigation, search and reading progress, and the index over the per-section pages above
 - [Overview and scope](${SITE_URL}/overview): Chapter I, sections 1–3 — what the Act governs and the exemptions in section 17
 - [Key roles](${SITE_URL}/roles): Data Principal, Data Fiduciary, Data Processor, Consent Manager, Significant Data Fiduciary, the Board
 - [Rights and duties](${SITE_URL}/rights): Chapter III, sections 11–15
 - [Obligations](${SITE_URL}/obligations): Chapter II, sections 4–10 — notice, consent, safeguards, breach reporting, erasure
 - [Penalties](${SITE_URL}/penalties): Chapters VI–VIII and the Schedule
 - [DPDP Rules 2025](${SITE_URL}/dpdp-rules-2025): notified rules, phased commencement dates and implementation changes
+- [SPDI Rules vs the DPDP Act](${SITE_URL}/dpdp-vs-spdi-rules): what section 44 repeals and amends, what is still binding, and the dates each takes effect
+- [DPDP vs GDPR](${SITE_URL}/dpdp-vs-gdpr): provision-level comparison — no legitimate-interest basis, no sensitive-data tier, no portability or objection rights, penalties instead of compensation
+- [Consent Managers](${SITE_URL}/consent-manager): sections 2(g) and 6(7)–(9), and the Rule 4 registration conditions
+- [Significant Data Fiduciary](${SITE_URL}/significant-data-fiduciary): section 10 designation, the India-based DPO, independent audit, annual DPIA and targeted localisation
 - [DPDP compliance checklist](${SITE_URL}/dpdp-compliance-checklist): 24 evidence-focused controls saved privately in the browser
 - [Blog](${SITE_URL}/blog): practical explainers and implementation notes about the DPDP Act
 - [Editorial policy](${SITE_URL}/editorial-policy): source hierarchy, review standards and correction process

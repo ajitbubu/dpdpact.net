@@ -1,5 +1,6 @@
 "use client";
 
+import type { Route } from "next";
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { routes, type NavKey } from "@/lib/routes";
 
 /** The four study pages, grouped behind the "DPDP" tab. */
-const DPDP_ITEMS: { key: NavKey; href: string; label: string; note: string }[] =
+const DPDP_ITEMS: { key: NavKey; href: Route; label: string; note: string }[] =
   [
     {
       key: "roles",
@@ -41,19 +42,31 @@ const DPDP_ITEMS: { key: NavKey; href: string; label: string; note: string }[] =
       label: "DPDP Rules 2025",
       note: "Phased commencement · 2025–2027",
     },
+    {
+      key: "rules",
+      href: routes.spdi,
+      label: "SPDI Rules vs DPDP",
+      note: "What is repealed, and what still binds you today",
+    },
+    {
+      key: "overview",
+      href: routes.gdpr,
+      label: "DPDP vs GDPR",
+      note: "Where the two regimes genuinely diverge",
+    },
   ];
 
 const DPDP_KEYS = DPDP_ITEMS.map((i) => i.key);
 
 /** Top-level items that sit outside the DPDP group. */
-const TOP_ITEMS: { key: NavKey; href: string; label: string }[] = [
+const TOP_ITEMS: { key: NavKey; href: Route; label: string }[] = [
   { key: "overview", href: routes.overview, label: "Overview" },
   { key: "reader", href: routes.reader, label: "Learn" },
   { key: "blog", href: routes.blog, label: "Blog" },
   { key: "cert", href: routes.certification, label: "Certification" },
 ];
 
-const MOBILE_TAIL: { href: string; label: string }[] = [
+const MOBILE_TAIL: { href: Route; label: string }[] = [
   { href: routes.reader, label: "Full Text Reader" },
   { href: routes.blog, label: "Blog" },
   { href: routes.certification, label: "Certification" },

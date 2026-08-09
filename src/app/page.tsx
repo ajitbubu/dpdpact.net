@@ -82,7 +82,7 @@ const PROMISES = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "DPDP Academy — Learn the DPDP Act 2023, Certify Free",
+  title: "India's DPDP Act 2023 — Learn Free, Get Certified",
   description:
     "Study India's DPDP Act, 2023 section by section, practise with cited answers, and earn a free certificate through a graded online exam.",
   alternates: { canonical: "/" },

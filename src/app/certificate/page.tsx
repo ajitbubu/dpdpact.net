@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   description:
     "View, personalise and print your Certified DPDP Practitioner certificate, with its credential ID and verification line.",
   alternates: { canonical: "/certificate" },
+  // Renders one visitor's own certificate from local state. There is no
+  // shared document here to index, and `/certificate/standalone` is already
+  // noindexed for the same reason.
+  robots: { index: false, follow: true },
 };
 
 export default function CertificatePage() {

@@ -27,6 +27,7 @@ export default function DpdpComplianceChecklistPage() {
       <main>
         <PageHero
           breadcrumb="DPDP Compliance Checklist"
+          path="/dpdp-compliance-checklist"
           eyebrow={CHECKLIST_TOTAL + " controls · Saved on this device"}
           title="Turn the DPDP Framework"
           titleAccent="Into Owned Evidence"

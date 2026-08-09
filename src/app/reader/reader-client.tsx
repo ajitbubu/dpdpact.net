@@ -184,7 +184,16 @@ function Highlight({ parts }: { parts: Segment[] }) {
   );
 }
 
-export function ReaderClient() {
+/**
+ * `footerSlot` renders between the reading pane and the site footer.
+ *
+ * It exists because this component owns its own `SiteNav` and `SiteFooter`,
+ * unlike every other page, which composes them in `page.tsx`. Anything the
+ * route appended after `<ReaderClient />` therefore landed *below* the footer.
+ * Passing it in as a prop keeps the node server-rendered — a server component
+ * handed to a client component as a prop is not pulled into the client bundle.
+ */
+export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
   const [q, setQ] = React.useState("");
   const [modeOverride, setModeOverride] = React.useState<
     "toc" | "search" | "read" | null
@@ -1085,6 +1094,8 @@ export function ReaderClient() {
           </div>
         </main>
       </div>
+
+      {footerSlot}
 
       <SiteFooter />
     </>

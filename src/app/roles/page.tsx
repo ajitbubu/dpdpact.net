@@ -11,9 +11,11 @@ import {
 import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
+import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Card } from "@/components/ui/card";
+import { blogPath } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
 import { SITE_URL } from "@/lib/site";
 
@@ -137,6 +139,7 @@ export default function RolesPage() {
 
       <PageHero
         breadcrumb="Key Roles"
+        path="/roles"
         eyebrow="Section 2 · Section 10 · Sections 18–26"
         title="Six Defined Roles Carry"
         titleAccent="Every Obligation"
@@ -212,6 +215,24 @@ export default function RolesPage() {
         sub="Run a practice set now while the definitions are fresh."
         secondary={{ href: routes.practiceTest, label: "Practice Test" }}
         primary={{ href: routes.rights, label: "Next: Rights & Duties" }}
+      />
+
+      <RelatedGuides
+        heading="Who does what, in practice"
+        guides={[
+          {
+            href: blogPath("data-protection-officer-india-dpdp"),
+            label: "When does the DPDP Act require a Data Protection Officer?",
+            blurb:
+              "What section 10 requires of a Significant Data Fiduciary, and what everyone else should prepare.",
+          },
+          {
+            href: blogPath("dpdp-processor-contracts-vendor-management"),
+            label: "DPDP processor contracts: clauses operations can prove",
+            blurb:
+              "Instructions, safeguards, incidents, rights support, retention and evidence.",
+          },
+        ]}
       />
 
       <EditorialReview />

@@ -1,10 +1,14 @@
 /**
  * DPDP Academy service worker.
  *
- * Hand-written rather than generated. The app is 20 statically prerendered
+ * Hand-written rather than generated. The app is ~70 statically prerendered
  * routes with no API and content-hashed assets, so the main thing a plugin
  * buys you — injecting a precache manifest of build output — is unnecessary
  * here, and Next 16 builds with Turbopack, which the usual plugins hook around.
+ *
+ * The 45 per-provision routes under /reader are deliberately NOT in
+ * PRECACHE_URLS: precaching them would pull ~2.7 MB of documents most visitors
+ * never open, on every CACHE_VERSION bump. They are runtime-cached on visit.
  *
  * Strategy, by request type:
  *   /_next/static/*  cache-first      content-hashed, so a hit is always correct
@@ -15,7 +19,7 @@
  * Bump CACHE_VERSION to invalidate everything.
  */
 
-const CACHE_VERSION = "v11";
+const CACHE_VERSION = "v12";
 const PRECACHE = `dpdp-precache-${CACHE_VERSION}`;
 const RUNTIME = `dpdp-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { CertificationClient } from "./certification-client";
 import { Faq } from "@/components/faq";
+import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { SITE_URL } from "@/lib/site";
 
 const FAQ = [
@@ -77,6 +78,16 @@ export default function CertificationPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            breadcrumbSchema([
+              { name: "Certification", path: "/certification" },
+            ]),
+          ),
+        }}
       />
       <CertificationClient faq={<Faq items={FAQ} heading="Certification, answered" />} />
     </>
