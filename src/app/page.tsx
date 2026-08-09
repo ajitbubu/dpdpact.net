@@ -82,9 +82,18 @@ const PROMISES = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "India's DPDP Act 2023 — Learn Free, Get Certified",
+  // Written out in full rather than relying on the root layout's `%s | DPDP
+  // Academy` template: a template does not apply to the segment that declares
+  // it, so `app/page.tsx` renders whatever it sets here verbatim. Every other
+  // route gets the suffix appended and must not repeat it.
+  title: "DPDP Act 2023 & Rules 2025 | DPDP Academy",
   description:
-    "Study India's DPDP Act, 2023 section by section, practise with cited answers, and earn a free certificate through a graded online exam.",
+    "Learn India's DPDP Act 2023 and DPDP Rules 2025 through practical guides, compliance checklists, practice tests and certification resources.",
+  // Next normalises a lone trailing slash off resolved metadata URLs, so this
+  // emits `https://dpdpact.net` whether it is written as "/" or as the full
+  // origin plus a slash. The two are the same URL (RFC 3986 §6.2.3 normalises
+  // an empty path to "/"), so forcing the slash would need `trailingSlash` in
+  // next.config, which would rewrite every route on the site to earn nothing.
   alternates: { canonical: "/" },
 };
 

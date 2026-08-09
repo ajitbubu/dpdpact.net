@@ -4,6 +4,10 @@ import Link from "next/link";
 import { routes } from "@/lib/routes";
 
 const ACT_LINKS = [
+  // Home, described by what it is rather than "Home". Anchor text is the only
+  // thing an internal link tells a crawler about its target, and "Home" says
+  // nothing; this appears on every page on the site.
+  { href: routes.home, label: "DPDP Act 2023" },
   { href: routes.overview, label: "Overview & scope" },
   { href: routes.roles, label: "Key roles" },
   { href: routes.rights, label: "Rights & duties" },
@@ -40,9 +44,17 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-[var(--bg-sunken)] font-sans text-text">
       <div className="mx-auto grid w-full max-w-[1180px] grid-cols-[repeat(auto-fit,minmax(212px,1fr))] gap-[var(--space-7)] px-[var(--space-5)] pb-[var(--space-6)] pt-[var(--space-8)]">
         <div className="flex flex-col gap-[12px]">
-          <span className="font-display text-[18px] font-semibold leading-none tracking-[-0.02em] text-text">
+          {/*
+           * A link, not a bare wordmark. The header logo was the only route
+           * back to the homepage, and a logo is weak as an internal link: the
+           * anchor text is what tells a crawler what the target is about.
+           */}
+          <Link
+            href={routes.home}
+            className="font-display text-[18px] font-semibold leading-none tracking-[-0.02em] text-text transition-colors hover:text-primary-text"
+          >
             DPDP<span className="text-primary-text">Academy</span>
-          </span>
+          </Link>
           <p className="max-w-[34ch] text-[14px] leading-[1.7] text-text-secondary">
             Study the Digital Personal Data Protection Act, 2023 section by
             section — then prove it with a graded certification.
