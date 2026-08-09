@@ -1,0 +1,68 @@
+name: IndexNow
+
+# Fires on merge to main, which is what deploys to dpdpact.net.
+#
+# Deliberately not a pre-push hook. IndexNow means "this URL changed, come
+# look" — sending it before the deploy points Bing at the old page, or at a
+# URL that does not exist yet. The only honest moment to submit is after
+# production is serving the new build, so this waits for that first.
+on:
+  push:
+    branches: [main]
+
+# Never run two submissions at once, and never cancel one in flight: a
+# half-sent batch is worse than a late one.
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # Vercel stamps every response with the deployment that served it. Wait
+      # for that id to change, which is the signal the new build is live —
+      # rather than sleeping a fixed guess and hoping.
+      - name: Wait for the production deploy
+        id: wait
+        run: |
+          dpl() {
+            curl -s --max-time 15 https://dpdpact.net/ \
+              | grep -o 'data-dpl-id="[^"]*"' | head -1
+          }
+
+          before=$(dpl)
+          echo "deployment before: ${before:-unknown}"
+
+          if [ -z "$before" ]; then
+            echo "Could not read a deployment id; waiting a fixed 90s instead."
+            sleep 90
+            exit 0
+          fi
+
+          for i in $(seq 1 40); do
+            sleep 15
+            now=$(dpl)
+            if [ -n "$now" ] && [ "$now" != "$before" ]; then
+              echo "deployment after:  $now"
+              echo "new build live after ~$((i * 15))s"
+              exit 0
+            fi
+          done
+
+          # Not a failure. The workflow can start after Vercel has already
+          # finished, in which case the id never changes from our first read.
+          # Submitting a live URL slightly early is harmless; skipping the
+          # submission entirely is not.
+          echo "::warning::Deployment id did not change within 10 minutes — submitting anyway."
+
+      # The script re-checks the key file and rejects off-host URLs before it
+      # sends anything, so a broken deploy fails here rather than at Bing.
+      - name: Submit sitemap URLs to IndexNow
+        run: node scripts/indexnow.mjs
