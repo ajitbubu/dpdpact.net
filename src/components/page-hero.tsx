@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import * as React from "react";
 import Link from "next/link";
 
@@ -5,7 +6,7 @@ import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { routes } from "@/lib/routes";
 
 /**
- * PageHero — the masthead the five study pages share: breadcrumb, provision
+ * PageHero - the masthead the five study pages share: breadcrumb, provision
  * eyebrow, a two-tone headline and a lede. `children` renders under the lede
  * (Overview uses it for its badge row).
  *
@@ -15,6 +16,7 @@ import { routes } from "@/lib/routes";
  */
 export function PageHero({
   breadcrumb,
+  parent,
   path,
   eyebrow,
   title,
@@ -23,6 +25,9 @@ export function PageHero({
   children,
 }: {
   breadcrumb: string;
+  /** One crumb between Home and this page, for routes nested a level deeper.
+   * Rendered in both the visual trail and the schema, so they stay in step. */
+  parent?: { name: string; path: Route };
   /** Canonical path, used for the `BreadcrumbList`. Required so a page cannot
    * render the visual trail while silently emitting no schema. */
   path: string;
@@ -39,7 +44,11 @@ export function PageHero({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(
-              breadcrumbSchema([{ name: breadcrumb, path }]),
+              breadcrumbSchema(
+                parent
+                  ? [parent, { name: breadcrumb, path }]
+                  : [{ name: breadcrumb, path }],
+              ),
             ),
           }}
         />
@@ -50,6 +59,17 @@ export function PageHero({
             Home
           </Link>
           <span>/</span>
+          {parent ? (
+            <>
+              <Link
+                href={parent.path}
+                className="text-text-muted no-underline hover:text-primary-text"
+              >
+                {parent.name}
+              </Link>
+              <span>/</span>
+            </>
+          ) : null}
           <span className="text-text-secondary">{breadcrumb}</span>
         </div>
 

@@ -20,6 +20,7 @@ export const routes = {
   applicability: "/dpdp-applicability",
   penaltyCalculator: "/dpdp-penalty-calculator",
   editorialPolicy: "/editorial-policy",
+  implementation: "/implementation",
   reader: "/reader",
   readerFullText: "/reader/full-text",
   blog: "/blog",
@@ -41,6 +42,7 @@ export type NavKey =
   | "obligations"
   | "penalties"
   | "rules"
+  | "implementation"
   | "reader"
   | "blog"
   | "cert";
