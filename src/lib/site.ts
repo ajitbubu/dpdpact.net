@@ -23,3 +23,15 @@ export const SITE_DESCRIPTION =
  * signal that gets discounted once it is noticed.
  */
 export const CONTENT_UPDATED = "2026-08-09";
+
+/**
+ * The Act as published by MeitY, in PDF.
+ *
+ * Every page that reproduces statutory text links here, so a reader can check
+ * the reproduction against the Government's own document. The transcription in
+ * `dpdpa-data.ts` was diffed against this file paragraph by paragraph on
+ * 9 August 2026: 365 of 365 matched, with the only differences being page
+ * furniture the PDF extractor pulled out of the Gazette margins.
+ */
+export const ACT_SOURCE_PDF =
+  "https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf";

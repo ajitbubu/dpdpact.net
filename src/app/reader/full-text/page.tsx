@@ -9,7 +9,7 @@ import { getActPart } from "@/lib/act-sections";
 import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { ACT, CHAPTERS } from "@/lib/dpdpa-data";
 import { routes } from "@/lib/routes";
-import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
+import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: { absolute: "DPDP Act 2023 — Full Text of All 44 Sections" },
@@ -43,6 +43,7 @@ const schema = {
       inLanguage: "en",
       url,
       dateModified: CONTENT_UPDATED,
+      isBasedOn: ACT_SOURCE_PDF,
       description: ACT.longTitle,
     },
     breadcrumbSchema([
@@ -97,7 +98,16 @@ export default function ActFullTextPage() {
                 {ACT.longTitle}
               </p>
               <p className="m-0 max-w-[68ch] text-[13.5px] leading-[1.7] text-text-muted">
-                {ACT.gazette}
+                {ACT.gazette}{" "}
+                <a
+                  href={ACT_SOURCE_PDF}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-primary-text"
+                >
+                  Read the official MeitY PDF
+                </a>
+                .
               </p>
               <div className="mt-[6px] flex flex-wrap gap-[10px]">
                 <LinkButton href={routes.reader} variant="secondary">

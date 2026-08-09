@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
+import { ProvisionNotes } from "@/components/provision-notes";
 import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -43,6 +44,68 @@ const DUTIES = [
   "Do not suppress material information when applying for a State-issued document, identifier or proof of identity or address. § 15(c)",
   "Do not register a false or frivolous grievance or complaint with a Data Fiduciary or the Board. § 15(d)",
   "Furnish only verifiably authentic information when exercising correction or erasure. § 15(e)",
+];
+
+
+/**
+ * What the Rules require before any of these rights can actually be used.
+ *
+ * The Act grants the rights; rule 14 and rule 9 are what make them
+ * exercisable, and they put concrete numbers on two things the Act left open.
+ */
+const EXERCISE = [
+  {
+    ref: "Rule 14(1)",
+    title: "Publish the means, and the identifier you need",
+    body: "The Data Fiduciary — and the Consent Manager where applicable — must prominently publish, on its website or app or both, the means by which a request can be made, and the particulars such as a username or other identifier it needs in order to identify her under its terms of service.",
+    note: "Both halves matter. A contact form with no statement of what identifies the requester puts the burden back on her, which is the opposite of what the rule asks.",
+  },
+  {
+    ref: "Rule 14(3)",
+    title: "Ninety days, and it is a ceiling",
+    body: "Section 13(2) required a response to grievances within “such period as may be prescribed”. The Rules fix it: a reasonable period not exceeding ninety days, published prominently, with appropriate technical and organisational measures implemented to make the system actually respond within it.",
+    note: "Ninety days is the outer limit, not a target. The rule asks for a reasonable period and then caps it — publishing “90 days” while routinely taking 89 is not obviously compliance with the first half.",
+  },
+  {
+    ref: "Rule 9",
+    title: "The contact has to travel with the answer",
+    body: "Publish the business contact information of the Data Protection Officer, if applicable, or of a person who can answer questions about the processing — and repeat it in every response to a communication exercising a right.",
+    note: "The second limb is easy to miss in an automated reply. It is a template change, not a policy change.",
+  },
+  {
+    ref: "Rule 14(4)",
+    title: "Nomination can be more than one person",
+    body: "She may nominate one or more individuals, in accordance with the Fiduciary's terms of service and applicable law, using the means and particulars it requires.",
+    note: "So a nomination field is not a single optional text box. It is a list, and it has to survive the death or incapacity it exists for.",
+  },
+];
+
+/** The limits and quirks that decide how these rights behave in practice. */
+const LIMITS = [
+  {
+    ref: "§ 11(2)",
+    title: "The sharing disclosure has a carve-out",
+    body: "The right to learn who your data was shared with does not apply where it was shared with another Data Fiduciary authorised by law to obtain it, in connection with the prevention, detection or investigation of offences or cyber incidents, or prosecution or punishment.",
+    note: "So an access response can be complete and still not list every recipient. The gap is lawful, and it is worth knowing before you assume a disclosure was incomplete.",
+  },
+  {
+    ref: "§ 12(3)",
+    title: "Erasure yields to a retention obligation",
+    body: "On a request the Data Fiduciary must erase — unless retention is necessary for the specified purpose or for compliance with any law in force.",
+    note: "The second limb is why a deletion request does not empty a ledger a tax statute requires you to keep.",
+  },
+  {
+    ref: "§ 13(3)",
+    title: "She must come to you first",
+    body: "The Data Principal shall exhaust the opportunity of redressing her grievance under section 13 before approaching the Board.",
+    note: "A working grievance mechanism is therefore a genuine filter on regulatory exposure, not just a compliance artefact — every complaint it resolves is one that never reaches section 27(1)(b).",
+  },
+  {
+    ref: "§ 15",
+    title: "Rights come with enforceable duties",
+    body: "Five duties sit on the Data Principal: comply with applicable law when exercising rights, do not impersonate, do not suppress material information for a State-issued document, do not register a false or frivolous grievance, and furnish only verifiably authentic information when seeking correction or erasure.",
+    note: "Breach of these is a penalty head in the Schedule, capped at ₹10,000. GDPR has no equivalent — it places no obligations on the data subject at all.",
+  },
 ];
 
 export const metadata: Metadata = {
@@ -160,6 +223,21 @@ export default function RightsPage() {
               "Verifiable parental consent, age assurance and the notified exemptions.",
           },
         ]}
+      />
+
+      <ProvisionNotes
+        eyebrow="Rule 14 · Rule 9"
+        heading="What makes a right exercisable"
+        intro="A right nobody can find is not much of a right. The Rules turn sections 11 to 14 into published means, a named identifier, a response deadline and a contact that travels with every answer."
+        items={EXERCISE}
+      />
+
+      <ProvisionNotes
+        eyebrow="The fine print"
+        heading="Four limits worth knowing before you build"
+        intro="Each of these changes how a request is handled, and none of them is obvious from the section headings alone."
+        items={LIMITS}
+        tone="sunken"
       />
 
       <EditorialReview />

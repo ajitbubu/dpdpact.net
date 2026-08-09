@@ -11,6 +11,7 @@ import {
 import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
+import { ProvisionNotes } from "@/components/provision-notes";
 import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -119,6 +120,71 @@ const glossarySchema = {
     })),
   ],
 };
+
+
+/**
+ * Who can actually be held to account, and for what.
+ *
+ * The cards above define the roles. This is the part that decides outcomes:
+ * the Act loads almost everything onto the Data Fiduciary and reaches the
+ * processor only through a contract.
+ */
+const LIABILITY = [
+  {
+    ref: "§ 2(s)",
+    title: "Almost anything can be a Data Fiduciary",
+    body: "“Person” includes an individual, a Hindu undivided family, a company, a firm, an association of persons or body of individuals whether incorporated or not, the State, and every artificial juristic person not already covered.",
+    note: "The State is inside the definition, not outside it. A government department determining purpose and means is a Data Fiduciary, subject to the exemptions in sections 7 and 17.",
+  },
+  {
+    ref: "§ 2(i)",
+    title: "The test is purpose and means, not possession",
+    body: "A Data Fiduciary is any person who, alone or with others, determines the purpose and means of processing. Holding the data is neither necessary nor sufficient — deciding why and how is what makes you one.",
+    note: "“In conjunction with other persons” means two organisations can be Fiduciaries for the same processing. The Act sets out no apportionment between them.",
+  },
+  {
+    ref: "§ 2(k) · § 8(2)",
+    title: "The processor has no direct duties under the Act",
+    body: "A Data Processor is any person who processes personal data on behalf of a Data Fiduciary. The Act does not impose obligations on it directly. Section 8(2) instead requires the Data Fiduciary to engage one only under a valid contract.",
+    note: "This is a genuine structural break from GDPR, where Article 28 binds processors directly and a supervisory authority can act against them. Here, the contract is the whole of the mechanism.",
+  },
+  {
+    ref: "§ 8(1)",
+    title: "And the Fiduciary answers for the processor anyway",
+    body: "The Data Fiduciary is responsible for compliance irrespective of any agreement to the contrary, and irrespective of any failure by the Data Principal to carry out her duties.",
+    note: "So a processor contract allocates work and cost, never liability. When a processor loses data, the Board still looks at the Data Fiduciary.",
+  },
+  {
+    ref: "§ 6(8)",
+    title: "The Consent Manager answers to her, not to you",
+    body: "The one role the Act points away from the Data Fiduciary. A Consent Manager is accountable to the Data Principal and acts on her behalf, even though the commercial relationship runs the other way.",
+  },
+];
+
+/** §§ 18–26: the Board as an institution, not just a regulator. */
+const BOARD = [
+  {
+    ref: "§ 18 · § 19",
+    title: "A body corporate, appointed by the Government",
+    body: "Established by the Central Government, with a Chairperson and Members appointed on the qualifications section 19 sets. Their salary and terms are prescribed by rules, and cannot be varied to their disadvantage after appointment.",
+  },
+  {
+    ref: "§ 20(2)",
+    title: "Two-year terms, renewable",
+    body: "The Chairperson and every Member hold office for two years and are eligible for re-appointment. Short, by the standards of Indian regulators, and the renewability is the part worth noticing.",
+    note: "The Fifth Schedule to the Rules fixes the pay: ₹4,50,000 a month for the Chairperson, ₹4,00,000 for other Members, consolidated, without house or car.",
+  },
+  {
+    ref: "§ 28(1)",
+    title: "A digital office by design",
+    body: "The Board functions as far as practicable as a digital office — receipt of complaints, allocation, hearing and pronouncement of decisions all conducted digitally, without requiring anyone to appear in person.",
+  },
+  {
+    ref: "§ 25",
+    title: "Members and officers are public servants",
+    body: "Deemed public servants within the meaning of section 21 of the Indian Penal Code, which brings the offences and protections attaching to that status.",
+  },
+];
 
 export const metadata: Metadata = {
   title: "DPDP Act Key Roles Explained",
@@ -233,6 +299,21 @@ export default function RolesPage() {
               "Instructions, safeguards, incidents, rights support, retention and evidence.",
           },
         ]}
+      />
+
+      <ProvisionNotes
+        eyebrow="Who carries the risk"
+        heading="The roles are a liability map"
+        intro="Defining the six roles is the easy half. The half that decides outcomes is which of them the Act can actually hold to account — and the answer is lopsided."
+        items={LIABILITY}
+      />
+
+      <ProvisionNotes
+        eyebrow="§§ 18–26 · The Board"
+        heading="The regulator, as an institution"
+        intro="The Data Protection Board is the only body that can impose a penalty under this Act, and the only forum — section 39 bars civil courts from matters it is empowered to decide."
+        items={BOARD}
+        tone="sunken"
       />
 
       <EditorialReview />

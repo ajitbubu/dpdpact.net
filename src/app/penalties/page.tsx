@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Gavel, Handshake, Search } from "lucide-react";
+import Link from "next/link";
 
 import { PageHero } from "@/components/page-hero";
 import { EditorialReview } from "@/components/editorial-review";
+import { PenaltyPath } from "@/components/diagrams";
+import { ProvisionNotes } from "@/components/provision-notes";
 import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -84,6 +87,39 @@ const FACTORS = [
   "Mitigation, and how timely it was",
   "Proportionality and deterrence",
   "Likely impact on the person",
+];
+
+
+/**
+ * § 27(1): how a matter reaches the Board at all.
+ *
+ * The page already covers what happens once an inquiry starts. This is the
+ * step before it, and the first entry is the one that surprises people.
+ */
+const INTAKE = [
+  {
+    ref: "§ 27(1)(a)",
+    title: "Your own breach report",
+    body: "On receiving an intimation of a personal data breach under section 8(6), the Board may direct urgent remedial or mitigation measures, and inquire into the breach.",
+    note: "Reporting is mandatory and reporting is a trigger. The duty to notify under section 8(6) and the exposure to inquiry run through the same event, which is why the mitigation you can evidence matters so much at the section 33(2) stage.",
+  },
+  {
+    ref: "§ 27(1)(b)",
+    title: "A Data Principal's complaint",
+    body: "About a personal data breach, about a Data Fiduciary's observance of its obligations in relation to her personal data, or about the exercise of her rights.",
+    note: "She must exhaust the Fiduciary's own grievance mechanism first — section 13(3) — so a working grievance process is a genuine filter, not just a compliance box.",
+  },
+  {
+    ref: "§ 27(1)(c)–(d)",
+    title: "Consent Manager failures",
+    body: "A complaint about a Consent Manager's obligations towards her personal data, or an intimation that one has broken a condition of its registration.",
+    note: "Relevant from November 2026, when registration opens under Rule 4.",
+  },
+  {
+    ref: "§ 27(1)(e)",
+    title: "A Government reference about an intermediary",
+    body: "Where the Central Government refers a breach of section 37(2) — an intermediary failing to comply with a blocking direction.",
+  },
 ];
 
 export const metadata: Metadata = {
@@ -257,6 +293,117 @@ export default function PenaltiesPage() {
           },
         ]}
       />
+
+
+      <section className="border-t border-border bg-[var(--bg-app)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[20px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <div>
+            <span className="mb-[10px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+              At a glance
+            </span>
+            <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              How a breach becomes a number
+            </h2>
+          </div>
+          <PenaltyPath />
+        </div>
+      </section>
+
+      <ProvisionNotes
+        eyebrow="§ 27(1) · Before any inquiry"
+        heading="Four ways a matter reaches the Board"
+        intro="The page above covers how an inquiry runs. This is the step before it — and the first route in is the one organisations underestimate."
+        items={INTAKE}
+      />
+
+      <section className="border-t border-border bg-[var(--bg-sunken)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[18px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <div>
+            <span className="mb-[10px] block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+              Worked example
+            </span>
+            <h2 className="m-0 font-display text-[clamp(25px,3.5vw,36px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+              From a leaked database to a number
+            </h2>
+            <p className="mb-0 mt-[12px] max-w-[76ch] text-[15px] leading-[1.75] text-text-secondary">
+              A misconfigured backup exposes 40,000 customer records. Trace the
+              provisions in order and you can see where the amount is actually
+              decided — and it is not in the Schedule.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-[12px]">
+            {[
+              ["§ 8(6) + Rule 7", "You notify. Affected Data Principals without delay; the Board without delay, then a detailed report within 72 hours. There is no harm threshold to hide behind — 40,000 records or four, the duty is the same."],
+              ["§ 27(1)(a)", "That notification is itself the Board's route in. It may direct urgent remedial measures immediately, and inquire into the breach."],
+              ["§ 28(3)–(4)", "The Board decides whether there are sufficient grounds. If not, it closes the matter with reasons recorded. Many notifications should end here."],
+              ["§ 33(1)", "If it does inquire, a penalty follows only where the Board determines the breach is significant, after giving you an opportunity to be heard."],
+              ["Schedule, entry 1", "The relevant head is failure to take reasonable security safeguards under section 8(5) — the ₹250 crore ceiling. A ceiling, not a starting point."],
+              ["§ 33(2)", "The number is then set against seven factors. A misconfiguration caught and closed in hours, with processors instructed and customers told, argues differently from the same exposure left open for months."],
+            ].map(([ref, text]) => (
+              <div
+                key={ref}
+                className="flex flex-wrap gap-[16px] rounded-lg border border-border bg-surface px-[20px] py-[17px]"
+              >
+                <span className="flex-[0_0_128px] font-mono text-[12.5px] font-semibold text-primary-text">
+                  {ref}
+                </span>
+                <span className="min-w-0 flex-[1_1_420px] text-[14.5px] leading-[1.75] text-text-secondary">
+                  {text}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <p className="m-0 max-w-[76ch] text-[14px] leading-[1.7] text-text-muted">
+            Two of the seven factors are the ones you can influence before
+            anything happens. Mitigation is credited explicitly, and its
+            timeliness is part of the test — which makes a rehearsed incident
+            response a penalty argument rather than merely good hygiene. The
+            last factor lets the Board weigh the penalty&apos;s likely impact on
+            the person, which is why the ceiling is rarely the expectation.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-[var(--bg-app)]">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[16px] px-[var(--space-5)] py-[clamp(38px,5vw,64px)]">
+          <span className="font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-primary-text">
+            § 34 · § 39
+          </span>
+          <h2 className="m-0 max-w-[26ch] font-display text-[clamp(24px,3.4vw,34px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
+            Nobody gets paid, and no court will hear it
+          </h2>
+          <p className="m-0 max-w-[76ch] text-[15.5px] leading-[1.75] text-text-secondary">
+            Section 34 credits every sum realised by way of penalty to the
+            Consolidated Fund of India. Not a rupee reaches the person whose
+            data was exposed. This Act creates no compensation route at all —
+            unlike the outgoing section 43A of the IT Act, which awarded damages
+            to the person harmed and remains available until section 44(2)
+            commences, and unlike GDPR Article 82.
+          </p>
+          <p className="m-0 max-w-[76ch] text-[15.5px] leading-[1.75] text-text-secondary">
+            Section 39 then bars civil courts from entertaining any suit or
+            proceeding in a matter the Board is empowered to decide, and bars
+            injunctions against action taken under the Act. The Board and the
+            Appellate Tribunal are the entire forum.
+          </p>
+          <p className="m-0 max-w-[76ch] text-[14px] leading-[1.7] text-text-muted">
+            For a compliance programme this changes the shape of the risk rather
+            than its size: no class of private claimants, one regulator, and
+            nothing to settle with the individual. For the individual it is the
+            most significant thing the Act does not give her. See{" "}
+            <Link href={routes.spdi} className="font-semibold text-primary-text">
+              what section 43A still allows until 2027
+            </Link>{" "}
+            and{" "}
+            <Link href={routes.gdpr} className="font-semibold text-primary-text">
+              how this differs from GDPR
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
 
       <EditorialReview />
       <SiteFooter />

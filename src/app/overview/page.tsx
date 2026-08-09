@@ -5,6 +5,7 @@ import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
 import { Faq } from "@/components/faq";
 import { PageHero } from "@/components/page-hero";
+import { ProvisionNotes } from "@/components/provision-notes";
 import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -87,6 +88,58 @@ const FAQ = [
   {
     q: "What are the exemptions under section 17?",
     a: "Section 17 switches off most of Chapters II and III for enforcing legal rights, courts and tribunals, prevention and investigation of offences, notified State instrumentalities, and research or statistical purposes where no decision specific to a Data Principal is taken. The exemptions are conditional, not a blanket carve-out.",
+  },
+];
+
+
+/** § 3(c): the two situations the Act simply does not reach. */
+const OUT_OF_SCOPE = [
+  {
+    ref: "§ 3(c)(i)",
+    title: "Personal or domestic purpose",
+    body: "Personal data processed by an individual for any personal or domestic purpose falls outside the Act entirely. A contacts list, a family photo library, a personal address book.",
+    note: "The exclusion attaches to the purpose, not to the person. An individual processing for a business purpose is not covered by it.",
+  },
+  {
+    ref: "§ 3(c)(ii)",
+    title: "Data she made public, or that law required published",
+    body: "Personal data made or caused to be made publicly available either by the Data Principal herself, or by any person under a legal obligation in India to publish it.",
+    note: "This is one of the sharpest divergences from GDPR, which has no general public-availability carve-out. A blogger's own published contact details, or a directors' register published under company law, sit outside this Act.",
+  },
+];
+
+
+/**
+ * The parts of section 17 the cards above do not cover.
+ *
+ * The grounds themselves are listed there; these are the carve-back that
+ * survives an exemption, and the three powers the Government holds but has not
+ * yet used.
+ */
+const EXEMPTION_DEPTH = [
+  {
+    ref: "§ 17(1)",
+    title: "What survives an exemption",
+    body: "Where a section 17(1) ground applies, Chapter II is disapplied — except sub-sections (1) and (5) of section 8. Chapter III and section 16 go too.",
+    note: "So accountability and reasonable security safeguards continue to apply even to exempt processing. An exemption is never a licence to hold data insecurely.",
+  },
+  {
+    ref: "§ 17(3)",
+    title: "The startup exemption nobody plans for",
+    body: "Having regard to the volume and nature of personal data processed, the Central Government may notify Data Fiduciaries or classes of them — expressly including startups — for whom section 5, sections 8(3) and 8(7), and sections 10 and 11 do not apply.",
+    note: "That is notice, data accuracy, erasure, Significant Data Fiduciary duties and the right of access, switched off by notification. It is not automatic and no class has been notified, so it is something to watch rather than to rely on.",
+  },
+  {
+    ref: "§ 17(4)",
+    title: "The State keeps its data",
+    body: "For processing by the State or its instrumentalities, the erasure duty in section 8(7) and the erasure right in section 12(3) do not apply — and where the processing does not involve a decision affecting the Data Principal, neither does the correction duty in section 12(2).",
+    note: "A citizen has no right under this Act to have her data erased from a government system.",
+  },
+  {
+    ref: "§ 17(5)",
+    title: "A five-year power to suspend any provision",
+    body: "Before five years from commencement, the Central Government may by notification declare that any provision of the Act shall not apply to any Data Fiduciary or class of them, for a period it specifies.",
+    note: "A broad transitional power with no stated criteria. It expires; until then it sits over the whole framework.",
   },
 ];
 
@@ -267,6 +320,21 @@ export default function OverviewPage() {
               "Customer, workforce and product data as a Data Fiduciary, a processor, or both.",
           },
         ]}
+      />
+
+      <ProvisionNotes
+        eyebrow="§ 3(c) · Out of scope"
+        heading="Two situations the Act never reaches"
+        intro="Before asking which obligations apply, check whether the Act applies at all. These are exclusions from scope, not exemptions within it — nothing survives them."
+        items={OUT_OF_SCOPE}
+      />
+
+      <ProvisionNotes
+        eyebrow="§ 17 · Beyond the grounds"
+        heading="What an exemption does not switch off"
+        intro="The grounds are above. These four points decide how an exemption actually behaves — including two powers the Government holds and has not yet used."
+        items={EXEMPTION_DEPTH}
+        tone="sunken"
       />
 
       <EditorialReview />
