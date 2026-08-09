@@ -21,7 +21,10 @@ const HOST = "dpdpact.net";
 const KEY = "4e5e58f853434784a7cfdb317e42c8d6";
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const SITEMAP = `https://${HOST}/sitemap.xml`;
-const ENDPOINT = "https://api.indexnow.org/indexnow";
+// Path casing follows the published spec (`POST /IndexNow`). The endpoint
+// accepts lowercase too — the first submission used it and returned 202 — but
+// matching the documentation removes a thing to wonder about later.
+const ENDPOINT = "https://api.indexnow.org/IndexNow";
 
 const dryRun = process.argv.includes("--dry-run");
 
