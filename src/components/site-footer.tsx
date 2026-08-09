@@ -10,6 +10,10 @@ const ACT_LINKS = [
   { href: routes.obligations, label: "Obligations" },
   { href: routes.penalties, label: "Penalties & the Board" },
   { href: routes.rules, label: "DPDP Rules 2025" },
+  { href: routes.spdi, label: "SPDI Rules vs DPDP" },
+  { href: routes.gdpr, label: "DPDP vs GDPR" },
+  { href: routes.consentManager, label: "Consent Managers" },
+  { href: routes.sdf, label: "Significant Data Fiduciary" },
   { href: routes.reader, label: "Full text reader" },
   { href: routes.blog, label: "DPDP blog" },
 ];

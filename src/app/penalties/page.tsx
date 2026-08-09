@@ -3,10 +3,12 @@ import { Gavel, Handshake, Search } from "lucide-react";
 
 import { PageHero } from "@/components/page-hero";
 import { EditorialReview } from "@/components/editorial-review";
+import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { LinkButton } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { blogPath } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
 
 /** Schedule entries, ordered by amount as the design presents them. */
@@ -98,6 +100,7 @@ export default function PenaltiesPage() {
 
       <PageHero
         breadcrumb="Penalties & Enforcement"
+        path="/penalties"
         eyebrow="Chapters VI–VIII · The Schedule"
         title="Seven Penalty Heads,"
         titleAccent="Up To ₹250 Crore"
@@ -236,6 +239,24 @@ export default function PenaltiesPage() {
           </div>
         </div>
       </section>
+
+      <RelatedGuides
+        heading="Staying out of the Schedule"
+        guides={[
+          {
+            href: blogPath("dpdp-breach-notification-guide"),
+            label: "DPDP breach notification: build the two-stage response",
+            blurb:
+              "Notice to affected Data Principals and the Rules' two-stage Board reporting process.",
+          },
+          {
+            href: blogPath("dpdp-act-2023-practical-primer"),
+            label: "The DPDP Act, 2023: a practical primer",
+            blurb:
+              "Scope, lawful grounds, Data Fiduciary obligations and Data Principal rights in one pass.",
+          },
+        ]}
+      />
 
       <EditorialReview />
       <SiteFooter />

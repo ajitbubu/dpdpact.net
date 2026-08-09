@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { LinkButton } from "@/components/ui/button";
 import { BLOG_POSTS, getBlogPost } from "@/lib/blog-posts";
+import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import {
   EDITORIAL_AUTHOR,
   EDITORIAL_REVIEWER,
@@ -31,7 +32,11 @@ export async function generateMetadata({
   if (!post) return {};
 
   return {
-    title: post.title,
+    // Absolute, so the site-wide `%s | DPDP Academy` template does not apply.
+    // Eight of these headlines run 61–72 characters once the 15-character
+    // suffix is added, which truncates them in the SERP; Google already shows
+    // the site name separately for the homepage-recognised brand.
+    title: { absolute: post.title },
     description: post.description,
     alternates: { canonical: "/blog/" + post.slug },
     openGraph: {
@@ -77,6 +82,11 @@ export default async function BlogArticlePage({
     ),
   };
 
+  const breadcrumbs = breadcrumbSchema([
+    { name: "Blog", path: routes.blog },
+    { name: post.title, path: "/blog/" + post.slug },
+  ]);
+
   return (
     <div className="overflow-x-hidden font-sans text-text">
       <SiteNav active="blog" />
@@ -85,6 +95,10 @@ export default async function BlogArticlePage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
         />
 
         <header className="border-b border-border bg-[var(--bg-sunken)]">

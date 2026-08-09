@@ -4,8 +4,10 @@ import { Check } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
+import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
+import { blogPath } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
 
 const RIGHTS = [
@@ -57,6 +59,7 @@ export default function RightsPage() {
 
       <PageHero
         breadcrumb="Rights & Duties"
+        path="/rights"
         eyebrow="Chapter III · Sections 11–15"
         title="Four Rights You Can Exercise,"
         titleAccent="Five Duties You Owe"
@@ -139,6 +142,24 @@ export default function RightsPage() {
         sub="Fifteen questions, twenty minutes, certificate the same minute you pass."
         secondary={{ href: routes.exam, label: "Take the exam" }}
         primary={{ href: routes.obligations, label: "Next: Obligations" }}
+      />
+
+      <RelatedGuides
+        heading="Handling these rights in practice"
+        guides={[
+          {
+            href: blogPath("data-principal-request-workflow"),
+            label: "A practical Data Principal request workflow",
+            blurb:
+              "Access, correction, erasure, grievance redressal and nomination without operational dead ends.",
+          },
+          {
+            href: blogPath("childrens-data-under-dpdp"),
+            label: "Children's data under the DPDP Act and Rules",
+            blurb:
+              "Verifiable parental consent, age assurance and the notified exemptions.",
+          },
+        ]}
       />
 
       <EditorialReview />

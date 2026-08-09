@@ -132,6 +132,7 @@ export default function DpdpRulesPage() {
 
         <PageHero
           breadcrumb="DPDP Rules 2025"
+          path="/dpdp-rules-2025"
           eyebrow="Notified 13 November 2025 · Phased to May 2027"
           title="The Rules Are Final."
           titleAccent="The Start Dates Are Phased."

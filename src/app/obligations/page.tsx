@@ -4,9 +4,11 @@ import { Baby, ShieldAlert } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
+import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Card } from "@/components/ui/card";
+import { blogPath } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
 
 const STEPS = [
@@ -101,6 +103,7 @@ export default function ObligationsPage() {
 
       <PageHero
         breadcrumb="Obligations"
+        path="/obligations"
         eyebrow="Chapter II · Sections 4–10"
         title="The Compliance Lifecycle,"
         titleAccent="Ask To Erase"
@@ -213,6 +216,36 @@ export default function ObligationsPage() {
         sub="See what each missed obligation costs before you sit the exam."
         secondary={{ href: routes.practiceTest, label: "Practice Test" }}
         primary={{ href: routes.penalties, label: "Next: Penalties" }}
+      />
+
+      <RelatedGuides
+        heading="Implementing these obligations"
+        guides={[
+          {
+            href: blogPath("dpdp-consent-notice-guide"),
+            label: "DPDP consent notices: what product teams need to ship",
+            blurb:
+              "Purpose-level consent, the withdrawal path, and the implementation evidence to retain.",
+          },
+          {
+            href: blogPath("childrens-data-under-dpdp"),
+            label: "Children's data under the DPDP Act and Rules",
+            blurb:
+              "Verifiable parental consent, age assurance, prohibited processing and the notified exemptions.",
+          },
+          {
+            href: blogPath("dpdp-data-retention-erasure-guide"),
+            label: "DPDP data retention and erasure: build the lifecycle",
+            blurb:
+              "Purpose completion, legal holds and processor deletion as one workflow.",
+          },
+          {
+            href: blogPath("dpdp-data-inventory-purpose-mapping"),
+            label: "DPDP data inventory: map purpose, systems and owners",
+            blurb:
+              "Link personal data to purposes, legal grounds, notices, processors and accountable owners.",
+          },
+        ]}
       />
 
       <EditorialReview />

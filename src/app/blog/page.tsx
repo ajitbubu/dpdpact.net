@@ -12,7 +12,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/button";
-import { BLOG_POSTS } from "@/lib/blog-posts";
+import { BLOG_POSTS, blogPath, type BlogSlug } from "@/lib/blog-posts";
+import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { routes } from "@/lib/routes";
 
 const TOPICS = [
@@ -46,6 +47,14 @@ export default function BlogPage() {
       <SiteNav active="blog" />
 
       <main>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              breadcrumbSchema([{ name: "Blog", path: routes.blog }]),
+            ),
+          }}
+        />
         <section className="border-b border-border bg-[var(--bg-sunken)]">
           <div className="mx-auto grid w-full max-w-[1180px] gap-[clamp(28px,5vw,64px)] px-[var(--space-5)] py-[clamp(42px,6vw,76px)] min-[860px]:grid-cols-[minmax(0,1.35fr)_minmax(260px,.65fr)] min-[860px]:items-end">
             <div className="flex max-w-[760px] flex-col gap-[16px]">
@@ -164,7 +173,7 @@ export default function BlogPage() {
                     </p>
                   </div>
                   <Link
-                    href={"/blog/" + post.slug}
+                    href={blogPath(post.slug as BlogSlug)}
                     className="group mt-[22px] inline-flex items-center gap-[8px] text-[13.5px] font-semibold text-primary-text no-underline"
                   >
                     Read guide

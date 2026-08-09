@@ -8,4 +8,11 @@ export const EDITORIAL_REVIEWER = {
   role: "Primary-source verification against Gazette and MeitY publications",
 } as const;
 
-export const LEGAL_REVIEWED_ON = "2 August 2026";
+/**
+ * When the content was last reviewed against primary sources.
+ *
+ * Bump this only when a review actually happened. It is displayed on every
+ * article and on the editorial policy page, so a date that drifts ahead of the
+ * work is a false trust signal — the same reasoning as `CONTENT_UPDATED`.
+ */
+export const LEGAL_REVIEWED_ON = "9 August 2026";

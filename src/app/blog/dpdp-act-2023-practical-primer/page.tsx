@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { EditorialReview } from "@/components/editorial-review";
 import { SiteNav } from "@/components/site-nav";
 import { LinkButton } from "@/components/ui/button";
+import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { routes } from "@/lib/routes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -44,6 +45,20 @@ export default function BlogPrimerPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              breadcrumbSchema([
+                { name: "Blog", path: routes.blog },
+                {
+                  name: "The DPDP Act, 2023: a practical primer",
+                  path: routes.blogPrimer,
+                },
+              ]),
+            ),
+          }}
         />
 
         <header className="border-b border-border bg-[var(--bg-sunken)]">

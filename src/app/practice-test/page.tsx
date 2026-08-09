@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { PracticeTestClient } from "./practice-test-client";
+import { breadcrumbSchema } from "@/lib/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Free DPDP Act Practice Test",
@@ -10,5 +11,19 @@ export const metadata: Metadata = {
 };
 
 export default function PracticeTestPage() {
-  return <PracticeTestClient />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            breadcrumbSchema([
+              { name: "Practice Test", path: "/practice-test" },
+            ]),
+          ),
+        }}
+      />
+      <PracticeTestClient />
+    </>
+  );
 }

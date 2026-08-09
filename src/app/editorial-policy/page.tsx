@@ -48,6 +48,7 @@ export default function EditorialPolicyPage() {
       <main>
         <PageHero
           breadcrumb="Editorial Policy"
+          path="/editorial-policy"
           eyebrow="Sources · Review · Corrections"
           title="Trust Starts With"
           titleAccent="Showing The Work"
