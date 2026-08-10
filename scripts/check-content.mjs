@@ -23,9 +23,31 @@
  * exits non-zero and says the validator is broken.
  */
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 
 const ACT_FILE = "src/lib/dpdpa-data.ts";
+
+/**
+ * The Act, fingerprinted.
+ *
+ * `dpdpa-data.ts` holds the Digital Personal Data Protection Act, 2023
+ * verbatim, checked against the MeitY publication. It is reference material,
+ * not content to edit, and it has already been modified once by accident: a
+ * tooling sweep rewrote em-dashes to hyphens across the repo, which changed
+ * the closing punctuation of the enacting formula ("Be it enacted by
+ * Parliament ... as follows:") from the dash the Gazette prints to a plain
+ * hyphen. Deliberately described rather than quoted here, because quoting the
+ * character would let the same sweep rewrite this comment too.
+ *
+ * That sweep runs outside this repo and cannot be configured from here, so
+ * this is the backstop instead. If the file changes at all, the build stops.
+ *
+ * To change it deliberately: verify the new text against the MeitY PDF, then
+ * update this constant in the same commit and say why in the message.
+ */
+const ACT_SHA256 =
+  "02232ed6430f083e1318afcf382133341836df1f27a28330352f22415b19b1dd";
 const CONTENT_FILE = "src/lib/industries.ts";
 const MENU_FILE = "src/lib/industries-menu.ts";
 
@@ -84,6 +106,22 @@ function parseIndustries(source) {
  * rule without a `bad` case is a self-test failure, on purpose.
  */
 const RULES = [
+  {
+    name: "act-text-unmodified",
+    check: ({ actHash }) =>
+      actHash === ACT_SHA256
+        ? []
+        : [
+            `${ACT_FILE} has changed (sha256 ${actHash.slice(0, 16)}...). ` +
+              "It holds the Act verbatim and is not content to edit. If the change " +
+              "is deliberate, verify against the MeitY publication and update " +
+              "ACT_SHA256 in this script in the same commit.",
+          ],
+    bad: (m) => {
+      m.actHash = "0".repeat(64);
+      return m;
+    },
+  },
   {
     name: "section-refs-resolve",
     check: ({ industries, actSections }) =>
@@ -172,6 +210,7 @@ const RULES = [
 /** A model that must pass every rule, used as the self-test control. */
 function cleanFixture() {
   return {
+    actHash: ACT_SHA256,
     actSections: new Set(["8", "9"]),
     menuSlugs: ["fixture"],
     industries: [
@@ -196,6 +235,7 @@ function cleanFixture() {
 }
 
 const clone = (m) => ({
+  actHash: m.actHash,
   actSections: new Set(m.actSections),
   menuSlugs: [...m.menuSlugs],
   industries: m.industries.map((i) => ({
@@ -233,8 +273,10 @@ function main() {
     process.exit(1);
   }
 
+  const actSource = fs.readFileSync(ACT_FILE, "utf8");
   const model = {
-    actSections: parseActSections(fs.readFileSync(ACT_FILE, "utf8")),
+    actHash: crypto.createHash("sha256").update(actSource).digest("hex"),
+    actSections: parseActSections(actSource),
     industries: parseIndustries(fs.readFileSync(CONTENT_FILE, "utf8")),
     menuSlugs: [
       ...fs
