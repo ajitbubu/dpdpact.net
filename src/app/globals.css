@@ -46,7 +46,7 @@
 }
 
 /* ==========================================================================
-   Sentinel design system — tokens registered with Tailwind.
+   Sentinel design system - tokens registered with Tailwind.
 
    Names are verbatim from the source design system so that:
      1. inline `var(--color-…)` references resolve exactly as they do in the
@@ -55,7 +55,7 @@
         `border-border`, `rounded-lg`, `shadow-card`, `font-display`, …).
 
    Values here are the Sentinel *base* (dark, security-operations palette).
-   The Bulletin light theme overrides them in the `:root` block below —
+   The Bulletin light theme overrides them in the `:root` block below -
    exactly as the design does by loading bulletin.css after the token sheets.
    ========================================================================== */
 @theme {
@@ -201,18 +201,18 @@
 }
 
 /* ==========================================================================
-   Bulletin — light editorial theme (option 1c).
+   Bulletin - light editorial theme (option 1c).
 
    Sentinel's structure and components, re-skinned: paper ground, ink text,
    a rust accent, Fraunces for display type, JetBrains Mono for chrome.
-   Hairlines carry structure — radii collapse to near-square and the card
+   Hairlines carry structure - radii collapse to near-square and the card
    shadows are removed, so surfaces read as ruled regions, not raised boxes.
 
    Loaded AFTER the Sentinel token sheets, so these win the cascade for both
    inline `var()` references and the Tailwind utilities generated above.
    ========================================================================== */
 :root {
-  /* canvas & surfaces — paper, not panels */
+  /* canvas & surfaces - paper, not panels */
   --color-canvas: #f5f5f2;
   --color-canvas-sunken: #edede8;
   --color-surface: #fbfbf9;
@@ -251,7 +251,7 @@
   --color-info-tint: rgba(42, 91, 122, 0.1);
   --color-info-text: #1f4459;
 
-  /* geometry — near-square, and no elevation */
+  /* geometry - near-square, and no elevation */
   --radius-sm: 3px;
   --radius-md: 4px;
   --radius-lg: 4px;
@@ -374,7 +374,7 @@
   }
 }
 
-/* Eyebrow label — uppercase, tracked, 12px */
+/* Eyebrow label - uppercase, tracked, 12px */
 .eyebrow {
   font-size: var(--text-xs);
   font-weight: 600;
@@ -383,7 +383,7 @@
   color: var(--text-meta);
 }
 
-/* Mono — IDs, hashes, timestamps, logs */
+/* Mono - IDs, hashes, timestamps, logs */
 .mono {
   font-family: var(--font-mono);
   font-size: var(--text-mono);
@@ -391,7 +391,7 @@
   font-feature-settings: "tnum" 1;
 }
 
-/* Native selects on the booking form — matches the Input primitive. */
+/* Native selects on the booking form - matches the Input primitive. */
 .field-select {
   font-family: var(--font-sans);
   font-size: 15px;
@@ -407,7 +407,7 @@
   box-shadow: var(--shadow-focus);
 }
 
-/* Certificate print sheet — A4 landscape. */
+/* Certificate print sheet - A4 landscape. */
 @page {
   size: A4 landscape;
   margin: 10mm;

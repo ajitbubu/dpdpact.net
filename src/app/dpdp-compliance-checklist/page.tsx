@@ -13,7 +13,7 @@ import { routes } from "@/lib/routes";
 import { ChecklistClient } from "./checklist-client";
 
 export const metadata: Metadata = {
-  title: "DPDP Compliance Checklist — 24 Controls",
+  title: "DPDP Compliance Checklist - 24 Controls",
   description:
     "Track 24 practical DPDP Act and Rules controls across governance, consent, security, breaches, individual rights, children and assurance.",
   alternates: { canonical: "/dpdp-compliance-checklist" },
@@ -31,7 +31,7 @@ export default function DpdpComplianceChecklistPage() {
           eyebrow={CHECKLIST_TOTAL + " controls · Saved on this device"}
           title="Turn the DPDP Framework"
           titleAccent="Into Owned Evidence"
-          lede="Work through the controls with legal, product, security, engineering, support and procurement. Each item names the evidence that makes readiness demonstrable—not merely documented."
+          lede="Work through the controls with legal, product, security, engineering, support and procurement. Each item names the evidence that makes readiness demonstrable-not merely documented."
         >
           <div className="mt-[22px] flex flex-wrap gap-[10px]">
             <Badge>Act + notified Rules 2025</Badge>

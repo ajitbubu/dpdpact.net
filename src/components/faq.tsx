@@ -7,7 +7,7 @@ export interface FaqItem {
 }
 
 /**
- * Faq — a visible question-and-answer block that also emits `FAQPage` JSON-LD.
+ * Faq - a visible question-and-answer block that also emits `FAQPage` JSON-LD.
  *
  * The markup and the schema are generated from the same array on purpose.
  * Google treats `FAQPage` markup that does not match visible content as a

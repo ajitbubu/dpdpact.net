@@ -3,7 +3,7 @@ import { Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * CertificateSeal — the embossed wax seal on the certificate.
+ * CertificateSeal - the embossed wax seal on the certificate.
  * A radial-gradient disc with a dashed inner ring, an award mark and a
  * "Verified" caption. Sizes are passed in because the hero preview and the
  * full certificate sheet render it at different scales.

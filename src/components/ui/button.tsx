@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * Button — primary action control for Sentinel.
+ * Button - primary action control for Sentinel.
  * Primary (ink, under the Bulletin theme) is reserved for the single key
  * action per view.
  *
@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
  * for the secondary variant. `--text-body` is redefined as a *font size* (15px)
  * by the typography token sheet, which loads after the colour sheet, so that
  * declaration is invalid at runtime and the button inherits its container's
- * colour — the page ink. We use `--color-text` directly to reproduce what
+ * colour - the page ink. We use `--color-text` directly to reproduce what
  * actually renders.
  */
 const buttonVariants = cva(
@@ -90,7 +90,7 @@ export interface LinkButtonProps
 }
 
 /**
- * LinkButton — a Button that navigates.
+ * LinkButton - a Button that navigates.
  *
  * The source design wires these up as `<button onClick={() => location.href = …}>`,
  * which would force every content page to be a client component. Rendering an

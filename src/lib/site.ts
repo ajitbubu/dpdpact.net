@@ -12,13 +12,13 @@ export const SITE_NAME = "DPDP Academy";
 export const SITE_TAGLINE = "Know the law. Prove it.";
 
 export const SITE_DESCRIPTION =
-  "Study the Digital Personal Data Protection Act, 2023 section by section — then prove it with a free graded certification.";
+  "Study the Digital Personal Data Protection Act, 2023 section by section - then prove it with a free graded certification.";
 
 /**
  * When the *content* last changed, as ISO `YYYY-MM-DD`.
  *
  * Bump this by hand when the Act text, question bank or explanatory pages are
- * revised — not on every deploy. Answer engines weigh freshness, and a date
+ * revised - not on every deploy. Answer engines weigh freshness, and a date
  * that moves with the build clock while the content sits still is a false
  * signal that gets discounted once it is noticed.
  */

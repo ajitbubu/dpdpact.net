@@ -1,4 +1,4 @@
-// DPDP Academy — question bank. Every item cites the provision it tests.
+// DPDP Academy - question bank. Every item cites the provision it tests.
 //
 // Ported verbatim from the Claude Design source (dpdp-quiz.js); only the
 // module wrapper changed.
@@ -27,7 +27,7 @@ export const BANK: Question[] = [
     ],
     a: 0,
     ref: "§ 2(i)",
-    why: "A Data Fiduciary determines the purpose and means of processing — alone or with others.",
+    why: "A Data Fiduciary determines the purpose and means of processing - alone or with others.",
   },
   {
     q: "For the purposes of the Act, a “child” is an individual who has not completed the age of:",
@@ -41,7 +41,7 @@ export const BANK: Question[] = [
     o: ["₹50 crore", "₹150 crore", "₹200 crore", "₹250 crore"],
     a: 3,
     ref: "Schedule, entry 1",
-    why: "Breach of the § 8(5) safeguard obligation may extend to two hundred and fifty crore rupees — the highest penalty in the Schedule.",
+    why: "Breach of the § 8(5) safeguard obligation may extend to two hundred and fifty crore rupees - the highest penalty in the Schedule.",
   },
   {
     q: "Which of these is NOT a lawful basis for processing personal data under the Act?",
@@ -137,7 +137,7 @@ export const BANK: Question[] = [
     ],
     a: 2,
     ref: "§ 8(6)",
-    why: "Failure to intimate is separately penalised — up to ₹200 crore.",
+    why: "Failure to intimate is separately penalised - up to ₹200 crore.",
   },
   {
     q: "In relation to children's personal data, a Data Fiduciary must NOT:",
@@ -209,7 +209,7 @@ export const BANK: Question[] = [
   {
     q: "When does the Act apply to processing that happens outside India?",
     o: [
-      "Never — it is territorial",
+      "Never - it is territorial",
       "When the processing is connected to offering goods or services to Data Principals within India",
       "Only if a treaty applies",
       "Only for State instrumentalities",
@@ -339,7 +339,7 @@ export const BANK: Question[] = [
       "Refer it to the police",
       "Issue a warning or impose costs on the complainant",
       "Impose a ₹10 crore penalty",
-      "Do nothing — it must inquire in every case",
+      "Do nothing - it must inquire in every case",
     ],
     a: 1,
     ref: "§ 28(12)",

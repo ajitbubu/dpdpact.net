@@ -243,7 +243,7 @@ export function ConsentLifecycle() {
   return (
     <Frame
       minWidth={880}
-      caption="The consent lifecycle under sections 5 to 8. Withdrawal is not the end of the obligation — it starts the erasure path, and that path reaches your processors too."
+      caption="The consent lifecycle under sections 5 to 8. Withdrawal is not the end of the obligation - it starts the erasure path, and that path reaches your processors too."
     >
       <svg
         viewBox="0 0 880 330"
@@ -421,7 +421,7 @@ export function PenaltyPath() {
   return (
     <Frame
       minWidth={900}
-      caption="From breach to penalty. Two exits close the matter without any penalty at all, and the amount is set by the seven factors in section 33(2) — the Schedule only caps it."
+      caption="From breach to penalty. Two exits close the matter without any penalty at all, and the amount is set by the seven factors in section 33(2) - the Schedule only caps it."
     >
       <svg
         viewBox="0 0 900 440"
@@ -478,7 +478,7 @@ export function PenaltyPath() {
         <text x="600" y="183" fill="var(--color-critical)" style={{ fontSize: 11, fontWeight: 600 }}>yes</text>
         {node(496, 196, 184, "Inquiry", "§ 28(5)–(7)", "go")}
         <line x1="496" y1="223" x2="464" y2="223" stroke="var(--color-safe)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#arrow2)" />
-        {node(268, 196, 192, "Undertaking accepted", "§ 32 — bar", "stop")}
+        {node(268, 196, 192, "Undertaking accepted", "§ 32 - bar", "stop")}
 
         {/* row 4: the significance test */}
         <line x1="588" y1="250" x2="588" y2="278" stroke="var(--color-border-strong)" strokeWidth="1.6" markerEnd="url(#arrow2)" />

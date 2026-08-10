@@ -16,7 +16,7 @@ declare global {
  * rest: within the App Router every internal link is a history push, and GA4
  * only turns those into page views when "page changes based on browser history
  * events" is enabled on the data stream. That setting lives in the GA4 UI, not
- * in this repo, and it was off — so navigating the site recorded nothing.
+ * in this repo, and it was off - so navigating the site recorded nothing.
  * Sending the events here makes the site's own page views independent of it.
  *
  * That toggle must stay off. With both, every navigation is counted twice.

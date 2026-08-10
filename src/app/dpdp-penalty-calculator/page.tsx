@@ -33,7 +33,7 @@ const FACTORS = [
   {
     ref: "§ 33(2)(d)",
     title: "Gain realised or loss avoided",
-    body: "Whether the person profited from the breach or dodged a cost by it — cutting a security programme, for instance, and banking the saving.",
+    body: "Whether the person profited from the breach or dodged a cost by it - cutting a security programme, for instance, and banking the saving.",
   },
   {
     ref: "§ 33(2)(e)",
@@ -72,7 +72,7 @@ const FAQ = [
   },
   {
     q: "Can a penalty be appealed?",
-    a: "Yes, to the Appellate Tribunal — TDSAT — within sixty days of receiving the order, under section 29. The Tribunal endeavours to dispose of appeals within six months.",
+    a: "Yes, to the Appellate Tribunal - TDSAT - within sixty days of receiving the order, under section 29. The Tribunal endeavours to dispose of appeals within six months.",
   },
   {
     q: "When can penalties first be imposed?",
@@ -81,7 +81,7 @@ const FAQ = [
 ];
 
 export const metadata: Metadata = {
-  title: "DPDP Penalty Calculator — The Schedule",
+  title: "DPDP Penalty Calculator - The Schedule",
   description:
     "The seven DPDP penalty heads and their ceilings, up to ₹250 crore, with the section 33(2) factors that decide where in the range a breach actually lands.",
   alternates: { canonical: "/dpdp-penalty-calculator" },
@@ -184,7 +184,7 @@ export default function PenaltyCalculatorPage() {
         <ProvisionNotes
           eyebrow="§ 33(2)"
           heading="The seven factors, and which you can still change"
-          intro="The Board must have regard to each of these in fixing an amount. The Act gives them no weights and no order of priority — but two of them are decided long before any breach occurs."
+          intro="The Board must have regard to each of these in fixing an amount. The Act gives them no weights and no order of priority - but two of them are decided long before any breach occurs."
           items={FACTORS}
         />
 
@@ -206,7 +206,7 @@ export default function PenaltyCalculatorPage() {
             <p className="m-0 max-w-[76ch] text-[15.5px] leading-[1.75] text-text-secondary">
               A third exit sits in between. Under section 32 the Board may
               accept a voluntary undertaking at any stage, and acceptance bars
-              proceedings on what it covers — though failing to honour a term is
+              proceedings on what it covers - though failing to honour a term is
               itself deemed a breach of the Act.
             </p>
             <p className="m-0 max-w-[76ch] text-[14px] leading-[1.7] text-text-muted">
@@ -251,7 +251,7 @@ export default function PenaltyCalculatorPage() {
           {
             href: routes.gdpr,
             label: "DPDP vs GDPR",
-            blurb: "Penalties here, compensation there — a different shape of risk.",
+            blurb: "Penalties here, compensation there - a different shape of risk.",
           },
         ]}
       />

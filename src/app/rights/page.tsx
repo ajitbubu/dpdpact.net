@@ -21,7 +21,7 @@ const RIGHTS = [
   {
     n: "12",
     title: "Right to correction and erasure",
-    body: "On a request to correct, complete or update, the Data Fiduciary must correct inaccurate or misleading data, complete what is incomplete, and update what is stale. On a request to erase, it must erase — unless retention is needed for the specified purpose or by law.",
+    body: "On a request to correct, complete or update, the Data Fiduciary must correct inaccurate or misleading data, complete what is incomplete, and update what is stale. On a request to erase, it must erase - unless retention is needed for the specified purpose or by law.",
     note: "§ 12(2)–(3)",
   },
   {
@@ -33,7 +33,7 @@ const RIGHTS = [
   {
     n: "14",
     title: "Right to nominate",
-    body: "Nominate another individual to exercise your rights in the event of death or incapacity — incapacity meaning inability to act due to unsoundness of mind or infirmity of body.",
+    body: "Nominate another individual to exercise your rights in the event of death or incapacity - incapacity meaning inability to act due to unsoundness of mind or infirmity of body.",
     note: "§ 14(1)–(2)",
   },
 ];
@@ -57,19 +57,19 @@ const EXERCISE = [
   {
     ref: "Rule 14(1)",
     title: "Publish the means, and the identifier you need",
-    body: "The Data Fiduciary — and the Consent Manager where applicable — must prominently publish, on its website or app or both, the means by which a request can be made, and the particulars such as a username or other identifier it needs in order to identify her under its terms of service.",
+    body: "The Data Fiduciary - and the Consent Manager where applicable - must prominently publish, on its website or app or both, the means by which a request can be made, and the particulars such as a username or other identifier it needs in order to identify her under its terms of service.",
     note: "Both halves matter. A contact form with no statement of what identifies the requester puts the burden back on her, which is the opposite of what the rule asks.",
   },
   {
     ref: "Rule 14(3)",
     title: "Ninety days, and it is a ceiling",
     body: "Section 13(2) required a response to grievances within “such period as may be prescribed”. The Rules fix it: a reasonable period not exceeding ninety days, published prominently, with appropriate technical and organisational measures implemented to make the system actually respond within it.",
-    note: "Ninety days is the outer limit, not a target. The rule asks for a reasonable period and then caps it — publishing “90 days” while routinely taking 89 is not obviously compliance with the first half.",
+    note: "Ninety days is the outer limit, not a target. The rule asks for a reasonable period and then caps it - publishing “90 days” while routinely taking 89 is not obviously compliance with the first half.",
   },
   {
     ref: "Rule 9",
     title: "The contact has to travel with the answer",
-    body: "Publish the business contact information of the Data Protection Officer, if applicable, or of a person who can answer questions about the processing — and repeat it in every response to a communication exercising a right.",
+    body: "Publish the business contact information of the Data Protection Officer, if applicable, or of a person who can answer questions about the processing - and repeat it in every response to a communication exercising a right.",
     note: "The second limb is easy to miss in an automated reply. It is a template change, not a policy change.",
   },
   {
@@ -91,20 +91,20 @@ const LIMITS = [
   {
     ref: "§ 12(3)",
     title: "Erasure yields to a retention obligation",
-    body: "On a request the Data Fiduciary must erase — unless retention is necessary for the specified purpose or for compliance with any law in force.",
+    body: "On a request the Data Fiduciary must erase - unless retention is necessary for the specified purpose or for compliance with any law in force.",
     note: "The second limb is why a deletion request does not empty a ledger a tax statute requires you to keep.",
   },
   {
     ref: "§ 13(3)",
     title: "She must come to you first",
     body: "The Data Principal shall exhaust the opportunity of redressing her grievance under section 13 before approaching the Board.",
-    note: "A working grievance mechanism is therefore a genuine filter on regulatory exposure, not just a compliance artefact — every complaint it resolves is one that never reaches section 27(1)(b).",
+    note: "A working grievance mechanism is therefore a genuine filter on regulatory exposure, not just a compliance artefact - every complaint it resolves is one that never reaches section 27(1)(b).",
   },
   {
     ref: "§ 15",
     title: "Rights come with enforceable duties",
     body: "Five duties sit on the Data Principal: comply with applicable law when exercising rights, do not impersonate, do not suppress material information for a State-issued document, do not register a false or frivolous grievance, and furnish only verifiably authentic information when seeking correction or erasure.",
-    note: "Breach of these is a penalty head in the Schedule, capped at ₹10,000. GDPR has no equivalent — it places no obligations on the data subject at all.",
+    note: "Breach of these is a penalty head in the Schedule, capped at ₹10,000. GDPR has no equivalent - it places no obligations on the data subject at all.",
   },
 ];
 
@@ -126,7 +126,7 @@ export default function RightsPage() {
         eyebrow="Chapter III · Sections 11–15"
         title="Four Rights You Can Exercise,"
         titleAccent="Five Duties You Owe"
-        lede="Rights run against the Data Fiduciary you gave consent to — including consent treated as given under section 7(a). Requests are made in the prescribed manner, and grievances go to the Fiduciary before the Board."
+        lede="Rights run against the Data Fiduciary you gave consent to - including consent treated as given under section 7(a). Requests are made in the prescribed manner, and grievances go to the Fiduciary before the Board."
       />
 
       <section className="bg-[var(--bg-app)]">
@@ -159,11 +159,11 @@ export default function RightsPage() {
           {/* ---------------------------------------------- Section 15 duties */}
           <div className="flex flex-col gap-[16px]">
             <h2 className="m-0 font-display text-[clamp(23px,3.2vw,32px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
-              Section 15 — the five duties
+              Section 15 - the five duties
             </h2>
             <p className="m-0 max-w-[74ch] text-[15px] leading-[1.7] text-text-secondary">
               Duties are enforceable: breach of them is the one penalty head in
-              the Schedule measured in thousands, not crores — up to ₹10,000.
+              the Schedule measured in thousands, not crores - up to ₹10,000.
             </p>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-[14px]">
               {DUTIES.map((duty) => (

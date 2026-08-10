@@ -7,7 +7,7 @@ import Link from "next/link";
  *
  * The site-wide nav and footer already link every page to every other page,
  * so link equity was spread evenly and meant nothing. Six blog posts had
- * exactly one internal inbound link — the `/blog` index — which is not enough
+ * exactly one internal inbound link - the `/blog` index - which is not enough
  * for a crawler to treat them as worth indexing. These links carry topical
  * meaning; the boilerplate ones do not.
  */

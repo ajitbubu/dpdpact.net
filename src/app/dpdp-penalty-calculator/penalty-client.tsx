@@ -44,10 +44,10 @@ export function PenaltyClient() {
     up === 0 && down === 0
       ? "Move the factors to see how the argument shifts. None of them is weighted in the Act."
       : up > down
-        ? `${up} factor${up > 1 ? "s" : ""} argue upward against ${down} downward. On these facts the Board has more to point at when justifying a figure nearer the ceiling — but the ceiling is still a ceiling, not a default.`
+        ? `${up} factor${up > 1 ? "s" : ""} argue upward against ${down} downward. On these facts the Board has more to point at when justifying a figure nearer the ceiling - but the ceiling is still a ceiling, not a default.`
         : down > up
           ? `${down} factor${down > 1 ? "s" : ""} argue downward against ${up} upward. Section 33(1) also has to be satisfied first: no penalty at all unless the Board determines the breach is significant.`
-          : "The factors are evenly balanced. Nothing in section 33(2) breaks a tie — the Board records its reasons and decides.";
+          : "The factors are evenly balanced. Nothing in section 33(2) breaks a tie - the Board records its reasons and decides.";
 
   return (
     <div className="flex flex-col gap-[20px] rounded-lg border-[1.5px] border-primary bg-surface p-[clamp(20px,3.4vw,34px)]">

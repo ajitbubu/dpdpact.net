@@ -62,19 +62,19 @@ const ENFORCEMENT = [
   {
     icon: Search,
     title: "How an inquiry runs",
-    body: "The Board decides whether there are sufficient grounds, records reasons for every step, follows natural justice, and may hold civil-court powers of summons, evidence and inspection. It may issue interim orders — but may not seize equipment or block access to premises in a way that disrupts day-to-day functioning.",
+    body: "The Board decides whether there are sufficient grounds, records reasons for every step, follows natural justice, and may hold civil-court powers of summons, evidence and inspection. It may issue interim orders - but may not seize equipment or block access to premises in a way that disrupts day-to-day functioning.",
     ref: "§ 28",
   },
   {
     icon: Handshake,
     title: "Ways out short of penalty",
-    body: "The Board may direct mediation where a complaint can be settled, and may accept a voluntary undertaking at any stage — which bars proceedings on its contents. Fail to honour a term and the breach is deemed a breach of the Act itself.",
+    body: "The Board may direct mediation where a complaint can be settled, and may accept a voluntary undertaking at any stage - which bars proceedings on its contents. Fail to honour a term and the breach is deemed a breach of the Act itself.",
     ref: "§§ 31–32",
   },
   {
     icon: Gavel,
     title: "Appeals and blocking",
-    body: "Appeals go to the Appellate Tribunal within sixty days; it aims to dispose of them within six months and functions digitally. After penalties in two or more instances, the Central Government may — in the public interest and after a hearing — direct blocking of the Fiduciary's platform.",
+    body: "Appeals go to the Appellate Tribunal within sixty days; it aims to dispose of them within six months and functions digitally. After penalties in two or more instances, the Central Government may - in the public interest and after a hearing - direct blocking of the Fiduciary's platform.",
     ref: "§§ 29–30, § 37",
   },
 ];
@@ -107,7 +107,7 @@ const INTAKE = [
     ref: "§ 27(1)(b)",
     title: "A Data Principal's complaint",
     body: "About a personal data breach, about a Data Fiduciary's observance of its obligations in relation to her personal data, or about the exercise of her rights.",
-    note: "She must exhaust the Fiduciary's own grievance mechanism first — section 13(3) — so a working grievance process is a genuine filter, not just a compliance box.",
+    note: "She must exhaust the Fiduciary's own grievance mechanism first - section 13(3) - so a working grievance process is a genuine filter, not just a compliance box.",
   },
   {
     ref: "§ 27(1)(c)–(d)",
@@ -118,7 +118,7 @@ const INTAKE = [
   {
     ref: "§ 27(1)(e)",
     title: "A Government reference about an intermediary",
-    body: "Where the Central Government refers a breach of section 37(2) — an intermediary failing to comply with a blocking direction.",
+    body: "Where the Central Government refers a breach of section 37(2) - an intermediary failing to comply with a blocking direction.",
   },
 ];
 
@@ -140,7 +140,7 @@ export default function PenaltiesPage() {
         eyebrow="Chapters VI–VIII · The Schedule"
         title="Seven Penalty Heads,"
         titleAccent="Up To ₹250 Crore"
-        lede="Penalties follow an inquiry, never precede one. The Board weighs gravity, duration, repetition, gain or loss, mitigation and proportionality before fixing an amount — and everything realised goes to the Consolidated Fund of India."
+        lede="Penalties follow an inquiry, never precede one. The Board weighs gravity, duration, repetition, gain or loss, mitigation and proportionality before fixing an amount - and everything realised goes to the Consolidated Fund of India."
       />
 
       <section className="bg-[var(--bg-app)]">
@@ -312,7 +312,7 @@ export default function PenaltiesPage() {
       <ProvisionNotes
         eyebrow="§ 27(1) · Before any inquiry"
         heading="Four ways a matter reaches the Board"
-        intro="The page above covers how an inquiry runs. This is the step before it — and the first route in is the one organisations underestimate."
+        intro="The page above covers how an inquiry runs. This is the step before it - and the first route in is the one organisations underestimate."
         items={INTAKE}
       />
 
@@ -328,17 +328,17 @@ export default function PenaltiesPage() {
             <p className="mb-0 mt-[12px] max-w-[76ch] text-[15px] leading-[1.75] text-text-secondary">
               A misconfigured backup exposes 40,000 customer records. Trace the
               provisions in order and you can see where the amount is actually
-              decided — and it is not in the Schedule.
+              decided - and it is not in the Schedule.
             </p>
           </div>
 
           <div className="flex flex-col gap-[12px]">
             {[
-              ["§ 8(6) + Rule 7", "You notify. Affected Data Principals without delay; the Board without delay, then a detailed report within 72 hours. There is no harm threshold to hide behind — 40,000 records or four, the duty is the same."],
+              ["§ 8(6) + Rule 7", "You notify. Affected Data Principals without delay; the Board without delay, then a detailed report within 72 hours. There is no harm threshold to hide behind - 40,000 records or four, the duty is the same."],
               ["§ 27(1)(a)", "That notification is itself the Board's route in. It may direct urgent remedial measures immediately, and inquire into the breach."],
               ["§ 28(3)–(4)", "The Board decides whether there are sufficient grounds. If not, it closes the matter with reasons recorded. Many notifications should end here."],
               ["§ 33(1)", "If it does inquire, a penalty follows only where the Board determines the breach is significant, after giving you an opportunity to be heard."],
-              ["Schedule, entry 1", "The relevant head is failure to take reasonable security safeguards under section 8(5) — the ₹250 crore ceiling. A ceiling, not a starting point."],
+              ["Schedule, entry 1", "The relevant head is failure to take reasonable security safeguards under section 8(5) - the ₹250 crore ceiling. A ceiling, not a starting point."],
               ["§ 33(2)", "The number is then set against seven factors. A misconfiguration caught and closed in hours, with processors instructed and customers told, argues differently from the same exposure left open for months."],
             ].map(([ref, text]) => (
               <div
@@ -358,7 +358,7 @@ export default function PenaltiesPage() {
           <p className="m-0 max-w-[76ch] text-[14px] leading-[1.7] text-text-muted">
             Two of the seven factors are the ones you can influence before
             anything happens. Mitigation is credited explicitly, and its
-            timeliness is part of the test — which makes a rehearsed incident
+            timeliness is part of the test - which makes a rehearsed incident
             response a penalty argument rather than merely good hygiene. The
             last factor lets the Board weigh the penalty&apos;s likely impact on
             the person, which is why the ceiling is rarely the expectation.
@@ -377,7 +377,7 @@ export default function PenaltiesPage() {
           <p className="m-0 max-w-[76ch] text-[15.5px] leading-[1.75] text-text-secondary">
             Section 34 credits every sum realised by way of penalty to the
             Consolidated Fund of India. Not a rupee reaches the person whose
-            data was exposed. This Act creates no compensation route at all —
+            data was exposed. This Act creates no compensation route at all -
             unlike the outgoing section 43A of the IT Act, which awarded damages
             to the person harmed and remains available until section 44(2)
             commences, and unlike GDPR Article 82.

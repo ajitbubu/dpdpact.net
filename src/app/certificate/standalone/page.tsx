@@ -5,7 +5,7 @@ import { CertificateBody } from "@/components/certificate-body";
 export const metadata: Metadata = {
   title: "Certificate",
   description:
-    "The DPDP Academy certificate on its own, without the site chrome — for printing and embedding.",
+    "The DPDP Academy certificate on its own, without the site chrome - for printing and embedding.",
   // Same content as /certificate. Indexing both would be duplicate content, so
   // this print/embed variant is excluded and points its canonical there.
   robots: { index: false, follow: true },

@@ -16,7 +16,7 @@ import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_NAME, SITE_URL } from "@/lib/site
  * The provisions the checker walks, written out in full.
  *
  * The tool is client-side, so on its own this route would serve a heading and
- * a button — the "app screen with nothing to rank" problem. Everything the
+ * a button - the "app screen with nothing to rank" problem. Everything the
  * checker decides is therefore also stated here, server-rendered, where a
  * crawler and a reader without JavaScript can both use it.
  */
@@ -59,7 +59,7 @@ const FAQ = [
   },
   {
     q: "Does the Act apply to employee data?",
-    a: "Yes — employee data is digital personal data like any other. What changes is the lawful basis: section 7(i) is a certain legitimate use covering employment purposes and safeguarding the employer from loss or liability, so consent is not always required.",
+    a: "Yes - employee data is digital personal data like any other. What changes is the lawful basis: section 7(i) is a certain legitimate use covering employment purposes and safeguarding the employer from loss or liability, so consent is not always required.",
   },
   {
     q: "Does it apply to paper records?",
@@ -91,7 +91,7 @@ const pageSchema = {
   "@type": "Article",
   headline: "Does the DPDP Act, 2023 apply to you? The section 3 tests",
   description:
-    "An interactive walk through section 3 of the DPDP Act, 2023 — what counts as digital personal data, the territorial and extraterritorial limbs, and the two exclusions in section 3(c).",
+    "An interactive walk through section 3 of the DPDP Act, 2023 - what counts as digital personal data, the territorial and extraterritorial limbs, and the two exclusions in section 3(c).",
   datePublished: "2026-08-09",
   dateModified: CONTENT_UPDATED,
   author: { "@type": "Organization", name: SITE_NAME + " Editorial" },
@@ -118,14 +118,14 @@ export default function ApplicabilityPage() {
           eyebrow="§ 3 · Application of the Act"
           title="Five Questions Decide"
           titleAccent="Whether It Applies."
-          lede="Scope is the first thing to settle and the easiest to get wrong. Section 3 sets two limbs that bring processing in and two exclusions that take it out — and none of them turns on how large you are or how much data you hold."
+          lede="Scope is the first thing to settle and the easiest to get wrong. Section 3 sets two limbs that bring processing in and two exclusions that take it out - and none of them turns on how large you are or how much data you hold."
         />
 
         <section className="bg-[var(--bg-app)]">
           <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[clamp(30px,4vw,44px)] px-[var(--space-5)] py-[clamp(40px,5.4vw,70px)]">
             <ApplicabilityClient />
             <p className="m-0 max-w-[76ch] text-[14px] leading-[1.72] text-text-muted">
-              Nothing you answer leaves your browser — the checker holds its
+              Nothing you answer leaves your browser - the checker holds its
               state in the page and stores nothing. Every branch below is also
               written out in full, so the same reasoning is available without
               running the tool.
@@ -154,7 +154,7 @@ export default function ApplicabilityPage() {
               you which obligations apply, and two provisions can change that
               substantially. Section 7 lists nine certain legitimate uses that
               provide a lawful basis without consent. Section 17 exempts whole
-              grounds — legal claims, courts and regulators, offences,
+              grounds - legal claims, courts and regulators, offences,
               non-resident data under a foreign contract, mergers and
               demergers, and defaulter asset tracing.
             </p>

@@ -2,7 +2,7 @@ import type { Route } from "next";
 import { LinkButton } from "@/components/ui/button";
 
 /**
- * CtaBand — the closing strip on the study pages: a headline and sub on the
+ * CtaBand - the closing strip on the study pages: a headline and sub on the
  * left, a secondary action and the "next chapter" primary on the right.
  */
 export function CtaBand({

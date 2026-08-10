@@ -107,8 +107,8 @@ const FAQ = [
  * The seven Schedules, read from the Gazette PDF rather than from commentary.
  *
  * Most summaries cover the rules and stop. The Schedules are where the
- * operative numbers live — the net worth figure, the retention thresholds, the
- * children's exemptions — and two of them are barely written about at all.
+ * operative numbers live - the net worth figure, the retention thresholds, the
+ * children's exemptions - and two of them are barely written about at all.
  */
 const SCHEDULES = [
   {
@@ -120,26 +120,26 @@ const SCHEDULES = [
   {
     ref: "Second",
     title: "Standards for processing by the State",
-    body: "See rules 5(1) and 16. Technical and organisational standards for the State and its instrumentalities processing under section 7(b), and for processing necessary for the purposes in section 17(2)(b) — lawfulness, and the rest of the listed observances.",
+    body: "See rules 5(1) and 16. Technical and organisational standards for the State and its instrumentalities processing under section 7(b), and for processing necessary for the purposes in section 17(2)(b) - lawfulness, and the rest of the listed observances.",
     note: "The least-discussed Schedule of the seven. It is the only place the Rules set standards specifically for State processing.",
   },
   {
     ref: "Third",
     title: "Retention periods, by class and user count",
-    body: "See rule 8(1). Named classes of Data Fiduciary must erase personal data three years after the Data Principal last approached them or exercised a right — or after the Rules commenced, whichever is latest — unless retention is required by law.",
+    body: "See rule 8(1). Named classes of Data Fiduciary must erase personal data three years after the Data Principal last approached them or exercised a right - or after the Rules commenced, whichever is latest - unless retention is required by law.",
     note: "Thresholds and carve-outs are set out below. This is the Schedule most organisations need to check against themselves.",
   },
   {
     ref: "Fourth",
     title: "Where the children's provisions do not apply",
-    body: "See rule 12. Part A lists classes of Data Fiduciary exempt from section 9(1) and 9(3) — beginning with clinical establishments, mental health establishments and healthcare professionals, where processing is restricted to providing health services to the child. Part B lists exempt purposes.",
+    body: "See rule 12. Part A lists classes of Data Fiduciary exempt from section 9(1) and 9(3) - beginning with clinical establishments, mental health establishments and healthcare professionals, where processing is restricted to providing health services to the child. Part B lists exempt purposes.",
     note: "This is the mechanism section 9(4) anticipated. Without it, verifiable parental consent would gate a child's emergency care.",
   },
   {
     ref: "Fifth",
     title: "What the Board is paid",
     body: "See rule 18. The Chairperson receives a consolidated salary of ₹4,50,000 per month and every other Member ₹4,00,000, in both cases without house or car.",
-    note: "Dry, but it tells you the seniority the Government intends for the Board — and it is public, fixed and consolidated rather than negotiated.",
+    note: "Dry, but it tells you the seniority the Government intends for the Board - and it is public, fixed and consolidated rather than negotiated.",
   },
   {
     ref: "Sixth",
@@ -149,7 +149,7 @@ const SCHEDULES = [
   {
     ref: "Seventh",
     title: "Who may demand data from you, and for what",
-    body: "See rules 23(1) and 8(3). Pairs each purpose with the authorised person who may act on it — beginning with use by the State in the interest of the sovereignty and integrity of India or the security of the State, exercised by an officer designated under section 17(2)(a).",
+    body: "See rules 23(1) and 8(3). Pairs each purpose with the authorised person who may act on it - beginning with use by the State in the interest of the sovereignty and integrity of India or the security of the State, exercised by an officer designated under section 17(2)(a).",
     note: "It also fixes the one-year floor for retaining processing logs, since rule 8(3) points here.",
   },
 ];
@@ -162,7 +162,7 @@ const RETENTION_CLASSES = [
 ];
 
 export const metadata: Metadata = {
-  title: "DPDP Rules 2025 — Requirements & Timeline",
+  title: "DPDP Rules 2025 - Requirements & Timeline",
   description:
     "Understand India's notified DPDP Rules, 2025: official commencement dates, notices, security safeguards, breach reporting, rights and preparation steps.",
   alternates: { canonical: "/dpdp-rules-2025" },
@@ -370,7 +370,7 @@ export default function DpdpRulesPage() {
       <ProvisionNotes
         eyebrow="23 rules · 7 schedules"
         heading="The Schedules are where the numbers live"
-        intro="The rules state obligations; the Schedules carry the figures that decide whether one applies to you. Read from the Gazette text rather than from summaries — two of these seven are barely covered anywhere."
+        intro="The rules state obligations; the Schedules carry the figures that decide whether one applies to you. Read from the Gazette text rather than from summaries - two of these seven are barely covered anywhere."
         items={SCHEDULES}
         tone="sunken"
       />
@@ -387,7 +387,7 @@ export default function DpdpRulesPage() {
             <p className="mb-0 mt-[12px] max-w-[76ch] text-[15px] leading-[1.75] text-text-secondary">
               Only three classes of Data Fiduciary are named, and each carries a
               registered-user threshold. Below the threshold, or outside the
-              class, this Schedule does not reach you — the general erasure duty
+              class, this Schedule does not reach you - the general erasure duty
               in section 8(7) still does.
             </p>
           </div>
@@ -414,7 +414,7 @@ export default function DpdpRulesPage() {
             </span>
             <p className="m-0 max-w-[76ch] text-[14.5px] leading-[1.75] text-text-secondary">
               Three years from the date the Data Principal last approached you
-              for the specified purpose or exercised a right — or from the
+              for the specified purpose or exercised a right - or from the
               commencement of the Rules, <em>whichever is latest</em>. That last
               limb matters: it means the clock does not start expired for a user
               who went quiet in 2023.

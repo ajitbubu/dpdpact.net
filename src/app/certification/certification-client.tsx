@@ -77,7 +77,7 @@ const HOW_IT_WORKS = [
   {
     n: "04",
     title: "Certificate issued",
-    body: "A credential ID is generated and your certificate opens straight away — print it or save as PDF.",
+    body: "A credential ID is generated and your certificate opens straight away - print it or save as PDF.",
     accent: true,
   },
 ];
@@ -534,7 +534,7 @@ export function CertificationClient({ faq }: { faq?: React.ReactNode }) {
                 </div>
 
                 <span className="text-[12.5px] leading-[1.6] text-text-muted">
-                  Bookings are stored in this browser for the demo — no data
+                  Bookings are stored in this browser for the demo - no data
                   leaves your device.
                 </span>
               </div>

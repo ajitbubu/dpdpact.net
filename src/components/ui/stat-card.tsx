@@ -21,7 +21,7 @@ export type StatTone = keyof typeof accentColors;
 export type DeltaTone = keyof typeof deltaColors;
 
 /**
- * StatCard — KPI stat tile. Eyebrow label with a tone dot, a large value,
+ * StatCard - KPI stat tile. Eyebrow label with a tone dot, a large value,
  * and an optional unit and delta.
  */
 export interface StatCardProps extends React.ComponentProps<"div"> {

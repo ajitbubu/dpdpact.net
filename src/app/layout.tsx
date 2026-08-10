@@ -19,8 +19,8 @@ import {
 import "./globals.css";
 
 /**
- * GA4 Measurement ID. Public by design — it ships in the page source of every
- * site that uses it — so it lives here rather than in env config.
+ * GA4 Measurement ID. Public by design - it ships in the page source of every
+ * site that uses it - so it lives here rather than in env config.
  */
 const GA_MEASUREMENT_ID = "G-4CRHNPWKYX";
 
@@ -72,7 +72,7 @@ const CONSENT_CONFIG = {
   theme: { "--cc-accent": "#b4321a" },
   labels: {
     // The SDK's default text claims personalisation and content-targeting
-    // cookies. This site sets neither — functional and marketing are empty —
+    // cookies. This site sets neither - functional and marketing are empty -
     // and it links to a Privacy and Cookie Policy that do not exist here yet.
     bannerText:
       "We use strictly necessary cookies to make this site work, and only with your consent Google Analytics to understand how it is used. We do not use advertising or personalisation cookies, and we do not sell or share personal data.",
@@ -110,8 +110,8 @@ const fraunces = Fraunces({
  * The certificate's signature face, and the only font here that is not
  * site-wide.
  *
- * `preload: false` because `font-script` renders on exactly two routes — the
- * homepage seal and `/certificate` — while a preload link is emitted on every
+ * `preload: false` because `font-script` renders on exactly two routes - the
+ * homepage seal and `/certificate` - while a preload link is emitted on every
  * page. That was 28 KiB fetched eagerly on 75 of 77 pages to draw nothing. It
  * still loads on the two pages that use it, discovered through the CSS, which
  * is the right trade for a decorative face that sits below the fold.
@@ -127,7 +127,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     // Pages set their own title; this wraps it. `default` covers the homepage.
-    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    default: `${SITE_NAME} - ${SITE_TAGLINE}`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
@@ -163,7 +163,7 @@ export const metadata: Metadata = {
    * Bing Webmaster Tools ownership.
    *
    * The same token already sits in `public/BingSiteAuth.xml`, which Bing
-   * fetches and matches — so verification passes without this tag. It is here
+   * fetches and matches - so verification passes without this tag. It is here
    * as a second route to the same proof: the meta tag travels with the app and
    * survives a stray deletion under `public/`. Either method alone is enough.
    */
@@ -196,7 +196,7 @@ export const viewport: Viewport = {
   colorScheme: "light",
   width: "device-width",
   initialScale: 1,
-  // Installed apps still need to be zoomable — capping this would break
+  // Installed apps still need to be zoomable - capping this would break
   // WCAG 1.4.4 for anyone relying on pinch zoom.
   maximumScale: 5,
 };
@@ -242,7 +242,7 @@ export default function RootLayout({
         {/*
          * Order is load-bearing and `beforeInteractive` scripts run in the
          * order they are placed. The bootstrap pushes `consent: default` with
-         * every storage type denied, so it has to execute before gtag.js — once
+         * every storage type denied, so it has to execute before gtag.js - once
          * gtag has loaded without a default, tags may fire ungated.
          */}
         <Script id="cc-bootstrap-config" strategy="beforeInteractive">
@@ -252,7 +252,7 @@ export default function RootLayout({
 
         {/*
          * The SDK auto-initialises only from `data-auto-init`, and that path
-         * reads a handful of `data-*` attributes — it has no way to express
+         * reads a handful of `data-*` attributes - it has no way to express
          * categories, cookie disclosures, theme or labels. Those have to go
          * through `CookieConsent.init()`, which the bundle exposes on `window`
          * as it executes, hence the explicit call placed after it.

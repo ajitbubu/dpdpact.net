@@ -35,7 +35,7 @@ const TOPICS = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "DPDP Blog — Practical Guides & Analysis",
+  title: "DPDP Blog - Practical Guides & Analysis",
   description:
     "Practical explainers, implementation notes and compliance guides for India's Digital Personal Data Protection Act, 2023.",
   alternates: { canonical: "/blog" },
@@ -68,7 +68,7 @@ export default function BlogPage() {
                 </span>
               </h1>
               <p className="m-0 max-w-[63ch] text-[clamp(15.5px,1.7vw,18px)] leading-[1.75] text-text-secondary">
-                Practical explainers and field notes on the DPDP Act — written
+                Practical explainers and field notes on the DPDP Act - written
                 for the people turning statutory language into everyday
                 decisions.
               </p>

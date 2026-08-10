@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Card — elevated surface container. The fundamental Sentinel surface:
+ * Card - elevated surface container. The fundamental Sentinel surface:
  * hairline border, `--radius-lg` corners and `--shadow-card` elevation.
  * Under the Bulletin theme the radius collapses to 4px and the shadow to
  * `none`, so it reads as a ruled region rather than a raised box.

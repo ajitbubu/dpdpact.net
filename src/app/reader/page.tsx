@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   // The full text lives at /reader/full-text and each provision at
   // /reader/section-N. This page is the reader app and the index over them,
   // so it no longer claims to be the text itself.
-  title: "DPDP Act 2023 Reader — All 44 Sections",
+  title: "DPDP Act 2023 Reader - All 44 Sections",
   description:
     "Read the DPDP Act, 2023 section by section with chapter navigation, search, illustrations and reading progress. Jump straight to any of the 44 sections.",
   alternates: { canonical: "/reader" },
@@ -50,7 +50,7 @@ const legislationSchema = {
   // Chapters as parts, so the structure of the Act is explicit.
   hasPart: CHAPTERS.map((c) => ({
     "@type": "Legislation",
-    name: `Chapter ${c.num} — ${c.title}`,
+    name: `Chapter ${c.num} - ${c.title}`,
     position: c.num,
     legislationJurisdiction: "India",
   })),
@@ -63,7 +63,7 @@ const readerBreadcrumb = breadcrumbSchema([
 /**
  * A plain index of every provision, rendered on the server.
  *
- * `ReaderClient` navigates by state, not by href — its chapter rail collapses
+ * `ReaderClient` navigates by state, not by href - its chapter rail collapses
  * to the open chapter and its landing view previews three sections each, so a
  * crawler following this page finds no route to the other 41. This directory
  * is the crawlable path to them, and the reason the per-section pages get
@@ -137,7 +137,7 @@ function SectionDirectory() {
                   prefetch={false}
                   className="text-[13.5px] leading-[1.5] text-text-secondary no-underline hover:text-primary-text"
                 >
-                  The Schedule — Monetary Penalties
+                  The Schedule - Monetary Penalties
                 </Link>
               </li>
             </ul>

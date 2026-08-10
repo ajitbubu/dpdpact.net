@@ -239,7 +239,7 @@ export function ExamClient({ faq }: { faq?: React.ReactNode }) {
                     · The paper submits itself when time runs out
                   </span>
                   <span className="text-[14px] leading-[1.7] text-text-secondary">
-                    · Pass mark {PASS_MARK}% — {PASS_COUNT} of {EXAM_COUNT}
+                    · Pass mark {PASS_MARK}% - {PASS_COUNT} of {EXAM_COUNT}
                   </span>
                 </div>
               </div>
@@ -388,13 +388,13 @@ export function ExamClient({ faq }: { faq?: React.ReactNode }) {
                   <span className="flex min-w-0 flex-[1_1_260px] flex-col gap-[10px]">
                     <span className="font-display text-[clamp(22px,3vw,30px)] font-semibold leading-[1.18] tracking-[-0.02em] text-text">
                       {result.passed
-                        ? "Certified — congratulations"
+                        ? "Certified - congratulations"
                         : "Not this time"}
                     </span>
                     <span className="text-[15px] leading-[1.7] text-text-secondary">
                       {result.passed
                         ? `You answered ${result.correct} of ${result.total} correctly, above the ${PASS_MARK}% pass mark. Your certificate has been issued and saved in this browser.`
-                        : `You answered ${result.correct} of ${result.total} correctly; ${PASS_COUNT} of ${EXAM_COUNT} are needed to pass. Review the answers below, then retake — there is no limit on attempts.`}
+                        : `You answered ${result.correct} of ${result.total} correctly; ${PASS_COUNT} of ${EXAM_COUNT} are needed to pass. Review the answers below, then retake - there is no limit on attempts.`}
                     </span>
                     {result.passed && (
                       <span className="flex flex-wrap gap-[10px] pt-[2px]">

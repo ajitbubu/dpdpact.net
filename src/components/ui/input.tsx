@@ -11,7 +11,7 @@ const sizeClasses = {
 } as const;
 
 /**
- * Input — text field on an inset surface with a hairline border and a
+ * Input - text field on an inset surface with a hairline border and a
  * focus ring drawn from `--shadow-focus`.
  */
 export interface InputProps
