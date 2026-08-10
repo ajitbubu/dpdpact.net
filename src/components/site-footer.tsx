@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 
-import { INDUSTRIES, industryPath } from "@/lib/industries";
+import { INDUSTRY_MENU, INDUSTRY_SLUGS, industryPath } from "@/lib/industries-menu";
 import { routes } from "@/lib/routes";
 
 const ACT_LINKS = [
@@ -93,13 +93,13 @@ export function SiteFooter() {
          */}
         <div className="flex flex-col gap-[11px]">
           <span className={columnHeadingClass}>By industry</span>
-          {INDUSTRIES.map((industry) => (
+          {INDUSTRY_SLUGS.map((slug) => (
             <Link
-              key={industry.slug}
-              href={industryPath(industry.slug)}
+              key={slug}
+              href={industryPath(slug)}
               className={columnLinkClass}
             >
-              {industry.name}
+              {INDUSTRY_MENU[slug].name}
             </Link>
           ))}
           <Link href={routes.implementation} className={columnLinkClass}>

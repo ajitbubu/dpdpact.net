@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { INDUSTRIES, industryPath } from "@/lib/industries";
+import { INDUSTRY_MENU, INDUSTRY_SLUGS, industryPath } from "@/lib/industries-menu";
 import { cn } from "@/lib/utils";
 import { routes, type NavKey } from "@/lib/routes";
 
@@ -295,12 +295,13 @@ function IndustryMenu({ active }: { active?: NavKey }) {
           </div>
 
           <div className="grid grid-cols-3 gap-[2px] p-[6px]">
-            {INDUSTRIES.map((industry) => {
+            {INDUSTRY_SLUGS.map((slug) => {
+              const industry = INDUSTRY_MENU[slug];
               const Icon = industry.icon;
               return (
                 <Link
-                  key={industry.slug}
-                  href={industryPath(industry.slug)}
+                  key={slug}
+                  href={industryPath(slug)}
                   onClick={() => setOpen(false)}
                   className={cn(
                     "flex flex-col gap-[3px] rounded-sm px-[12px] py-[10px] no-underline",
@@ -469,12 +470,13 @@ export function SiteNav({ active }: { active?: NavKey }) {
           <span className="px-[4px] pb-[6px] pt-[16px] font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
             Implementation by industry
           </span>
-          {INDUSTRIES.map((industry) => {
+          {INDUSTRY_SLUGS.map((slug) => {
+            const industry = INDUSTRY_MENU[slug];
             const Icon = industry.icon;
             return (
               <Link
-                key={industry.slug}
-                href={industryPath(industry.slug)}
+                key={slug}
+                href={industryPath(slug)}
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-[10px] border-b border-border px-[4px] py-[15px] font-sans text-[15px] font-semibold text-text no-underline"
               >

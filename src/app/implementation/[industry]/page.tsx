@@ -11,14 +11,14 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { INDUSTRIES, getIndustry, industryPath } from "@/lib/industries";
-import { routes } from "@/lib/routes";
 import {
-  ACT_SOURCE_PDF,
-  CONTENT_UPDATED,
-  SITE_NAME,
-  SITE_URL,
-} from "@/lib/site";
+  INDUSTRIES,
+  getIndustry,
+  industryPath,
+  isIndustrySlug,
+} from "@/lib/industries";
+import { routes } from "@/lib/routes";
+import { ACT_SOURCE_PDF, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -32,8 +32,10 @@ export async function generateMetadata({
   params: Promise<{ industry: string }>;
 }): Promise<Metadata> {
   const { industry: slug } = await params;
+  // `params` is string-typed even with `dynamicParams = false`, so narrow it
+  // rather than cast: a cast here would reopen the hole the slug union closes.
+  if (!isIndustrySlug(slug)) return {};
   const industry = getIndustry(slug);
-  if (!industry) return {};
 
   return {
     // Absolute: the site-wide `%s | DPDP Academy` template would push these
@@ -51,8 +53,8 @@ export default async function IndustryPage({
   params: Promise<{ industry: string }>;
 }) {
   const { industry: slug } = await params;
+  if (!isIndustrySlug(slug)) notFound();
   const industry = getIndustry(slug);
-  if (!industry) notFound();
 
   const index = INDUSTRIES.findIndex((i) => i.slug === industry.slug);
   const prev = index > 0 ? INDUSTRIES[index - 1] : undefined;
@@ -73,8 +75,11 @@ export default async function IndustryPage({
         "@type": "Article",
         headline: industry.metaTitle,
         description: industry.metaDescription,
-        datePublished: CONTENT_UPDATED,
-        dateModified: CONTENT_UPDATED,
+        // Per-industry literals, never the site-wide CONTENT_UPDATED: bumping
+        // that global for an unrelated edit used to rewrite the apparent
+        // publication date of all nine guides.
+        datePublished: industry.published,
+        dateModified: industry.updated,
         author: { "@type": "Organization", name: `${SITE_NAME} Editorial` },
         publisher: {
           "@type": "Organization",

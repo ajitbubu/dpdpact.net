@@ -1,17 +1,11 @@
-import {
-  Building2,
-  Cloud,
-  Gamepad2,
-  GraduationCap,
-  HeartPulse,
-  Landmark,
-  Rocket,
-  ShoppingCart,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
 import type { Route } from "next";
 
+import {
+  INDUSTRY_MENU,
+  INDUSTRY_SLUGS,
+  type IndustryMenuEntry,
+  type IndustrySlug,
+} from "./industries-menu";
 import { routes } from "./routes";
 
 /**
@@ -43,13 +37,18 @@ export interface IndustryProvision {
   body: string;
 }
 
-export interface Industry {
-  slug: string;
-  /** Menu label. Kept short - it sits in a three-column grid. */
-  name: string;
-  /** One line under the label in the mega menu. */
-  menuNote: string;
-  icon: LucideIcon;
+export interface IndustryContent {
+  /**
+   * When this guide was first published, and when its content last changed.
+   *
+   * Fixed literals per industry, deliberately not the site-wide
+   * `CONTENT_UPDATED`. These feed `datePublished` and `dateModified` in the
+   * Article schema, and pointing them at a mutable global meant every bump
+   * rewrote the apparent publication date of all nine guides - telling search
+   * engines the pages were written on a day they were not.
+   */
+  published: string;
+  updated: string;
   /** Page <h1> and, via `absolute`, the <title>. Under 60 characters. */
   metaTitle: string;
   metaDescription: string;
@@ -65,15 +64,13 @@ export interface Industry {
   related: { href: Route; label: string; note: string }[];
 }
 
-export const INDUSTRIES: Industry[] = [
-  {
-    slug: "e-commerce",
-    name: "E-commerce & retail",
-    menuNote: "Named in the Third Schedule · 2 crore users",
-    icon: ShoppingCart,
+export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
+  "e-commerce": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for E-commerce: Retention and Consent",
     metaDescription:
-      "How India's DPDP Act applies to e-commerce: the Third Schedule three-year erasure rule at 2 crore users, consent withdrawal mid-order, and the Act's own marketplace illustrations.",
+      "How the DPDP Act applies to e-commerce: the Third Schedule three-year erasure rule at 2 crore users, and why withdrawal cannot cancel a paid order.",
     eyebrow: "Third Schedule · rule 8(1)",
     heading: "E-commerce Is Named",
     headingAccent: "In The Rules Themselves.",
@@ -156,14 +153,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "online-gaming",
-    name: "Online gaming",
-    menuNote: "Lowest retention threshold · 50 lakh users",
-    icon: Gamepad2,
+  "online-gaming": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for Online Gaming: Children and Retention",
     metaDescription:
-      "Online gaming under India's DPDP Act: the 50 lakh user retention threshold, section 9's ban on behavioural monitoring and targeted advertising to children, and the verifiable parental consent problem.",
+      "Online gaming under the DPDP Act: the 50 lakh retention threshold, and section 9's outright ban on behavioural monitoring and ads aimed at under-18s.",
     eyebrow: "Third Schedule · § 9",
     heading: "The Lowest Threshold",
     headingAccent: "And The Hardest Section.",
@@ -247,14 +242,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "social-media",
-    name: "Social media",
-    menuNote: "Third Schedule class · the public-data carve-out",
-    icon: Users,
+  "social-media": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for Social Media Intermediaries",
     metaDescription:
-      "Social media under India's DPDP Act: the Third Schedule retention duty at 2 crore users, the section 3 carve-out for data a user makes public herself, and children's obligations under section 9.",
+      "Social media under the DPDP Act: the retention duty at 2 crore users, and how narrow the carve-out for data a user publishes herself really is.",
     eyebrow: "Third Schedule · § 3(c)(ii)",
     heading: "The One Carve-Out",
     headingAccent: "Written For You.",
@@ -337,14 +330,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "healthcare",
-    name: "Healthcare",
-    menuNote: "Fourth Schedule turns § 9 off for clinical care",
-    icon: HeartPulse,
+  "healthcare": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for Healthcare and Hospitals in India",
     metaDescription:
-      "Healthcare under India's DPDP Act: the Fourth Schedule exemption for clinical and mental health establishments, why health data lost its special category, and how existing medical records law survives.",
+      "Healthcare under the DPDP Act: the Fourth Schedule exemption for clinical care, why health data lost its special category, and what still binds you.",
     eyebrow: "Fourth Schedule · § 38(1)",
     heading: "Health Data Lost",
     headingAccent: "Its Special Status.",
@@ -428,14 +419,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "financial-services",
-    name: "Banking & financial services",
-    menuNote: "§ 17(1)(f) is written for lenders",
-    icon: Landmark,
+  "financial-services": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for Banking and Financial Services",
     metaDescription:
-      "Banking and financial services under India's DPDP Act: the section 17(1)(f) defaulter exemption, why RBI directions survive under section 38(1), and the Act's own ten-year bank retention illustration.",
+      "Banking and NBFCs under the DPDP Act: the section 17(1)(f) defaulter exemption, and why RBI directions survive untouched under section 38(1).",
     eyebrow: "§ 17(1)(f) · § 38(1)",
     heading: "The Act Has A Provision",
     headingAccent: "Just For Lenders.",
@@ -519,14 +508,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "edtech",
-    name: "EdTech & education",
-    menuNote: "Section 9 is the whole compliance problem",
-    icon: GraduationCap,
+  "edtech": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for EdTech and Educational Institutions",
     metaDescription:
-      "EdTech under India's DPDP Act: verifiable parental consent under section 9, the outright ban on behavioural monitoring and targeted advertising to children, and where the Fourth Schedule may help.",
+      "EdTech under the DPDP Act: verifiable parental consent under section 9, and the outright ban on behavioural monitoring and ads directed at children.",
     eyebrow: "§ 9 · rule 10",
     heading: "Your Users Are Children.",
     headingAccent: "That Changes Everything.",
@@ -610,14 +597,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "saas",
-    name: "SaaS & IT services",
-    menuNote: "You are probably both Fiduciary and Processor",
-    icon: Cloud,
+  "saas": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for SaaS and IT Service Providers",
     metaDescription:
-      "SaaS and IT services under India's DPDP Act: the Data Processor role, why section 8(2) requires a valid contract, the dual-role problem, and what section 17(1)(d) means for offshore work.",
+      "SaaS and IT services under the DPDP Act: the dual Fiduciary and Processor role, why section 8(2) needs a contract, and the offshore carve-out.",
     eyebrow: "§ 8(1) · § 8(2) · § 17(1)(d)",
     heading: "Two Roles,",
     headingAccent: "One Codebase.",
@@ -701,14 +686,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "startups",
-    name: "Startups",
-    menuNote: "§ 17(3) names you - but nothing is automatic",
-    icon: Rocket,
+  "startups": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for Startups: What Section 17(3) Does",
     metaDescription:
-      "Startups under India's DPDP Act: what section 17(3) actually offers, why the exemption is not automatic, which obligations it would remove, and what applies to every startup today.",
+      "Startups under the DPDP Act: what section 17(3) actually offers, why the exemption is not automatic, and which obligations would still apply.",
     eyebrow: "§ 17(3)",
     heading: "Named In The Act.",
     headingAccent: "Not Yet Exempt.",
@@ -792,14 +775,12 @@ export const INDUSTRIES: Industry[] = [
     ],
   },
 
-  {
-    slug: "government",
-    name: "Government & public sector",
-    menuNote: "§ 7(b) legitimate use · § 17(2) exemptions",
-    icon: Building2,
+  "government": {
+    published: "2026-08-09",
+    updated: "2026-08-09",
     metaTitle: "DPDP Act for Government and Public Sector Bodies",
     metaDescription:
-      "Government under India's DPDP Act: the section 7(b) legitimate use for subsidies and services, the section 17(2)(a) exemption for notified State instrumentalities, and the Second Schedule standards.",
+      "Government under the DPDP Act: the section 7(b) legitimate use for public services, and the 17(2)(a) exemption for notified State bodies.",
     eyebrow: "§ 7(b) · § 17(2)(a)",
     heading: "The State Processes",
     headingAccent: "On Different Terms.",
@@ -882,16 +863,27 @@ export const INDUSTRIES: Industry[] = [
       },
     ],
   },
-];
+};
 
-/** Menu and hub ordering: the three named Third Schedule classes lead. */
-export const INDUSTRY_SLUGS = INDUSTRIES.map((i) => i.slug);
+/** A whole industry: menu identity plus content. What the pages render. */
+export type Industry = IndustryMenuEntry &
+  IndustryContent & { slug: IndustrySlug };
 
-export function getIndustry(slug: string): Industry | undefined {
-  return INDUSTRIES.find((i) => i.slug === slug);
+export function getIndustry(slug: IndustrySlug): Industry {
+  return { slug, ...INDUSTRY_MENU[slug], ...INDUSTRY_CONTENT[slug] };
 }
 
-/** Typed href for a given industry. */
-export function industryPath(slug: string) {
-  return `/implementation/${slug}` as Route<`/implementation/${string}`>;
-}
+/**
+ * Every industry in menu order.
+ *
+ * Server-only: this pulls the full content in, so importing it from a client
+ * component would undo the split. The client nav imports `INDUSTRY_MENU`.
+ */
+export const INDUSTRIES: Industry[] = INDUSTRY_SLUGS.map(getIndustry);
+
+export {
+  INDUSTRY_SLUGS,
+  industryPath,
+  isIndustrySlug,
+  type IndustrySlug,
+} from "./industries-menu";
