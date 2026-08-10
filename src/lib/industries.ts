@@ -37,6 +37,76 @@ export interface IndustryProvision {
   body: string;
 }
 
+/**
+ * One hop in a processing activity: a real actor or system, not a lifecycle
+ * stage.
+ *
+ * The distinction matters. "Collection -> consent -> processing -> sharing ->
+ * retention -> erasure" is the same six boxes for every sector with the labels
+ * swapped, which is the templated content this site exists to avoid. A hop is
+ * "Courier API" or "Lab information system" - something that only appears in
+ * that sector's flow, and that a reader recognises from their own architecture.
+ */
+export interface FlowStage {
+  /** The party or system holding the data at this point. */
+  actor: string;
+  /** What happens to personal data here. */
+  does: string;
+  /** Provision governing this hop, where one does. */
+  ref?: string;
+  /** How this hop goes wrong in practice. Feeds the risk view. */
+  risk?: string;
+}
+
+/** Which phase of an implementation programme a control belongs to. */
+export type ControlPhase = "foundation" | "operationalise" | "governance";
+
+/**
+ * A processing activity: the unit the Act actually attaches obligations to.
+ *
+ * Lawful basis and retention attach to a *purpose*, not to a data category.
+ * The same phone number in an e-commerce business is consented marketing,
+ * contract fulfilment and a statutory tax record at once, with three different
+ * erasure answers - so a table with one row per data type has to pick one and
+ * is wrong for the other two.
+ *
+ * Every industry view is derived from this list. The activity table is one row
+ * per activity, the diagram renders `flow`, the risk section collects each
+ * hop's `risk`, and the implementation journey groups `control` by `phase`.
+ * One place to change a fact, so the four presentations cannot drift apart.
+ */
+export interface ProcessingActivity {
+  /** What the business is doing, in its own words. */
+  name: string;
+  /** The specified purpose, in the Act's sense. */
+  purpose: string;
+  /** Personal data this activity touches. */
+  data: string[];
+  flow: FlowStage[];
+  /** Lawful basis. `ref` is the provision; `text` is why it applies here. */
+  ground: { ref: string; text: string };
+  /** The control that makes this lawful in practice, not on paper. */
+  control: string;
+  phase: ControlPhase;
+  /** What you would put in front of an auditor. */
+  evidence: string;
+  /**
+   * When the data must go.
+   *
+   * Where the answer comes from outside the Act - tax, company, RBI, clinical
+   * records law - say so and point at it. Those statutes are not in this repo
+   * and cannot be verified here, so stating a period would be inventing one.
+   */
+  retention: { ref: string; text: string };
+}
+
+/** A number worth seeing at a glance: "50 lakh" / "registered users". */
+export interface Threshold {
+  value: string;
+  label: string;
+  ref: string;
+}
+
 export interface IndustryContent {
   /**
    * When this guide was first published, and when its content last changed.
@@ -56,8 +126,21 @@ export interface IndustryContent {
   heading: string;
   headingAccent: string;
   lede: string;
+  /**
+   * Business terms that map to this sector.
+   *
+   * Search demand is in business language: people type "DPDP for hospitals",
+   * not "DPDP for clinical establishments". The page is anchored in the
+   * statute, so this is where the vocabulary people actually use lives,
+   * without inventing nine more pages to hold it.
+   */
+  covers: string[];
   /** Why this sector is not just "the Act, again". The page's reason to exist. */
   standing: string[];
+  /** The single source the activity table, diagram, risks and journey derive from. */
+  activities: ProcessingActivity[];
+  /** Numbers this sector needs at a glance. */
+  thresholds: Threshold[];
   provisions: IndustryProvision[];
   actions: { title: string; body: string }[];
   faq: { q: string; a: string }[];
@@ -75,10 +158,175 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "E-commerce Is Named",
     headingAccent: "In The Rules Themselves.",
     lede: "Most sectors have to reason by analogy from a general statute. E-commerce does not: it is one of three classes the Third Schedule names outright, and the Act uses online marketplaces in three of its own illustrations.",
+    covers: ["online stores", "marketplaces", "D2C brands", "quick commerce", "retail chains"],
     standing: [
       "The Digital Personal Data Protection Act, 2023 is drafted to be sector-neutral. It defines a Data Fiduciary by what it does with personal data, not by what industry it is in, and almost every obligation applies identically to a hospital, a bank and a bookshop. That is deliberate, and it is why most \"DPDP for your industry\" material is the same checklist with a different heading.",
       "E-commerce is one of the genuine exceptions. The Third Schedule to the Digital Personal Data Protection Rules, 2025 names \"e-commerce entity\" as a class with its own erasure clock, triggered at two crore registered users in India. And the Act's drafters reached for an online marketplace three separate times when they needed an illustration - for pre-commencement consent under section 5, for withdrawal under section 6(6), and for erasure under section 8(7). Those illustrations are part of the Act. They are the closest thing you have to the legislature telling you how it expects your sector to behave.",
       "The practical consequence is that an e-commerce compliance programme is mostly about two things the rest of the Act treats as edge cases: what happens when a customer withdraws consent in the middle of a transaction, and when a dormant account has to be erased.",
+    ],
+    thresholds: [
+      { value: "2 crore", label: "registered users in India", ref: "Third Schedule" },
+      { value: "3 years", label: "since last approach, then erase", ref: "rule 8(1)" },
+      { value: "48 hours", label: "notice before erasure", ref: "rule 8(2)" },
+    ],
+    activities: [
+      {
+        name: "Fulfil an order",
+        purpose: "Complete the purchase the customer has already paid for",
+        data: ["Name", "Delivery address", "Phone", "Payment reference", "Order contents"],
+        flow: [
+          {
+            actor: "Checkout form",
+            does: "Collects the delivery and contact details",
+            ref: "§ 5",
+            risk: "Notice bundled into terms of service rather than given at the point of collection",
+          },
+          {
+            actor: "Order service",
+            does: "Holds the order and its state transitions",
+            ref: "§ 8(1)",
+            risk: "Withdrawal wired as a global stop, cancelling deliveries the customer paid for",
+          },
+          {
+            actor: "Courier",
+            does: "Receives name, address and phone to deliver",
+            ref: "§ 8(2)",
+            risk: "Onboarded on a commercial contract with no processing terms at all",
+          },
+          {
+            actor: "Payment gateway",
+            does: "Processes the transaction and returns a reference",
+            ref: "§ 8(2)",
+            risk: "Treated as a peer rather than a processor, so no instruction trail exists",
+          },
+        ],
+        ground: {
+          ref: "§ 6",
+          text: "Consent for the specified purpose. Section 6(6) then does unusual work here: withdrawal stops future processing but does not stop the supply of goods already ordered and paid for.",
+        },
+        control:
+          "Model withdrawal and fulfilment as two independent states. Withdrawal closes future ordering; it must not cancel an in-flight delivery.",
+        phase: "foundation",
+        evidence:
+          "Per-purpose consent records tied to the order, plus the order state transitions showing what continued after withdrawal and why.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase when the purpose is served, unless another law requires retention. Tax and company law do impose invoice retention; those periods come from statutes outside this Act, so confirm them against those statutes rather than assuming a number.",
+        },
+      },
+      {
+        name: "Market to past customers",
+        purpose: "Promote further purchases to someone who has bought before",
+        data: ["Email", "Phone", "Purchase history", "Browsing and click behaviour"],
+        flow: [
+          {
+            actor: "Order service",
+            does: "Exports the customer list and purchase history",
+            risk: "Purchase data reused for marketing on the consent given for fulfilment",
+          },
+          {
+            actor: "Marketing platform",
+            does: "Segments and schedules campaigns",
+            ref: "§ 8(2)",
+            risk: "Segments built from behavioural data nobody consented to being profiled on",
+          },
+          {
+            actor: "Email and SMS vendor",
+            does: "Delivers the message",
+            ref: "§ 8(2)",
+            risk: "Suppression list not propagated, so withdrawal is honoured in one channel only",
+          },
+        ],
+        ground: {
+          ref: "§ 6",
+          text: "A separate consent from the one that supports fulfilment. Consent must be free, specific and informed, so bundling marketing into checkout does not produce it.",
+        },
+        control:
+          "A distinct opt-in for marketing, and withdrawal that is as easy as giving it was. Section 6(4) makes that comparability explicit rather than aspirational.",
+        phase: "foundation",
+        evidence:
+          "Consent records showing purpose, timestamp and the exact wording shown, plus suppression propagating to every channel within a stated window.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "On withdrawal, cease and cause processors to cease, then erase. There is no marketing-specific carve-out.",
+        },
+      },
+      {
+        name: "Hold a dormant account",
+        purpose:
+          "None, once the customer stops returning. This is exactly the case the Third Schedule was written for.",
+        data: ["Profile", "Saved addresses", "Order history", "Saved payment tokens"],
+        flow: [
+          {
+            actor: "Account store",
+            does: "Retains the profile indefinitely by default",
+            ref: "Third Schedule",
+            risk: "No last-approached timestamp, so the erasure date cannot be computed at all",
+          },
+          {
+            actor: "Erasure job",
+            does: "Computes the due date and erases",
+            ref: "rule 8(1)",
+            risk: "Runs on account creation date instead of last approach, erasing active customers",
+          },
+          {
+            actor: "Notice job",
+            does: "Warns the Data Principal before the period completes",
+            ref: "rule 8(2)",
+            risk: "Fires late, or does not cancel when the customer returns",
+          },
+        ],
+        ground: {
+          ref: "§ 8(7)",
+          text: "Once the specified purpose is no longer being served there is no basis to keep holding it, whatever the user count. The Third Schedule adds a hard clock on top for large e-commerce entities.",
+        },
+        control:
+          "Record last approach and last exercise of a right as first-class events, then drive a scheduled erasure and a forty-eight-hour notice from them.",
+        phase: "operationalise",
+        evidence:
+          "Erasure job logs showing the computed date per Data Principal, the notice sent, and any reset caused by the customer returning.",
+        retention: {
+          ref: "Third Schedule",
+          text: "Three years after the Data Principal last approached you or exercised a right, or three years from the rule's commencement, whichever is latest, at two crore or more registered users in India.",
+        },
+      },
+      {
+        name: "Answer a rights request",
+        purpose: "Discharge the duties Chapter III places on you",
+        data: ["Whatever the Data Principal asks about, across every system"],
+        flow: [
+          {
+            actor: "Published contact",
+            does: "Receives the request",
+            ref: "§ 8(9)",
+            risk: "No published contact, so requests arrive through support and are never recognised as rights requests",
+          },
+          {
+            actor: "Identity check",
+            does: "Confirms the requester is the Data Principal",
+            risk: "Either too weak to be safe, or so heavy it becomes a barrier to the right",
+          },
+          {
+            actor: "Systems sweep",
+            does: "Finds the data across order, marketing and analytics stores",
+            ref: "§ 11",
+            risk: "Analytics and warehouse copies missed, so the summary given is incomplete",
+          },
+        ],
+        ground: {
+          ref: "§ 11",
+          text: "The right to access information about processing, with correction and erasure under section 12 and grievance redressal under section 13.",
+        },
+        control:
+          "One intake channel that is published, and a documented sweep list naming every store that can hold personal data.",
+        phase: "governance",
+        evidence:
+          "A request log with received, identified, answered timestamps, and the sweep list itself under version control.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "The request record is its own processing activity. Keep what proves you complied, and no more.",
+        },
+      },
     ],
     provisions: [
       {
@@ -163,11 +411,198 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "The Lowest Threshold",
     headingAccent: "And The Hardest Section.",
     lede: "Online gaming intermediaries reach the Third Schedule's retention duty at fifty lakh users - a quarter of the trigger for e-commerce and social media. Then section 9 removes two things much of the sector is built on.",
+    covers: ["real money gaming", "fantasy sports", "mobile games", "esports platforms"],
     standing: [
       "Two features of the framework land on online gaming harder than on anything else, and they compound.",
       "The first is arithmetic. The Third Schedule names online gaming intermediaries at fifty lakh registered users in India, against two crore for e-commerce and social media. A gaming platform therefore inherits a class-specific erasure duty at one quarter of the scale, which for a growing studio can mean the obligation arrives years earlier than the compliance function does.",
       "The second is section 9, and it is the one that changes product decisions rather than data-retention policy. Section 9(3) prohibits tracking, behavioural monitoring of children and targeted advertising directed at children - flatly, with no consent override. A parent cannot authorise it. Section 9(1) requires verifiable parental consent before processing a child's personal data at all, and section 9(2) prohibits processing likely to cause a detrimental effect on a child's well-being. Under the Act a child is anyone under eighteen, which is a materially different population from the thirteen-plus most global platforms are architected around.",
       "There is a route out, and it is narrow. Section 9(5) lets the Central Government notify a higher exempt age for a specific Data Fiduciary that has satisfied it the processing is verifiably safe. That is a per-operator notification, not a class exemption, and it has to be earned before it can be relied on.",
+    ],
+    thresholds: [
+      {
+        value: "50 lakh",
+        label: "registered users in India",
+        ref: "Third Schedule"
+      },
+      {
+        value: "18",
+        label: "age below which a player is a child",
+        ref: "§ 2(f)"
+      },
+      {
+        value: "0",
+        label: "consent that can unlock § 9(3)",
+        ref: "§ 9(3)"
+      }
+    ],
+    activities: [
+      {
+        name: "Register a player",
+        purpose: "Create an account and establish whether the player is a child",
+        data: [
+          "Username",
+          "Email or phone",
+          "Date of birth",
+          "Device identifier"
+        ],
+        flow: [
+          {
+            actor: "Signup form",
+            does: "Collects the account details",
+            ref: "§ 5",
+            risk: "Notice written for an adult reader that a fourteen-year-old cannot act on"
+          },
+          {
+            actor: "Age assurance",
+            does: "Establishes whether the player is under eighteen",
+            ref: "§ 9(1)",
+            risk: "A self-declared birth date, which is an age gate rather than assurance"
+          },
+          {
+            actor: "Parent verification",
+            does: "Obtains verifiable parental consent where the player is a child",
+            ref: "§ 9(1)",
+            risk: "Treated as a checkbox the child ticks on the parent's behalf"
+          },
+          {
+            actor: "Account store",
+            does: "Holds the account and its age status",
+            risk: "Age captured once and never revisited, so a player who turns eighteen keeps child restrictions and a wrong entry is never corrected"
+          }
+        ],
+        ground: {
+          ref: "§ 9(1)",
+          text: "For a child, verifiable parental consent before any processing. For an adult, ordinary consent under section 6. Which one applies is decided by the age step, so nothing downstream is safe until that step is right."
+        },
+        control: "Put age assurance at the front of the funnel, before any gameplay telemetry is collected, and make the result a property of the session rather than an editable profile field.",
+        phase: "foundation",
+        evidence: "The parental consent record, the method used to verify it, and the age status attached to each session.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase when the account closes and the purpose is served, subject to the Third Schedule clock for lapsed accounts."
+        }
+      },
+      {
+        name: "Run a game session",
+        purpose: "Operate the game and keep it fair and functional",
+        data: [
+          "Session events",
+          "Progression",
+          "Latency and device telemetry",
+          "Chat"
+        ],
+        flow: [
+          {
+            actor: "Game client",
+            does: "Emits session and progression events",
+            risk: "The same event stream emitted for adults and children alike"
+          },
+          {
+            actor: "Telemetry pipeline",
+            does: "Aggregates behaviour for balancing and anti-cheat",
+            ref: "§ 9(3)",
+            risk: "Behavioural profiling of children, which no consent can authorise"
+          },
+          {
+            actor: "Analytics warehouse",
+            does: "Retains per-player behavioural history",
+            ref: "§ 9(3)",
+            risk: "Child sessions indistinguishable from adult ones once they land in the warehouse"
+          }
+        ],
+        ground: {
+          ref: "§ 9(3)",
+          text: "For children this is not a consent question. Tracking and behavioural monitoring are prohibited outright, so the question is what a child's session may emit at all, not what has been agreed."
+        },
+        control: "Decide per event whether it is necessary to operate the game or whether it builds a behavioural profile, and stop the second category at the client for child sessions rather than filtering it downstream.",
+        phase: "operationalise",
+        evidence: "An event inventory marking each event as operational or behavioural, and proof that behavioural events are absent from child sessions.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Operational telemetry loses its purpose quickly. Set a period tied to that purpose rather than keeping it because storage is cheap."
+        }
+      },
+      {
+        name: "Monetise the game",
+        purpose: "Sell items and show advertising",
+        data: [
+          "Purchase history",
+          "In-game behaviour",
+          "Advertising identifiers"
+        ],
+        flow: [
+          {
+            actor: "Offer engine",
+            does: "Chooses which items to surface and when",
+            ref: "§ 9(3)",
+            risk: "Offers timed against a child's engagement pattern, which is behavioural monitoring put to commercial use"
+          },
+          {
+            actor: "Ad mediation",
+            does: "Selects and serves advertising",
+            ref: "§ 9(3)",
+            risk: "Targeted advertising reaching a child through a partner you did not directly configure"
+          },
+          {
+            actor: "Payment processor",
+            does: "Takes payment",
+            ref: "§ 8(2)",
+            risk: "Engaged without a processing contract"
+          }
+        ],
+        ground: {
+          ref: "§ 9(3)",
+          text: "Targeted advertising directed at children is prohibited. For adult players ordinary consent applies, so monetisation has to be able to tell the two populations apart."
+        },
+        control: "Contextual-only inventory for under-eighteen sessions, verified across every mediation partner rather than assumed from a flag you pass downstream.",
+        phase: "operationalise",
+        evidence: "Mediation configuration per age band, and a test that a child session never receives a targeted creative.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Purchase records may be required by tax or consumer law; those periods sit outside this Act and should be confirmed against those statutes."
+        }
+      },
+      {
+        name: "Hold a lapsed account",
+        purpose: "None, once the player stops returning",
+        data: [
+          "Profile",
+          "Progression",
+          "Purchase history",
+          "Chat history"
+        ],
+        flow: [
+          {
+            actor: "Account store",
+            does: "Retains the account indefinitely by default",
+            ref: "Third Schedule",
+            risk: "No last-approached timestamp, so the erasure date cannot be computed"
+          },
+          {
+            actor: "Erasure job",
+            does: "Computes the due date and erases",
+            ref: "rule 8(1)",
+            risk: "Fifty lakh users arrives on one successful title, before anyone has built this"
+          },
+          {
+            actor: "Notice job",
+            does: "Warns before the period completes",
+            ref: "rule 8(2)",
+            risk: "Sent to a child's account rather than the parent who gave consent"
+          }
+        ],
+        ground: {
+          ref: "§ 8(7)",
+          text: "No purpose survives a player who has stopped playing. The Third Schedule then adds a hard clock at fifty lakh registered users, the lowest of the three named classes."
+        },
+        control: "Record last approach as a first-class event from launch, because the threshold is reachable on a single hit title.",
+        phase: "operationalise",
+        evidence: "Erasure job logs with the computed date per player and the notice actually sent.",
+        retention: {
+          ref: "Third Schedule",
+          text: "Three years after last approach or exercise of a right, at fifty lakh or more registered users in India."
+        }
+      }
     ],
     provisions: [
       {
@@ -252,10 +687,189 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "The One Carve-Out",
     headingAccent: "Written For You.",
     lede: "Social media intermediaries are a named Third Schedule class. They are also the beneficiary of the Act's most consequential exclusion - and its illustration is about a blogger posting to social media.",
+    covers: ["social networks", "content platforms", "community apps", "creator platforms"],
     standing: [
       "Section 3 sets the Act's territorial and material scope, and clause (c)(ii) takes out of it personal data that a Data Principal makes publicly available herself. The illustration is unusually direct: X, an individual, while blogging her views, has publicly made available her personal data on social media; in such case the provisions of the Act shall not apply.",
       "This matters enormously and it is routinely over-read. What falls outside the Act is the personal data the Data Principal herself made public. It is not a general exemption for platforms, and it does not reach the account data, the device and behavioural data, the private messages, or the inferences the platform derives - none of which the user published. A platform's obligations under Chapters II and III are largely untouched. What the carve-out does resolve is the awkward question of whether a public post is itself regulated personal data, and the answer is no.",
       "Alongside that sits the Third Schedule, which names social media intermediaries at two crore registered users in India with the same three-year erasure clock as e-commerce, and section 9, which prohibits behavioural monitoring of and targeted advertising to anyone under eighteen. For a platform whose ranking and advertising systems are built on behavioural signal, section 9(3) is the provision with real product consequences.",
+    ],
+    thresholds: [
+      {
+        value: "2 crore",
+        label: "registered users in India",
+        ref: "Third Schedule"
+      },
+      {
+        value: "3 years",
+        label: "since last approach, then erase",
+        ref: "rule 8(1)"
+      },
+      {
+        value: "18",
+        label: "age below which ranking on behaviour is prohibited",
+        ref: "§ 9(3)"
+      }
+    ],
+    activities: [
+      {
+        name: "Publish what a user posts",
+        purpose: "Show the user's own content to the audience she chose",
+        data: [
+          "Post text and media",
+          "Profile shown alongside it",
+          "Audience setting"
+        ],
+        flow: [
+          {
+            actor: "Composer",
+            does: "Takes the post and its audience setting",
+            ref: "§ 3",
+            risk: "Public and private posts handled by one code path, so the carve-out is applied to both"
+          },
+          {
+            actor: "Content store",
+            does: "Holds the post",
+            ref: "§ 3",
+            risk: "The whole record treated as out of scope because part of it was published"
+          },
+          {
+            actor: "Distribution",
+            does: "Serves it to the chosen audience",
+            risk: "Audience setting changed later without the earlier distribution being reconsidered"
+          }
+        ],
+        ground: {
+          ref: "§ 3",
+          text: "Section 3(c)(ii) puts personal data the Data Principal makes publicly available herself outside the Act entirely. The illustration is a blogger posting to social media. It is narrow: it covers what she published, not what you observed about her."
+        },
+        control: "Classify the published content separately from everything else you hold. Account metadata, engagement signals, private messages and inferences stay fully in scope.",
+        phase: "foundation",
+        evidence: "A data map that draws the line explicitly, and shows which stores sit on which side of it.",
+        retention: {
+          ref: "§ 3",
+          text: "The published content is outside the Act. Everything around it follows section 8(7) as normal."
+        }
+      },
+      {
+        name: "Rank the feed",
+        purpose: "Decide what each user sees and in what order",
+        data: [
+          "Dwell time",
+          "Taps and scrolls",
+          "Follow graph",
+          "Inferred interests"
+        ],
+        flow: [
+          {
+            actor: "Client",
+            does: "Emits engagement signals",
+            ref: "§ 9(3)",
+            risk: "The same signals emitted whether the account belongs to an adult or a fifteen-year-old"
+          },
+          {
+            actor: "Ranking service",
+            does: "Builds a per-user behavioural profile",
+            ref: "§ 9(3)",
+            risk: "For a child this is behavioural monitoring, and no consent makes it lawful"
+          },
+          {
+            actor: "Model training",
+            does: "Learns from aggregated behaviour",
+            risk: "Child behaviour already inside a trained model, which is far harder to unwind than a database row"
+          }
+        ],
+        ground: {
+          ref: "§ 9(3)",
+          text: "Ranking on engagement is behavioural monitoring by any ordinary reading. For anyone under eighteen the Act prohibits it outright rather than gating it behind consent."
+        },
+        control: "Establish what a minor's session may emit at all, and confirm the ranking and recommendation systems still function without it rather than assuming a downstream flag is sufficient.",
+        phase: "operationalise",
+        evidence: "A signal inventory per age band, and evidence that child sessions are excluded from behavioural model training.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Behavioural signals serve a purpose that ends; set a period against that purpose."
+        }
+      },
+      {
+        name: "Serve advertising",
+        purpose: "Monetise attention",
+        data: [
+          "Inferred interests",
+          "Advertising identifiers",
+          "Engagement history"
+        ],
+        flow: [
+          {
+            actor: "Ad targeting",
+            does: "Selects an audience segment",
+            ref: "§ 9(3)",
+            risk: "A segment that a child's account can fall into"
+          },
+          {
+            actor: "Ad exchange",
+            does: "Auctions the impression",
+            ref: "§ 8(2)",
+            risk: "Data shared with bidders under no processing contract"
+          },
+          {
+            actor: "Measurement",
+            does: "Attributes the outcome back to the user",
+            risk: "Attribution rebuilding the behavioural profile the ranking controls were meant to prevent"
+          }
+        ],
+        ground: {
+          ref: "§ 9(3)",
+          text: "Targeted advertising directed at children is prohibited. For adults, consent under section 6 applies and must be specific enough to cover the profiling involved."
+        },
+        control: "Contextual-only inventory for under-eighteen accounts, enforced at the exchange boundary rather than in your own stack alone.",
+        phase: "operationalise",
+        evidence: "Exchange configuration per age band, and a bid-request sample showing no behavioural attributes for child accounts.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase on withdrawal and cause processors and downstream bidders to do the same."
+        }
+      },
+      {
+        name: "Hold a lapsed account",
+        purpose: "None, once the user stops returning",
+        data: [
+          "Profile",
+          "Posts",
+          "Message history",
+          "Behavioural history"
+        ],
+        flow: [
+          {
+            actor: "Account store",
+            does: "Retains indefinitely by default",
+            ref: "Third Schedule",
+            risk: "Passive impressions counted as approach, so the clock never starts"
+          },
+          {
+            actor: "Erasure job",
+            does: "Computes the due date and erases",
+            ref: "rule 8(1)",
+            risk: "Published content and observed data erased together, or neither"
+          },
+          {
+            actor: "Notice job",
+            does: "Warns before the period completes",
+            ref: "rule 8(2)",
+            risk: "Sent to an email the user abandoned with the account"
+          }
+        ],
+        ground: {
+          ref: "§ 8(7)",
+          text: "Once no purpose is served there is no basis to keep holding it. The Third Schedule adds a three-year clock at two crore registered users."
+        },
+        control: "Define which interactions count as approach and log them deliberately. A passive impression is not the user approaching you.",
+        phase: "operationalise",
+        evidence: "The definition of approach under version control, plus erasure job logs.",
+        retention: {
+          ref: "Third Schedule",
+          text: "Three years after last approach or exercise of a right, at two crore or more registered users in India."
+        }
+      }
     ],
     provisions: [
       {
@@ -340,11 +954,194 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "Health Data Lost",
     headingAccent: "Its Special Status.",
     lede: "The SPDI Rules singled out medical records and physical and mental health condition for heightened protection. The DPDP Act abandons the category entirely - and then carves healthcare out of the children's provisions so that consent cannot gate a child's treatment.",
+    covers: ["hospitals", "clinics", "diagnostic labs", "telemedicine", "pharmacies", "mental health services"],
     standing: [
       "Two changes define healthcare's position, and they pull in opposite directions.",
       "The first is a reduction in sector-specific treatment. Under the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011, physical and mental health condition and medical records were sensitive personal data, attracting a heavier standard than ordinary personal information. The DPDP Act abandons that category. It regulates all digital personal data at a single standard, and a hospital's obligations in respect of a diagnosis are, on the face of the Act, the obligations it has in respect of a phone number. This surprises people, and it is genuinely what the statute does.",
       "The second runs the other way, and it exists because the first would otherwise be dangerous. Section 9(1) requires verifiable parental consent before processing a child's personal data. Applied literally to a hospital, that would make parental consent a precondition of treating a child - including a child brought in unconscious, and including a sixteen-year-old seeking mental health support. Section 9(4) anticipated the problem by allowing classes and purposes to be prescribed as exempt, and rule 12 with the Fourth Schedule does exactly that: Part A begins with clinical establishments, mental health establishments and healthcare professionals, where the processing is restricted to providing health services to the child.",
       "Add section 38(1) - the Act is in addition to and not in derogation of any other law - and the shape becomes clear. Clinical establishment law, medical records retention, professional confidentiality obligations and the digital health frameworks all survive untouched. The DPDP Act is a new layer, not a replacement.",
+    ],
+    thresholds: [
+      {
+        value: "Part A",
+        label: "Fourth Schedule classes exempt from § 9(1) and 9(3)",
+        ref: "rule 12"
+      },
+      {
+        value: "18",
+        label: "age below which § 9 engages",
+        ref: "§ 2(f)"
+      },
+      {
+        value: "None",
+        label: "special category for health data",
+        ref: "§ 3"
+      }
+    ],
+    activities: [
+      {
+        name: "Treat a patient",
+        purpose: "Provide health services to the person in front of you",
+        data: [
+          "Name and contact",
+          "Presenting complaint",
+          "Diagnosis",
+          "Prescriptions",
+          "Next of kin"
+        ],
+        flow: [
+          {
+            actor: "Reception",
+            does: "Registers the patient",
+            ref: "§ 5",
+            risk: "Consent forms used as the basis for treatment, creating a right to withdraw that you cannot honour mid-care"
+          },
+          {
+            actor: "Clinician",
+            does: "Records history, diagnosis and plan",
+            ref: "§ 7",
+            risk: "Section 7 legitimate uses never mapped, so everything is grounded in consent by default"
+          },
+          {
+            actor: "Clinical record",
+            does: "Stores the encounter",
+            ref: "§ 38(1)",
+            risk: "Clinical records law treated as displaced by the Act rather than surviving alongside it"
+          },
+          {
+            actor: "Lab or imaging",
+            does: "Receives the order and returns results",
+            ref: "§ 8(2)",
+            risk: "Referral partners engaged with no processing terms"
+          }
+        ],
+        ground: {
+          ref: "§ 7",
+          text: "Certain legitimate uses, not consent. Section 7 covers responding to a medical emergency involving a threat to life or an immediate threat to health, and taking measures during an epidemic or outbreak. Consent is a poor basis for care a patient cannot meaningfully decline."
+        },
+        control: "Map each processing purpose to a basis that is not consent wherever the law already supplies one, and reserve consent for what a patient can genuinely refuse.",
+        phase: "foundation",
+        evidence: "A purpose-to-basis map per record type, and the clinical policy that implements it.",
+        retention: {
+          ref: "§ 38(1)",
+          text: "Clinical establishment rules and professional obligations set the periods, and section 8(7) carves out retention required by law. Those periods come from statutes outside this Act; confirm them there rather than assuming a number."
+        }
+      },
+      {
+        name: "Treat a child",
+        purpose: "Provide health services to a patient under eighteen",
+        data: [
+          "The child's clinical data",
+          "Parent or guardian contact"
+        ],
+        flow: [
+          {
+            actor: "Reception",
+            does: "Identifies the patient as a child",
+            ref: "§ 9(1)",
+            risk: "Parental consent treated as a precondition of care, which would gate an emergency"
+          },
+          {
+            actor: "Clinician",
+            does: "Delivers care",
+            ref: "rule 12",
+            risk: "The Fourth Schedule exemption assumed to cover everything the hospital does with the child's data"
+          },
+          {
+            actor: "Clinical record",
+            does: "Stores the encounter",
+            risk: "Child records flowing into feedback, marketing or research systems where the exemption does not reach"
+          }
+        ],
+        ground: {
+          ref: "§ 9(4)",
+          text: "Section 9(4) allows classes and purposes to be prescribed as exempt, and rule 12 with Part A of the Fourth Schedule does so - beginning with clinical establishments, mental health establishments and healthcare professionals, where processing is restricted to providing health services to the child."
+        },
+        control: "Confirm your class against the Schedule text, and treat the exemption as bounded by that purpose. Marketing, engagement analytics and research are not health services to the child.",
+        phase: "foundation",
+        evidence: "The class determination in writing, and a boundary showing which systems child data may and may not enter.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "As for any patient record, governed by the retention the law requires."
+        }
+      },
+      {
+        name: "Communicate with patients",
+        purpose: "Appointment reminders, feedback requests and health campaigns",
+        data: [
+          "Phone",
+          "Email",
+          "Appointment history",
+          "Condition, where campaigns are targeted"
+        ],
+        flow: [
+          {
+            actor: "Appointment system",
+            does: "Exports the contact list",
+            risk: "Clinical data reused for outreach on the basis given for treatment"
+          },
+          {
+            actor: "Messaging vendor",
+            does: "Sends the reminder or campaign",
+            ref: "§ 8(2)",
+            risk: "Health information sent over consumer messaging with no processing contract and no recipient verification"
+          },
+          {
+            actor: "Feedback platform",
+            does: "Collects responses",
+            ref: "§ 8(2)",
+            risk: "A third-party tool holding patient identity outside the clinical estate"
+          }
+        ],
+        ground: {
+          ref: "§ 6",
+          text: "Outreach beyond care is ordinary processing needing ordinary consent, specific to that purpose. It does not inherit the basis that supports treatment."
+        },
+        control: "Separate operational reminders from marketing, and keep condition-derived targeting out of any channel you cannot verify the recipient on.",
+        phase: "operationalise",
+        evidence: "Separate consent records for outreach, and a vendor register with processing terms for each.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase on withdrawal. Ancillary systems, not the medical record, are usually where retention quietly becomes indefinite."
+        }
+      },
+      {
+        name: "Answer a rights request",
+        purpose: "Discharge Chapter III duties",
+        data: [
+          "Whatever the patient asks about, across clinical and ancillary systems"
+        ],
+        flow: [
+          {
+            actor: "Published contact",
+            does: "Receives the request",
+            ref: "§ 8(9)",
+            risk: "No published contact, so requests arrive at a ward and stop there"
+          },
+          {
+            actor: "Identity check",
+            does: "Confirms the requester",
+            risk: "Records released to a family member who is not the Data Principal or a lawful guardian"
+          },
+          {
+            actor: "Systems sweep",
+            does: "Finds the data",
+            ref: "§ 11",
+            risk: "Ancillary systems missed, so the response describes the medical record only"
+          }
+        ],
+        ground: {
+          ref: "§ 11",
+          text: "Access to a summary of what is processed and with whom it has been shared, with correction and erasure under section 12."
+        },
+        control: "One published channel, an identity standard proportionate to the sensitivity, and a sweep list naming every system including the ancillary ones.",
+        phase: "governance",
+        evidence: "Request log with timestamps, and the sweep list under version control.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Keep what proves compliance, no more."
+        }
+      }
     ],
     provisions: [
       {
@@ -429,11 +1226,192 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "The Act Has A Provision",
     headingAccent: "Just For Lenders.",
     lede: "Financial services is the only sector with an exemption drafted around its own business problem - and the Act illustrates both that exemption and its retention rule with a bank.",
+    covers: ["banks", "NBFCs", "fintech", "lending apps", "insurance", "wealth platforms"],
     standing: [
       "Regulated financial institutions arrive at the DPDP Act already carrying more data obligations than almost anyone else: RBI directions on storage and localisation, KYC record-keeping, SEBI and IRDAI requirements, prevention of money laundering rules. The first question is always whether the new statute displaces any of it. Section 38(1) answers plainly - the Act is in addition to and not in derogation of any other law for the time being in force. Nothing is displaced. Where an RBI direction is stricter, it governs; where the Act adds a duty, the duty is added.",
       "What makes this sector distinctive is that the Act then legislates directly for one of its problems. Section 17(1)(f) disapplies Chapter II (except sections 8(1) and 8(5)), Chapter III and section 16 where processing is for ascertaining the financial information, assets and liabilities of a person who has defaulted on payment due on a loan or advance taken from a financial institution - with default and financial institution taking their meanings from the Insolvency and Bankruptcy Code. The illustration is a bank and a borrower who misses an instalment.",
       "That exemption is substantial. Chapter III is the entire rights chapter, so a defaulting borrower's access, correction and erasure rights do not run against recovery-related processing. Section 16 is cross-border transfer restriction. What survives is section 8(1) - the Data Fiduciary remains responsible for compliance - and section 8(5), reasonable security safeguards. The exemption removes process obligations; it does not remove accountability or the duty to keep the data secure.",
       "The Act also uses a bank to illustrate its retention rule. Under section 8(7) illustration (II), X closes her savings account, Y is required by law to maintain client identity records for ten years beyond closure, and because retention is necessary for compliance with law, Y retains the data for that period.",
+    ],
+    thresholds: [
+      {
+        value: "10 years",
+        label: "client identity records, in the Act's own bank illustration",
+        ref: "§ 8(7)"
+      },
+      {
+        value: "§ 17(1)(f)",
+        label: "disapplies Chapters II and III for defaulter processing",
+        ref: "§ 17(1)(f)"
+      },
+      {
+        value: "₹250 crore",
+        label: "maximum penalty for a safeguards failure",
+        ref: "Schedule"
+      }
+    ],
+    activities: [
+      {
+        name: "Onboard a customer",
+        purpose: "Open the account and meet identification obligations",
+        data: [
+          "Identity documents",
+          "Address proof",
+          "PAN",
+          "Photograph",
+          "Biometrics where used"
+        ],
+        flow: [
+          {
+            actor: "Application",
+            does: "Collects the documents",
+            ref: "§ 5",
+            risk: "Notice presented as a consent form for processing another law already requires"
+          },
+          {
+            actor: "KYC vendor",
+            does: "Verifies identity",
+            ref: "§ 8(2)",
+            risk: "Vendor engaged commercially with no processing contract"
+          },
+          {
+            actor: "Core banking",
+            does: "Creates the customer record",
+            ref: "§ 38(1)",
+            risk: "The Act treated as replacing sectoral obligations rather than adding to them"
+          }
+        ],
+        ground: {
+          ref: "§ 38(1)",
+          text: "The Act is in addition to and not in derogation of other law. Identification obligations come from those statutes, so consent is the wrong frame for most of onboarding."
+        },
+        control: "Ground each element in the law that actually requires it, and reserve consent for the processing a customer can decline without being refused the account.",
+        phase: "foundation",
+        evidence: "A basis map per data element citing the statute, and processing contracts with every verification vendor.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Retention required by law survives the erasure duty. The Act's own illustration is ten years of client identity records beyond account closure, because a law requires it."
+        }
+      },
+      {
+        name: "Service the account",
+        purpose: "Operate the account and meet ongoing reporting duties",
+        data: [
+          "Transactions",
+          "Balances",
+          "Communications",
+          "Device and channel data"
+        ],
+        flow: [
+          {
+            actor: "Channels",
+            does: "Collect transaction and device data",
+            risk: "Digital channel telemetry grouped with regulated transaction data under one vague basis"
+          },
+          {
+            actor: "Core banking",
+            does: "Records the transaction",
+            ref: "§ 38(1)",
+            risk: "Sectoral retention and the Act's erasure duty never reconciled in one register"
+          },
+          {
+            actor: "Reporting",
+            does: "Files regulatory returns",
+            ref: "§ 7",
+            risk: "Regulatory reporting described to customers as something they consented to"
+          }
+        ],
+        ground: {
+          ref: "§ 38(1)",
+          text: "Most account servicing is required or authorised by other law. Where it is not, section 6 consent applies."
+        },
+        control: "One retention register covering both regimes, naming per record type the law that requires retention, the period, and what happens after.",
+        phase: "operationalise",
+        evidence: "The register itself, reviewed on a stated cadence, with the statute cited per row.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase what no law requires you to keep once the purpose is served. The carve-out covers retention that is necessary for compliance, not retention that is merely customary."
+        }
+      },
+      {
+        name: "Pursue a defaulter",
+        purpose: "Ascertain the financial position of a borrower who has defaulted",
+        data: [
+          "Loan account",
+          "Assets and liabilities",
+          "Third-party financial information"
+        ],
+        flow: [
+          {
+            actor: "Collections",
+            does: "Identifies the default",
+            ref: "§ 17(1)(f)",
+            risk: "The exemption applied to the customer's whole relationship rather than to recovery"
+          },
+          {
+            actor: "Investigation",
+            does: "Ascertains assets and liabilities",
+            ref: "§ 17(1)(f)",
+            risk: "Default and financial institution read loosely rather than as the Insolvency and Bankruptcy Code defines them"
+          },
+          {
+            actor: "Recovery agents",
+            does: "Act on the information",
+            ref: "§ 8(2)",
+            risk: "Agents outside the exemption's scope handling data as if inside it"
+          }
+        ],
+        ground: {
+          ref: "§ 17(1)(f)",
+          text: "Chapter II except sections 8(1) and 8(5), Chapter III and section 16 do not apply where processing is for ascertaining the financial information, assets and liabilities of a person who has defaulted on a loan from a financial institution. Default and financial institution take their Insolvency and Bankruptcy Code meanings."
+        },
+        control: "Scope the exemption to the recovery workflow and keep the rest of that customer's data under the full regime. Section 8(1) responsibility and section 8(5) safeguards survive regardless.",
+        phase: "operationalise",
+        evidence: "A written scope for the exemption, and access controls that stop recovery data reaching general servicing.",
+        retention: {
+          ref: "§ 8(5)",
+          text: "The exemption removes process duties, not the duty to secure the data. Set a period against the recovery purpose."
+        }
+      },
+      {
+        name: "Process across borders",
+        purpose: "Use group systems or offshore providers",
+        data: [
+          "Customer records",
+          "Transactions",
+          "Support interactions"
+        ],
+        flow: [
+          {
+            actor: "Group platform",
+            does: "Processes outside India",
+            ref: "§ 16",
+            risk: "Section 16, rule 12 localisation and RBI directions treated as one rule rather than three"
+          },
+          {
+            actor: "Offshore support",
+            does: "Accesses records to resolve tickets",
+            ref: "§ 8(2)",
+            risk: "Access granted broadly because the contract is intra-group"
+          },
+          {
+            actor: "Analytics",
+            does: "Aggregates for group reporting",
+            risk: "Payment data leaving India despite a direction that requires it to stay"
+          }
+        ],
+        ground: {
+          ref: "§ 16",
+          text: "The Central Government may restrict transfer to notified territories. Rule 12 adds localisation of specified personal data for Significant Data Fiduciaries, and RBI directions continue to apply under section 38(1)."
+        },
+        control: "Confirm which of the three applies to each flow, because they have different scopes and the strictest governs.",
+        phase: "governance",
+        evidence: "A data flow inventory with the governing rule named per flow.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erasure must reach offshore copies, or it has not happened."
+        }
+      }
     ],
     provisions: [
       {
@@ -518,11 +1496,198 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "Your Users Are Children.",
     headingAccent: "That Changes Everything.",
     lede: "For most sectors section 9 is an edge case handled by an age gate. For education it is the centre of the compliance problem, because the Act's definition of a child covers most of the student body.",
+    covers: ["schools", "colleges", "coaching centres", "test prep", "K-12 platforms", "training institutes"],
     standing: [
       "The Act defines a child as an individual who has not completed eighteen years of age. In a school, a coaching platform or a K-12 product, that is not a minority of users to be screened out - it is the user base. Section 9 therefore stops being a peripheral control and becomes the architecture.",
       "Three duties follow. Section 9(1) requires verifiable parental consent before processing a child's personal data, in the manner prescribed by rule 10. Section 9(2) prohibits processing likely to cause a detrimental effect on a child's well-being. Section 9(3) prohibits tracking, behavioural monitoring of children and targeted advertising directed at children, outright and without a consent override.",
       "Section 9(3) is the one that reaches furthest into an EdTech product, because the line between pedagogy and behavioural monitoring is not obvious. Adaptive learning that adjusts difficulty from a student's answers is doing something a lawyer might characterise as behavioural monitoring, and so is engagement scoring, attention tracking in a proctored exam, and a recommendation engine that surfaces the next course. Some of that is the product working as intended for the learner's benefit; some of it is profiling. The Act does not draw the line for you, which means you have to draw it deliberately and be able to explain it.",
       "There is relief in the framework, and its extent depends on your class. Section 9(4) allows classes of Data Fiduciary and purposes to be prescribed as exempt from sections 9(1) and 9(3), and rule 12 with Part A of the Fourth Schedule does that - beginning with clinical and mental health establishments. Whether and how far it reaches educational providers is a question to answer against the Schedule text for your specific class and purpose, not to assume.",
+    ],
+    thresholds: [
+      {
+        value: "18",
+        label: "age below which every learner is a child",
+        ref: "§ 2(f)"
+      },
+      {
+        value: "rule 10",
+        label: "prescribes how parental consent is verified",
+        ref: "rule 10"
+      },
+      {
+        value: "0",
+        label: "consent that can unlock § 9(3)",
+        ref: "§ 9(3)"
+      }
+    ],
+    activities: [
+      {
+        name: "Enrol a learner",
+        purpose: "Create the account and establish who may consent for it",
+        data: [
+          "Learner name",
+          "Class or grade",
+          "Date of birth",
+          "Parent or guardian contact",
+          "School"
+        ],
+        flow: [
+          {
+            actor: "Enrolment form",
+            does: "Collects learner and guardian details",
+            ref: "§ 5",
+            risk: "Notice addressed to the learner, who cannot give the consent being relied on"
+          },
+          {
+            actor: "Parent verification",
+            does: "Obtains verifiable parental consent",
+            ref: "§ 9(1)",
+            risk: "A tick box the learner completes claiming to be a parent"
+          },
+          {
+            actor: "School procurement",
+            does: "Signs the contract on the institution's behalf",
+            ref: "§ 8(2)",
+            risk: "The school treated as able to consent in the parent's place, which section 9(1) does not provide for"
+          },
+          {
+            actor: "Learner record",
+            does: "Holds the profile",
+            risk: "No route to withdraw, so consent is a one-way door"
+          }
+        ],
+        ground: {
+          ref: "§ 9(1)",
+          text: "Verifiable consent of the parent or lawful guardian before processing a child's personal data, in the manner rule 10 prescribes. A school is generally neither parent nor guardian."
+        },
+        control: "Build parental consent once, centrally, and settle the roles: usually the institution determines purpose and means as Data Fiduciary while the platform acts as Data Processor under section 8(2), with the school obtaining consent.",
+        phase: "foundation",
+        evidence: "The consent record with method and timestamp, and the contract that fixes which party is Fiduciary and which is Processor.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase when the learner leaves and the purpose is served, unless an education record obligation applies from another statute."
+        }
+      },
+      {
+        name: "Deliver adaptive learning",
+        purpose: "Teach this learner by adjusting to their answers",
+        data: [
+          "Answers",
+          "Time on task",
+          "Attempts",
+          "Progress"
+        ],
+        flow: [
+          {
+            actor: "Learning client",
+            does: "Records answers and timing",
+            risk: "One event stream serving both teaching and profiling with no line drawn between them"
+          },
+          {
+            actor: "Adaptive engine",
+            does: "Adjusts difficulty from performance",
+            ref: "§ 9(3)",
+            risk: "Adjustment indistinguishable from building a persistent behavioural profile"
+          },
+          {
+            actor: "Engagement analytics",
+            does: "Scores attention and streaks",
+            ref: "§ 9(3)",
+            risk: "Engagement optimisation aimed at children, which is behavioural monitoring however it is labelled"
+          },
+          {
+            actor: "Reporting",
+            does: "Shows progress to teacher and parent",
+            ref: "§ 9(2)",
+            risk: "Rankings that affect a child's wellbeing surfaced without thought"
+          }
+        ],
+        ground: {
+          ref: "§ 9(3)",
+          text: "Tracking, behavioural monitoring and targeted advertising directed at children are prohibited outright, with no consent override. The Act does not draw the line between teaching and profiling, so you must draw it and be able to explain it."
+        },
+        control: "Classify every feature as pedagogy or profiling before anyone asks. Adjusting difficulty to teach this learner is defensible; a persistent behavioural profile and engagement optimisation are not.",
+        phase: "operationalise",
+        evidence: "A feature-by-feature classification with the reasoning, plus what is retained, for how long, and what else it feeds.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Learning data serves the course. Set a period against that, not against the life of the account."
+        }
+      },
+      {
+        name: "Report to the institution",
+        purpose: "Give the school the data it needs to run the programme",
+        data: [
+          "Attendance",
+          "Scores",
+          "Progress",
+          "Behavioural flags"
+        ],
+        flow: [
+          {
+            actor: "Platform",
+            does: "Aggregates learner data",
+            ref: "§ 8(1)",
+            risk: "Acting on your own initiative on data the school controls"
+          },
+          {
+            actor: "School dashboard",
+            does: "Presents it to staff",
+            ref: "§ 8(2)",
+            risk: "Broad staff access with no role separation"
+          },
+          {
+            actor: "Export",
+            does: "Leaves the platform as a file",
+            risk: "Spreadsheets of children's data on personal devices, outside every control you built"
+          }
+        ],
+        ground: {
+          ref: "§ 8(2)",
+          text: "Where the institution determines purpose and means, you are a Data Processor and may act only under a valid contract. The Fiduciary remains responsible under section 8(1) irrespective of any agreement to the contrary."
+        },
+        control: "Fix the roles in the contract and make them true in the product: role-based access, and exports that are logged rather than silent.",
+        phase: "governance",
+        evidence: "The processing contract, the access model, and an export log.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Cease and erase on the Fiduciary's instruction, including copies the school has exported where you control them."
+        }
+      },
+      {
+        name: "Market to parents",
+        purpose: "Sell the next course or renewal",
+        data: [
+          "Parent contact",
+          "Learner progress",
+          "Purchase history"
+        ],
+        flow: [
+          {
+            actor: "CRM",
+            does: "Segments on learner performance",
+            ref: "§ 6",
+            risk: "A child's academic performance used as a marketing signal"
+          },
+          {
+            actor: "Campaign tool",
+            does: "Sends to the parent",
+            ref: "§ 8(2)",
+            risk: "Vendor engaged with no processing terms"
+          }
+        ],
+        ground: {
+          ref: "§ 6",
+          text: "Marketing to a parent is ordinary processing of the parent's data, needing consent specific to that purpose. It does not inherit the basis that supports teaching the child."
+        },
+        control: "Keep learner performance out of marketing segmentation, and take separate consent from the parent in their own right.",
+        phase: "operationalise",
+        evidence: "Consent records for the parent, and a segmentation policy excluding learner performance.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase on withdrawal, across every channel."
+        }
+      }
     ],
     provisions: [
       {
@@ -607,11 +1772,191 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "Two Roles,",
     headingAccent: "One Codebase.",
     lede: "A SaaS company is a Data Processor for its customers' data and a Data Fiduciary for its own users' data - usually in the same system, often in the same table. The Act treats those two positions very differently.",
+    covers: ["B2B software", "IT services", "BPO", "cloud platforms", "developer tools"],
     standing: [
       "The Act defines a Data Processor as any person who processes personal data on behalf of a Data Fiduciary. When your customer decides what happens to their end-users' data and you execute it, that is you. But you also run signup, billing, support and your own product analytics, and for those you determine the purpose and means yourself - which makes you a Data Fiduciary. Both are true simultaneously, and the obligations differ sharply, so the first task is knowing which data sits in which role.",
       "The Act's structure of processor liability is worth reading closely, because it is not what a GDPR-trained team expects. Section 8(1) makes the Data Fiduciary responsible for complying with the Act in respect of any processing undertaken by it or on its behalf by a Data Processor - irrespective of any agreement to the contrary. The customer cannot contract that responsibility away to you. Section 8(2) then requires that a Data Fiduciary may involve a Data Processor for any activity related to offering goods or services only under a valid contract.",
       "The Act does not prescribe that contract's contents the way the GDPR's Article 28 does. That sounds like less work and is often more, because there is no statutory template to fall back on: what the contract must achieve is whatever lets your customer discharge their own section 8 duties through you. In practice this makes your Data Processing Addendum a commercial document as much as a legal one, and it becomes a procurement gate for enterprise deals.",
       "One provision is specifically useful to offshore IT services. Section 17(1)(d) disapplies Chapter II (except sections 8(1) and 8(5)), Chapter III and section 16 where personal data of Data Principals outside India is processed under a contract with a person outside India by a person based in India. That is the export services model, and the Act deliberately declines to regulate it beyond accountability and security.",
+    ],
+    thresholds: [
+      {
+        value: "2",
+        label: "roles you hold at once: Fiduciary and Processor",
+        ref: "§ 2"
+      },
+      {
+        value: "§ 8(2)",
+        label: "makes a valid contract mandatory, not optional",
+        ref: "§ 8(2)"
+      },
+      {
+        value: "§ 17(1)(d)",
+        label: "carves out offshore work for non-India Principals",
+        ref: "§ 17(1)(d)"
+      }
+    ],
+    activities: [
+      {
+        name: "Process a customer's data",
+        purpose: "Do what your customer instructs, on their end-users' data",
+        data: [
+          "Whatever the customer stores in your product"
+        ],
+        flow: [
+          {
+            actor: "Customer tenant",
+            does: "Holds the customer's end-user data",
+            ref: "§ 8(1)",
+            risk: "Your customer believing liability transferred to you, which section 8(1) prevents"
+          },
+          {
+            actor: "Your services",
+            does: "Process on instruction",
+            ref: "§ 8(2)",
+            risk: "Operating with no processing contract, putting the customer in breach by using you"
+          },
+          {
+            actor: "Sub-processors",
+            does: "Hosting, email, search, support tooling",
+            ref: "§ 8(2)",
+            risk: "Sub-processors added without notice, so the customer cannot discharge their own duty"
+          },
+          {
+            actor: "Backups",
+            does: "Retain copies",
+            ref: "§ 8(7)",
+            risk: "Deletion honoured in the primary store while backups quietly retain everything"
+          }
+        ],
+        ground: {
+          ref: "§ 8(2)",
+          text: "A Data Fiduciary may involve a Processor only under a valid contract. The Act does not enumerate its clauses the way the GDPR does, so the contract has to be built around what your customer must be able to prove."
+        },
+        control: "Write the addendum from sections 8(1), 8(2), 6(6) and 8(7) rather than porting an Article 28 template, and keep a current sub-processor list.",
+        phase: "foundation",
+        evidence: "The executed addendum, the sub-processor register, and the change-notice record.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase on the Fiduciary's instruction, including copies held by sub-processors and in backups."
+        }
+      },
+      {
+        name: "Run your own product",
+        purpose: "Sign up, bill and improve the service",
+        data: [
+          "Account holder identity",
+          "Billing records",
+          "Support tickets",
+          "Product analytics"
+        ],
+        flow: [
+          {
+            actor: "Signup",
+            does: "Collects the account holder's details",
+            ref: "§ 5",
+            risk: "The same notice used for your users and your customers' end-users, which are different relationships"
+          },
+          {
+            actor: "Billing",
+            does: "Holds payment records",
+            ref: "§ 8(7)",
+            risk: "Retained indefinitely on a tax argument that was never checked"
+          },
+          {
+            actor: "Product analytics",
+            does: "Observes how the product is used",
+            ref: "§ 6",
+            risk: "End-user data from customer tenants flowing into your own analytics, where you are not the Processor any more"
+          }
+        ],
+        ground: {
+          ref: "§ 6",
+          text: "Here you determine purpose and means, so you are the Data Fiduciary with the full set of obligations, including notice and consent."
+        },
+        control: "Draw the Fiduciary and Processor line in the schema, not in the policy. Teams that leave it implicit end up applying processor logic to data they are actually Fiduciary for.",
+        phase: "foundation",
+        evidence: "A data map marking each store with the role you hold for it.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Billing records may be required by tax law; those periods sit outside this Act and should be confirmed against those statutes."
+        }
+      },
+      {
+        name: "Honour a cessation instruction",
+        purpose: "Stop processing when your customer's user withdraws consent",
+        data: [
+          "The affected end-user's records, everywhere"
+        ],
+        flow: [
+          {
+            actor: "Customer API call",
+            does: "Signals withdrawal or erasure",
+            ref: "§ 6(6)",
+            risk: "Handled as a support ticket, so it cannot be evidenced at volume"
+          },
+          {
+            actor: "Primary store",
+            does: "Deletes the records",
+            ref: "§ 8(7)",
+            risk: "Soft delete presented as erasure"
+          },
+          {
+            actor: "Queues and caches",
+            does: "Still hold in-flight copies",
+            risk: "Cessation applied to the database only"
+          },
+          {
+            actor: "Sub-processors",
+            does: "Must also cease",
+            ref: "§ 8(7)",
+            risk: "No mechanism to propagate, so the instruction stops at your boundary"
+          }
+        ],
+        ground: {
+          ref: "§ 6(6)",
+          text: "On withdrawal the Fiduciary shall cease and cause its Processors to cease within a reasonable time. Reasonable is measured against your architecture, not your intentions."
+        },
+        control: "Make cessation and erasure real API operations with an audit trail, reaching queues, caches, backups and sub-processors.",
+        phase: "operationalise",
+        evidence: "Endpoint logs showing the instruction, the systems reached, and the completion time.",
+        retention: {
+          ref: "§ 8(7)(b)",
+          text: "The Fiduciary must cause its Processor to erase data made available to it. That is you."
+        }
+      },
+      {
+        name: "Serve offshore clients",
+        purpose: "Process for a client outside India, on non-India Data Principals",
+        data: [
+          "The offshore client's end-user data"
+        ],
+        flow: [
+          {
+            actor: "Offshore client",
+            does: "Contracts from outside India",
+            ref: "§ 17(1)(d)",
+            risk: "The exemption assumed to cover the whole business, including India operations"
+          },
+          {
+            actor: "India delivery team",
+            does: "Processes the data here",
+            ref: "§ 8(5)",
+            risk: "Safeguards relaxed because the exemption was read as total"
+          }
+        ],
+        ground: {
+          ref: "§ 17(1)(d)",
+          text: "Chapter II except sections 8(1) and 8(5), Chapter III and section 16 do not apply where personal data of Data Principals outside India is processed under a contract with a person outside India, by a person based in India."
+        },
+        control: "Scope the exemption to that engagement. Your own employees, your India customers and their users are outside it entirely.",
+        phase: "governance",
+        evidence: "Engagement records showing Principal location and contracting party, and safeguards applied regardless.",
+        retention: {
+          ref: "§ 8(5)",
+          text: "Responsibility and reasonable security safeguards survive the exemption."
+        }
+      }
     ],
     provisions: [
       {
@@ -696,11 +2041,185 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "Named In The Act.",
     headingAccent: "Not Yet Exempt.",
     lede: "Section 17(3) singles out startups for potential relief from five obligations. It is an enabling power, not a live exemption - and the difference matters more than any other point on this page.",
+    covers: ["DPIIT-recognised startups", "early stage companies", "seed and Series A teams"],
     standing: [
       "Section 17(3) provides that the Central Government may, having regard to the volume and nature of personal data processed, notify certain Data Fiduciaries or classes of Data Fiduciaries - including startups - as Data Fiduciaries to whom section 5, sections 8(3) and 8(7), and sections 10 and 11 shall not apply. An Explanation defines startup as a private limited company, partnership firm or limited liability partnership incorporated in India that is recognised as such under the criteria notified by the department to which startup matters are allocated - in practice, DPIIT recognition.",
       "Read the verb. The Government *may* notify. Until it notifies a class and you are inside it, nothing in your obligations changes. The most common and most expensive misreading of this Act is a founder concluding that DPIIT recognition is itself an exemption. It is a precondition for one that may be granted, and building on the assumption that it has been is a compliance debt that compounds with every user you add.",
       "It is also worth noticing how modest the relief would be. Section 5 is notice. Section 8(3) is data accuracy where the data is used for a decision affecting the Data Principal or is disclosed to another Data Fiduciary. Section 8(7) is erasure. Section 10 is the Significant Data Fiduciary regime, which a startup would rarely be notified under anyway. Section 11 is the right to access information about processing.",
       "What section 17(3) conspicuously does not touch: consent under section 6, purpose limitation, reasonable security safeguards under section 8(5), breach notification under section 8(6), the children's provisions in section 9, the right to correction and erasure under section 12, grievance redressal under section 13, and the entire penalty regime. The obligations most likely to generate a breach and a penalty are precisely the ones that would survive a section 17(3) notification intact.",
+    ],
+    thresholds: [
+      {
+        value: "5",
+        label: "provisions § 17(3) could disapply",
+        ref: "§ 17(3)"
+      },
+      {
+        value: "DPIIT",
+        label: "recognition needed to be inside the class",
+        ref: "§ 17(3)"
+      },
+      {
+        value: "₹250 crore",
+        label: "penalty exposure § 17(3) would not touch",
+        ref: "Schedule"
+      }
+    ],
+    activities: [
+      {
+        name: "Sign up a user",
+        purpose: "Create the account and start delivering the product",
+        data: [
+          "Email",
+          "Name",
+          "Password hash",
+          "Device and referral data"
+        ],
+        flow: [
+          {
+            actor: "Signup form",
+            does: "Collects the details",
+            ref: "§ 5",
+            risk: "Notice buried in terms of service, which section 5 is not satisfied by"
+          },
+          {
+            actor: "Auth service",
+            does: "Creates the account",
+            ref: "§ 6",
+            risk: "Marketing consent bundled into signup, so it is neither free nor specific"
+          },
+          {
+            actor: "Analytics",
+            does: "Records the funnel",
+            risk: "Third-party analytics loaded before any consent exists"
+          }
+        ],
+        ground: {
+          ref: "§ 6",
+          text: "Consent must be free, specific, informed, unconditional and unambiguous, by clear affirmative action, limited to the data necessary for the stated purpose. Section 17(3) does not list section 6, so this applies whatever happens with the exemption."
+        },
+        control: "Build per-purpose consent from day one and keep the record. Retrofitting it into a live product with real users is materially harder than starting with it.",
+        phase: "foundation",
+        evidence: "Consent records showing purpose, timestamp and the wording shown at the time.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase when the account closes or the purpose is served. Section 17(3) could disapply this, but only once a notification exists and you are inside the notified class."
+        }
+      },
+      {
+        name: "Secure the data",
+        purpose: "Prevent a personal data breach",
+        data: [
+          "Everything you hold"
+        ],
+        flow: [
+          {
+            actor: "Application",
+            does: "Handles the data",
+            ref: "§ 8(5)",
+            risk: "Safeguards deferred as a later-stage concern"
+          },
+          {
+            actor: "Infrastructure",
+            does: "Stores it",
+            ref: "§ 8(5)",
+            risk: "Shared credentials and no access separation while the team is small"
+          },
+          {
+            actor: "Third-party tools",
+            does: "Also hold it",
+            ref: "§ 8(2)",
+            risk: "Tools adopted on a free tier with no processing terms"
+          }
+        ],
+        ground: {
+          ref: "§ 8(5)",
+          text: "A Data Fiduciary shall protect personal data in its possession or under its control, including data processed on its behalf, by taking reasonable security safeguards. This is not on the section 17(3) list."
+        },
+        control: "Treat safeguards and breach readiness as founding work. They carry the largest penalty exposure in the Schedule and no notification would relieve them.",
+        phase: "foundation",
+        evidence: "Access model, key management, and a dated record of what was decided and why.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Less data held is less to secure. Erasure is a security control as much as a compliance one."
+        }
+      },
+      {
+        name: "Report a breach",
+        purpose: "Tell the Board and every affected Data Principal",
+        data: [
+          "What was exposed, and whose"
+        ],
+        flow: [
+          {
+            actor: "Detection",
+            does: "Notices the incident",
+            ref: "§ 8(6)",
+            risk: "No detection at all, so the clock starts when someone external tells you"
+          },
+          {
+            actor: "Assessment",
+            does: "Determines scope and who is affected",
+            ref: "§ 8(6)",
+            risk: "Cannot enumerate affected Principals because there is no data map"
+          },
+          {
+            actor: "Notification",
+            does: "Informs the Board and each Data Principal",
+            ref: "§ 8(6)",
+            risk: "Timelines missed because the process was invented during the incident"
+          }
+        ],
+        ground: {
+          ref: "§ 8(6)",
+          text: "In the event of a personal data breach, the Data Fiduciary shall give the Board and each affected Data Principal intimation in the prescribed form and manner. Also not on the section 17(3) list."
+        },
+        control: "Write the runbook before you need it, and make sure you can answer whose data was affected from a data map rather than from memory.",
+        phase: "governance",
+        evidence: "The runbook, a dated tabletop exercise, and a data map good enough to enumerate affected Principals.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Incident records are their own processing; keep what evidences the response."
+        }
+      },
+      {
+        name: "Delete a user completely",
+        purpose: "Honour withdrawal and erasure",
+        data: [
+          "Every copy of that user's data"
+        ],
+        flow: [
+          {
+            actor: "Delete request",
+            does: "Arrives from the user",
+            ref: "§ 12",
+            risk: "No route to request it at all"
+          },
+          {
+            actor: "Primary store",
+            does: "Removes the records",
+            ref: "§ 8(7)",
+            risk: "Deletion that is a status flag"
+          },
+          {
+            actor: "Downstream copies",
+            does: "Analytics, warehouse, support tooling, backups",
+            ref: "§ 8(7)",
+            risk: "Copies spread across services faster than the ability to delete them"
+          }
+        ],
+        ground: {
+          ref: "§ 12",
+          text: "The right to erasure of personal data, alongside correction, completion and updating. Section 12 is not on the section 17(3) list either."
+        },
+        control: "Build the ability to delete a user completely while the data model is small. It is an architectural property, not a feature you can add later.",
+        phase: "operationalise",
+        evidence: "A deletion runbook naming every store, and logs proving it ran end to end.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Erase on withdrawal or when the purpose is served, whichever is earlier, unless a law requires retention."
+        }
+      }
     ],
     provisions: [
       {
@@ -785,11 +2304,173 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     heading: "The State Processes",
     headingAccent: "On Different Terms.",
     lede: "Section 7(b) lets the State provide subsidies, benefits, services, certificates, licences and permits without consent. Section 17(2)(a) can take a notified instrumentality outside the Act altogether. Neither is a blanket exemption, and the difference between them is the whole point.",
+    covers: ["central and state departments", "municipal bodies", "public sector undertakings", "welfare schemes"],
     standing: [
       "Public sector processing sits under two distinct provisions that are frequently conflated, and getting them the wrong way round produces either unnecessary consent flows or unlawful processing.",
       "Section 7 sets out certain legitimate uses - grounds on which personal data may be processed without consent. Clause (b) covers the State and its instrumentalities providing a subsidy, benefit, service, certificate, licence or permit as may be prescribed, subject to the conditions set out in the section. This is a lawful basis, not an exemption. Everything else in the Act still applies: purpose limitation, accuracy, security safeguards, breach notification, erasure and the Chapter III rights all continue to run. A citizen receiving a benefit under section 7(b) retains her right of access under section 11 and correction under section 12.",
       "Section 17(2)(a) is a different instrument entirely. It provides that the Act shall not apply in respect of processing by such instrumentality of the State as the Central Government may notify, in the interests of the sovereignty and integrity of India, security of the State, friendly relations with foreign States, maintenance of public order, and the related grounds. This is disapplication of the whole Act, and it operates by notification of a specific instrumentality. An organisation is either notified or it is not.",
       "The Rules add operational detail. The Second Schedule, through rule 5, sets standards for State processing under section 7(b). The Seventh Schedule, through rules 23(1) and 8(3), pairs each purpose with the authorised person who may act on it - beginning with use by the State in the interest of sovereignty and integrity or security of the State, exercised by an officer designated under section 17(2)(a) - and fixes a one-year floor for retaining processing logs.",
+    ],
+    thresholds: [
+      {
+        value: "§ 7(b)",
+        label: "processes subsidies and services without consent",
+        ref: "§ 7(b)"
+      },
+      {
+        value: "1 year",
+        label: "minimum retention for processing logs",
+        ref: "rule 8(3)"
+      },
+      {
+        value: "§ 17(2)(a)",
+        label: "disapplies the Act for a notified instrumentality",
+        ref: "§ 17(2)(a)"
+      }
+    ],
+    activities: [
+      {
+        name: "Issue a subsidy or benefit",
+        purpose: "Deliver the scheme to the citizen entitled to it",
+        data: [
+          "Identity",
+          "Eligibility evidence",
+          "Bank details",
+          "Household data"
+        ],
+        flow: [
+          {
+            actor: "Application",
+            does: "Collects the claim",
+            ref: "§ 7(b)",
+            risk: "Consent forms used where section 7(b) already supplies the basis, promising a withdrawal right that cannot be honoured"
+          },
+          {
+            actor: "Eligibility check",
+            does: "Verifies against other databases",
+            ref: "Second Schedule",
+            risk: "The Second Schedule standards for State processing never consulted"
+          },
+          {
+            actor: "Disbursement",
+            does: "Pays the benefit",
+            risk: "Payment data shared more widely than the scheme requires"
+          }
+        ],
+        ground: {
+          ref: "§ 7(b)",
+          text: "The State and its instrumentalities may process without consent to provide a subsidy, benefit, service, certificate, licence or permit as may be prescribed, subject to the conditions in the section. This is a lawful basis, not an exemption."
+        },
+        control: "Check your scheme against what is actually prescribed, and apply the Second Schedule standards rather than assuming public delivery is self-justifying.",
+        phase: "foundation",
+        evidence: "The determination that the scheme falls within section 7(b), and a mapping to the Second Schedule standards.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Public records law generally requires retention; those periods come from those rules, not from this Act."
+        }
+      },
+      {
+        name: "Answer a citizen's request",
+        purpose: "Discharge Chapter III duties, which section 7(b) does not switch off",
+        data: [
+          "Whatever the citizen asks about"
+        ],
+        flow: [
+          {
+            actor: "Published contact",
+            does: "Receives the request",
+            ref: "§ 8(9)",
+            risk: "No published channel, so requests go to a general grievance queue"
+          },
+          {
+            actor: "Identity check",
+            does: "Confirms the requester",
+            risk: "Verification so heavy it becomes a barrier to the right"
+          },
+          {
+            actor: "Departmental sweep",
+            does: "Finds the data across systems",
+            ref: "§ 11",
+            risk: "Legacy and state-level systems outside the sweep"
+          }
+        ],
+        ground: {
+          ref: "§ 11",
+          text: "Processing without consent under section 7 does not disapply Chapter III. Access, correction, erasure, grievance redressal and nomination all continue to run against the department."
+        },
+        control: "Stand up a citizen-facing request channel that works at the volume public programmes generate, and name every system in the sweep.",
+        phase: "governance",
+        evidence: "Request log with timestamps and outcomes, and the sweep list under version control.",
+        retention: {
+          ref: "§ 8(7)",
+          text: "Keep what evidences the response."
+        }
+      },
+      {
+        name: "Retain processing logs",
+        purpose: "Meet the logging floor the Rules set",
+        data: [
+          "Processing logs",
+          "Access records"
+        ],
+        flow: [
+          {
+            actor: "Systems",
+            does: "Emit access and processing logs",
+            ref: "rule 8(3)",
+            risk: "Logs rotated at thirty days, below the floor"
+          },
+          {
+            actor: "Log store",
+            does: "Retains them",
+            ref: "Seventh Schedule",
+            risk: "Logs themselves containing personal data and never brought into the data map"
+          }
+        ],
+        ground: {
+          ref: "rule 8(3)",
+          text: "Rule 8(3) with the Seventh Schedule fixes a one-year minimum for retaining processing logs."
+        },
+        control: "Set retention to the floor or to your own records rules, whichever is longer, and treat the logs as personal data in their own right.",
+        phase: "operationalise",
+        evidence: "Log retention configuration, and the logs inside the data map.",
+        retention: {
+          ref: "rule 8(3)",
+          text: "One year minimum. Longer where your own records rules require it."
+        }
+      },
+      {
+        name: "Rely on a notified exemption",
+        purpose: "Process under section 17(2)(a) where the Government has notified the body",
+        data: [
+          "Whatever the notified purpose covers"
+        ],
+        flow: [
+          {
+            actor: "Notification",
+            does: "Names the instrumentality",
+            ref: "§ 17(2)(a)",
+            risk: "Assumed rather than held, so the department operates as if exempt when it is not"
+          },
+          {
+            actor: "Designated officer",
+            does: "Exercises the power",
+            ref: "Seventh Schedule",
+            risk: "The Seventh Schedule pairing of purpose to authorised person ignored"
+          }
+        ],
+        ground: {
+          ref: "§ 17(2)(a)",
+          text: "The Act does not apply to processing by such instrumentality of the State as the Central Government may notify, in the interests of sovereignty and integrity of India, security of the State and the related grounds. It operates by notification of a specific body."
+        },
+        control: "Establish which provision you actually rely on. Section 7(b) is a basis with every other duty intact; section 17(2)(a) is disapplication of the whole Act, by notification. Departments that confuse the two have unmet rights obligations they cannot see.",
+        phase: "governance",
+        evidence: "The notification itself, and the designation of the officer authorised to act on each purpose.",
+        retention: {
+          ref: "rule 8(3)",
+          text: "Logging obligations still bite where the Seventh Schedule applies."
+        }
+      }
     ],
     provisions: [
       {
@@ -880,6 +2561,54 @@ export function getIndustry(slug: IndustrySlug): Industry {
  * component would undo the split. The client nav imports `INDUSTRY_MENU`.
  */
 export const INDUSTRIES: Industry[] = INDUSTRY_SLUGS.map(getIndustry);
+
+/**
+ * The three phases a control can belong to.
+ *
+ * Borrowed from how compliance programmes are actually sequenced rather than
+ * invented: get a lawful footing, make it operate, then keep it honest.
+ */
+export const CONTROL_PHASES: {
+  key: ControlPhase;
+  title: string;
+  blurb: string;
+}[] = [
+  {
+    key: "foundation",
+    title: "Build the foundation",
+    blurb: "Get the lawful basis and the roles right. Everything else assumes these are settled.",
+  },
+  {
+    key: "operationalise",
+    title: "Operationalise it",
+    blurb: "Turn the basis into systems that run without anyone remembering to run them.",
+  },
+  {
+    key: "governance",
+    title: "Keep it honest",
+    blurb: "Prove it still works, and answer the people whose data it is.",
+  },
+];
+
+/**
+ * The implementation journey, derived from the activities.
+ *
+ * A view, not a second source. Each activity carries one control and the phase
+ * it belongs to, so the journey is a grouping rather than a parallel list that
+ * can drift out of step with the diagram above it.
+ */
+export function industryJourney(industry: Industry) {
+  return CONTROL_PHASES.map((phase) => ({
+    ...phase,
+    steps: industry.activities
+      .filter((activity) => activity.phase === phase.key)
+      .map((activity) => ({
+        activity: activity.name,
+        control: activity.control,
+        evidence: activity.evidence,
+      })),
+  })).filter((phase) => phase.steps.length > 0);
+}
 
 export {
   INDUSTRY_SLUGS,

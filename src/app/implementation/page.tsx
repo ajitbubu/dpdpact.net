@@ -120,6 +120,72 @@ export default function ImplementationPage() {
               </p>
             </div>
 
+            {/*
+             * Scannable index. Every column is derived from the same industry
+             * data the cards and the guides use, so there is no third place for
+             * a fact to live and drift.
+             */}
+            <div className="flex flex-col gap-[var(--space-4)]">
+              <h2 className="font-display text-[clamp(24px,3vw,30px)] font-semibold leading-[1.15] tracking-[-0.02em] text-text">
+                The nine at a glance
+              </h2>
+              <table className="w-full border-collapse text-left">
+                <caption className="sr-only">
+                  Each sector, what it also covers, the number that matters and
+                  the provision that sets it
+                </caption>
+                <thead>
+                  <tr className="border-b border-border">
+                    {["Sector", "Also covers", "The number that matters"].map(
+                      (h) => (
+                        <th
+                          key={h}
+                          scope="col"
+                          className="py-[10px] pr-[12px] align-bottom font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-text-muted last:pr-0"
+                        >
+                          {h}
+                        </th>
+                      ),
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {INDUSTRIES.map((industry) => {
+                    const headline = industry.thresholds[0];
+                    return (
+                      <tr
+                        key={industry.slug}
+                        className="border-b border-border align-top last:border-0"
+                      >
+                        <th scope="row" className="w-[26%] py-[12px] pr-[12px] text-left">
+                          <Link
+                            href={industryPath(industry.slug)}
+                            className="font-sans text-[14px] font-semibold leading-[1.3] text-primary-text underline"
+                          >
+                            {industry.name}
+                          </Link>
+                        </th>
+                        <td className="w-[42%] py-[12px] pr-[12px] text-[12.5px] leading-[1.5] text-text-secondary">
+                          {industry.covers.join(", ")}
+                        </td>
+                        <td className="w-[32%] py-[12px] align-top">
+                          <span className="block font-sans text-[14px] font-semibold text-text">
+                            {headline.value}
+                          </span>
+                          <span className="block text-[12.5px] leading-[1.45] text-text-secondary">
+                            {headline.label}
+                          </span>
+                          <span className="mt-[2px] block font-mono text-[11px] uppercase tracking-[0.1em] text-text-muted">
+                            {headline.ref}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
             <div className="grid gap-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3">
               {INDUSTRIES.map((industry) => {
                 const Icon = industry.icon;

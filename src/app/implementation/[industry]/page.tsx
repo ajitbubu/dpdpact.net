@@ -3,6 +3,8 @@ import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ActivityTable } from "@/components/activity-table";
+import { DataFlow } from "@/components/data-flow";
 import { EditorialReview } from "@/components/editorial-review";
 import { Faq } from "@/components/faq";
 import { PageHero } from "@/components/page-hero";
@@ -10,10 +12,12 @@ import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/components/ui/badge";
+import { LinkButton } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   INDUSTRIES,
   getIndustry,
+  industryJourney,
   industryPath,
   isIndustrySlug,
 } from "@/lib/industries";
@@ -112,11 +116,19 @@ export default async function IndustryPage({
           titleAccent={industry.headingAccent}
           lede={industry.lede}
         >
-          <div className="flex items-center gap-[10px] text-text-secondary">
-            <Icon size={20} strokeWidth={1.6} aria-hidden />
-            <span className="font-mono text-[12px] uppercase tracking-[0.14em]">
-              Implementation guide
-            </span>
+          <div className="flex flex-col gap-[10px]">
+            <div className="flex items-center gap-[10px] text-text-secondary">
+              <Icon size={20} strokeWidth={1.6} aria-hidden />
+              <span className="font-mono text-[12px] uppercase tracking-[0.14em]">
+                Implementation guide
+              </span>
+            </div>
+            <p className="max-w-[70ch] text-[14px] leading-[1.6] text-text-muted">
+              <span className="font-medium text-text-secondary">
+                Covers:{" "}
+              </span>
+              {industry.covers.join(", ")}.
+            </p>
           </div>
         </PageHero>
 
@@ -134,6 +146,52 @@ export default async function IndustryPage({
                   </p>
                 ))}
               </div>
+            </div>
+
+            {/* Numbers this sector needs at a glance. */}
+            <div className="grid gap-[var(--space-4)] sm:grid-cols-3">
+              {industry.thresholds.map((t) => (
+                <div
+                  key={t.label}
+                  className="flex flex-col gap-[4px] rounded-sm border border-border bg-[var(--bg-sunken)] p-[var(--space-4)]"
+                >
+                  <span className="font-display text-[clamp(22px,2.6vw,28px)] font-semibold leading-[1.1] tracking-[-0.02em] text-primary-text">
+                    {t.value}
+                  </span>
+                  <span className="text-[13.5px] leading-[1.45] text-text-secondary">
+                    {t.label}
+                  </span>
+                  <span className="mt-[2px] font-mono text-[11px] uppercase tracking-[0.1em] text-text-muted">
+                    {t.ref}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Derived view 1: one row per processing activity. */}
+            <div className="flex flex-col gap-[var(--space-4)]">
+              <h2 className="font-display text-[clamp(26px,3.2vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] text-text">
+                What you actually process
+              </h2>
+              <p className="max-w-[72ch] text-[15px] leading-[1.7] text-text-secondary">
+                One row per activity, not per data type. Lawful basis and
+                erasure attach to a purpose, so the same phone number can sit in
+                three rows below with three different answers.
+              </p>
+              <ActivityTable activities={industry.activities} />
+            </div>
+
+            {/* Derived view 2: the same activities as actors and systems. */}
+            <div className="flex flex-col gap-[var(--space-4)]">
+              <h2 className="font-display text-[clamp(26px,3.2vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] text-text">
+                The data flow, and where it breaks
+              </h2>
+              <p className="max-w-[72ch] text-[15px] leading-[1.7] text-text-secondary">
+                Each lane follows one activity through the actors and systems
+                that touch the data. The failure mode sits on the hop where it
+                happens, rather than in a list somewhere else on the page.
+              </p>
+              <DataFlow activities={industry.activities} />
             </div>
 
             {/* The provisions that do the work, quoted by reference. */}
@@ -189,6 +247,53 @@ export default async function IndustryPage({
               </ol>
             </div>
 
+            {/* Derived view 3: the same controls, grouped into phases. */}
+            <div className="flex flex-col gap-[var(--space-4)]">
+              <h2 className="font-display text-[clamp(26px,3.2vw,34px)] font-semibold leading-[1.15] tracking-[-0.02em] text-text">
+                Sequence the work
+              </h2>
+              <p className="max-w-[72ch] text-[15px] leading-[1.7] text-text-secondary">
+                The same controls as above, in the order they are worth doing.
+                Each names the evidence you would put in front of an auditor,
+                because a control you cannot evidence is a control you cannot
+                prove you had.
+              </p>
+              <div className="grid gap-[var(--space-4)] md:grid-cols-3">
+                {industryJourney(industry).map((phase, i) => (
+                  <div
+                    key={phase.key}
+                    className="flex flex-col gap-[10px] rounded-sm border border-border p-[var(--space-4)]"
+                  >
+                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-text-muted">
+                      Phase {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="font-display text-[17px] font-semibold leading-[1.25] tracking-[-0.01em] text-text">
+                      {phase.title}
+                    </h3>
+                    <p className="text-[13px] leading-[1.5] text-text-muted">
+                      {phase.blurb}
+                    </p>
+                    <ul className="mt-[2px] flex flex-col gap-[12px] border-t border-border pt-[12px]">
+                      {phase.steps.map((step) => (
+                        <li key={step.activity} className="flex flex-col gap-[3px]">
+                          <span className="font-sans text-[13px] font-semibold text-primary-text">
+                            {step.activity}
+                          </span>
+                          <span className="text-[13px] leading-[1.55] text-text-secondary">
+                            {step.control}
+                          </span>
+                          <span className="text-[12px] leading-[1.45] text-text-muted">
+                            <span className="font-medium">Evidence: </span>
+                            {step.evidence}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <p className="max-w-[72ch] text-[14px] leading-[1.65] text-text-secondary">
               Section and Schedule references above point at the statute itself.
               Read them in context in the{" "}
@@ -216,6 +321,34 @@ export default async function IndustryPage({
           eyebrow={industry.name}
           heading={`${industry.name}: common questions`}
         />
+
+        {/*
+         * One real action. The checker is described by what it actually does -
+         * a decision path through section 3 - because it answers scope only and
+         * says so itself; calling it a personalised assessment would oversell it.
+         */}
+        <section className="border-b border-border bg-[var(--bg-sunken)]">
+          <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-[var(--space-4)] px-[var(--space-5)] py-[clamp(34px,4.5vw,56px)]">
+            <h2 className="font-display text-[clamp(22px,2.8vw,30px)] font-semibold leading-[1.15] tracking-[-0.02em] text-text">
+              Know this well enough to prove it
+            </h2>
+            <p className="max-w-[62ch] text-[15px] leading-[1.7] text-text-secondary">
+              The certification is a free, graded 15-question exam covering the
+              Act end to end, not just this sector. Pass mark is 70%.
+            </p>
+            <div className="flex flex-wrap items-center gap-[var(--space-4)]">
+              <LinkButton href={routes.certification} variant="secondary">
+                Get certified
+              </LinkButton>
+              <Link
+                href={routes.applicability}
+                className="text-[14.5px] text-primary-text underline"
+              >
+                Not sure the Act reaches you at all? Walk section 3
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* Sibling navigation: every industry page is one click from the next. */}
         <section className="border-b border-border">
