@@ -431,7 +431,7 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
       },
       {
         value: "0",
-        label: "consent that can unlock § 9(3)",
+        label: "consent can unlock § 9(3)",
         ref: "§ 9(3)"
       }
     ],
@@ -706,7 +706,7 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
       },
       {
         value: "18",
-        label: "age below which ranking on behaviour is prohibited",
+        label: "age below which ranking is barred",
         ref: "§ 9(3)"
       }
     ],
@@ -964,7 +964,7 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     thresholds: [
       {
         value: "Part A",
-        label: "Fourth Schedule classes exempt from § 9(1) and 9(3)",
+        label: "classes exempt from § 9(1) and 9(3)",
         ref: "rule 12"
       },
       {
@@ -1236,17 +1236,17 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     thresholds: [
       {
         value: "10 years",
-        label: "client identity records, in the Act's own bank illustration",
+        label: "client identity records, by law",
         ref: "§ 8(7)"
       },
       {
         value: "§ 17(1)(f)",
-        label: "disapplies Chapters II and III for defaulter processing",
+        label: "disapplied for defaulter processing",
         ref: "§ 17(1)(f)"
       },
       {
         value: "₹250 crore",
-        label: "maximum penalty for a safeguards failure",
+        label: "max penalty, safeguards failure",
         ref: "Schedule"
       }
     ],
@@ -1506,17 +1506,17 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     thresholds: [
       {
         value: "18",
-        label: "age below which every learner is a child",
+        label: "age below which a learner is a child",
         ref: "§ 2(f)"
       },
       {
         value: "rule 10",
-        label: "prescribes how parental consent is verified",
+        label: "prescribes parental consent",
         ref: "rule 10"
       },
       {
         value: "0",
-        label: "consent that can unlock § 9(3)",
+        label: "consent can unlock § 9(3)",
         ref: "§ 9(3)"
       }
     ],
@@ -1782,17 +1782,17 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     thresholds: [
       {
         value: "2",
-        label: "roles you hold at once: Fiduciary and Processor",
+        label: "roles at once: Fiduciary, Processor",
         ref: "§ 2"
       },
       {
         value: "§ 8(2)",
-        label: "makes a valid contract mandatory, not optional",
+        label: "a valid contract is mandatory",
         ref: "§ 8(2)"
       },
       {
         value: "§ 17(1)(d)",
-        label: "carves out offshore work for non-India Principals",
+        label: "carves out offshore work",
         ref: "§ 17(1)(d)"
       }
     ],
@@ -2056,12 +2056,12 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
       },
       {
         value: "DPIIT",
-        label: "recognition needed to be inside the class",
+        label: "recognition needed to qualify",
         ref: "§ 17(3)"
       },
       {
         value: "₹250 crore",
-        label: "penalty exposure § 17(3) would not touch",
+        label: "exposure § 17(3) would not touch",
         ref: "Schedule"
       }
     ],
@@ -2314,17 +2314,17 @@ export const INDUSTRY_CONTENT: Record<IndustrySlug, IndustryContent> = {
     thresholds: [
       {
         value: "§ 7(b)",
-        label: "processes subsidies and services without consent",
+        label: "subsidies and services, no consent",
         ref: "§ 7(b)"
       },
       {
         value: "1 year",
-        label: "minimum retention for processing logs",
+        label: "minimum retention, processing logs",
         ref: "rule 8(3)"
       },
       {
         value: "§ 17(2)(a)",
-        label: "disapplies the Act for a notified instrumentality",
+        label: "disapplies the Act, if notified",
         ref: "§ 17(2)(a)"
       }
     ],
