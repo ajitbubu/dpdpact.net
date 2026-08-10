@@ -41,7 +41,7 @@ const USER_TRIGGERED_BOTS = [
  * Collects data primarily to *train* models.
  *
  * Allowed, on the reasoning that this site exists to spread a public statute
- * as widely as possible. That is a judgement call, not a default — move an
+ * as widely as possible. That is a judgement call, not a default - move an
  * entry into a `disallow` rule to opt out of training while keeping the
  * indexing and user-triggered agents above.
  *

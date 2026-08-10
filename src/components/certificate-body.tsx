@@ -30,7 +30,7 @@ const KEEP_GOING = [
 ];
 
 /**
- * CertificateBody — the certificate page's content: heading and print actions,
+ * CertificateBody - the certificate page's content: heading and print actions,
  * the sample notice, the printed sheet itself, and the two panels below it.
  *
  * Shared by `/certificate` (inside the site chrome) and
@@ -61,7 +61,7 @@ export function CertificateBody() {
     setNameOverride(value);
     // Only persist a real name. Clearing the field to retype is normal
     // editing, but writing "" through would overwrite the issued credential
-    // irrecoverably and drop `holder` to the sample name — so an emptied field
+    // irrecoverably and drop `holder` to the sample name - so an emptied field
     // is treated as in-progress: the sheet shows the placeholder while the
     // stored credential keeps its name. /exam applies the same non-empty rule
     // at issue time.
@@ -95,8 +95,8 @@ export function CertificateBody() {
         <div className="no-print flex flex-wrap items-center gap-[14px] rounded-md border-[1.5px] border-primary bg-surface px-[18px] py-[16px]">
           <span className="min-w-0 flex-[1_1_280px] text-[14px] leading-[1.7] text-text-secondary">
             <strong className="text-text">This is a sample.</strong> Pass the
-            15-question certification exam and your own certificate — with a real
-            credential ID — is issued instantly.
+            15-question certification exam and your own certificate - with a real
+            credential ID - is issued instantly.
           </span>
           <span className="flex shrink-0">
             <LinkButton href={routes.exam} variant="primary" size="sm">
@@ -163,8 +163,8 @@ export function CertificateBody() {
             </span>
 
             <p className="m-0 max-w-[64ch] text-[clamp(12.5px,1.5vw,15.5px)] leading-[1.8] text-text-secondary [text-wrap:pretty]">
-              who sat and passed the DPDP Academy certification examination —
-              nine chapters, forty-four sections and the Schedule of penalties —
+              who sat and passed the DPDP Academy certification examination -
+              nine chapters, forty-four sections and the Schedule of penalties -
               with a score of{" "}
               <strong className="font-mono font-medium text-primary-text tabular-nums">
                 {score}
@@ -241,7 +241,7 @@ export function CertificateBody() {
             </span>
           </label>
           <span className="text-[12.5px] leading-[1.7] text-text-muted">
-            Stored in this browser only. Printing uses A4 landscape — choose
+            Stored in this browser only. Printing uses A4 landscape - choose
             &quot;Save as PDF&quot; in the print dialog for a shareable file.
           </span>
         </div>

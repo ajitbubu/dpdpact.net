@@ -311,7 +311,8 @@ chooses.
 | Consent defaults (denied) | `public/cc-bootstrap.js` |
 | Banner + preference UI | `public/cookie-consent.js` |
 | Configuration | `CONSENT_CONFIG` in `src/app/layout.tsx` |
-| `init()` call + page-view recovery | `public/cc-init.js` |
+| `init()` call + `cc:consent` event | `public/cc-init.js` |
+| GA4, mounted only once granted | `src/components/analytics-on-consent.tsx` |
 
 **Load order is load-bearing.** The bootstrap pushes `consent: default` with
 every storage type denied and must execute *before* `gtag.js` — once gtag has
@@ -319,9 +320,28 @@ loaded without a default, tags can fire ungated. All of it runs as
 `beforeInteractive`, which `next/script` executes in the order placed.
 
 **The config reaches `cc-init.js` on `window.CC_CONFIG`.** `CONSENT_CONFIG` is
-serialised with `JSON.stringify`, which cannot carry the `onConsent` function
-that the page-view recovery hangs off, so the callback is attached in
-`cc-init.js` after the JSON lands.
+serialised with `JSON.stringify`, which cannot carry the `onConsent` callback,
+so it is attached in `cc-init.js` after the JSON lands. That callback dispatches
+a `cc:consent` DOM event, which is the bridge to the React tree — `onConsent`
+lives in a plain script and cannot reach a component directly.
+
+**GA4 is not loaded until analytics consent exists.** `AnalyticsOnConsent`
+reads the `cc_consent` cookie through `useSyncExternalStore` and mounts
+`GoogleAnalytics` only when granted, so `gtag.js` — 161.6 KiB — never downloads
+for a visitor who declines or ignores the banner. Accepting mounts it
+immediately via the `cc:consent` event, with no reload.
+
+This is Consent Mode *basic*, not *advanced*. Advanced loads gtag before
+consent so Google can send cookieless pings and model unobserved conversions;
+that is worth nothing to a site with no ads, and costs every declining visitor
+the full download. The bootstrap still pushes `consent: default` denied because
+`dataLayer` is an array: a late-loading gtag replays *default denied* then
+*update granted* in order and settles on the right state.
+
+Because gtag now loads after consent, its own `config` call reports the entry
+page. `cc-init.js` used to re-send that `page_view` by hand — necessary under
+advanced mode, where the first hit was a discarded cookieless ping — and that
+recovery was removed. Restoring it would double-count every first visit.
 
 **The SDK is self-hosted, not loaded from a CDN.** A site about data protection
 should not hand visitors to a third party in order to ask them about tracking.

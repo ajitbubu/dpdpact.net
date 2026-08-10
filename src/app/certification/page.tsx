@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 
 /**
  * `Course` markup so the certification can surface as a rich result.
- * `offers` is priced at zero because the exam is genuinely free — that is the
+ * `offers` is priced at zero because the exam is genuinely free - that is the
  * differentiator against the paid DPO programmes this competes with.
  */
 const courseSchema = {
@@ -49,7 +49,7 @@ const courseSchema = {
   "@type": "Course",
   name: "Certified DPDP Practitioner",
   description:
-    "A graded assessment of the Digital Personal Data Protection Act, 2023 — nine chapters, forty-four sections and the Schedule of penalties.",
+    "A graded assessment of the Digital Personal Data Protection Act, 2023 - nine chapters, forty-four sections and the Schedule of penalties.",
   url: `${SITE_URL}/certification`,
   provider: {
     "@type": "Organization",

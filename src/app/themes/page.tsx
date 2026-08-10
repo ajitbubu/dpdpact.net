@@ -11,16 +11,16 @@ export const metadata: Metadata = {
   title: "Light theme directions",
   description:
     "Turn 1 design exploration: three light theme directions for the DPDP learning site.",
-  // A design artefact, not a page for readers — keep it out of the index.
+  // A design artefact, not a page for readers - keep it out of the index.
   robots: { index: false, follow: false },
 };
 
 /**
- * Themes — the Turn 1 design canvas from the Claude Design project.
+ * Themes - the Turn 1 design canvas from the Claude Design project.
  *
  * Three light-theme directions rendered side by side; option 1c ("Bulletin")
  * is the one that was chosen and became the site's theme. This page is a
- * design artefact, so it deliberately does not use the Sentinel tokens — the
+ * design artefact, so it deliberately does not use the Sentinel tokens - the
  * colours and fonts are hard-coded exactly as the source sample had them.
  */
 export default function ThemesPage() {
@@ -36,8 +36,8 @@ export default function ThemesPage() {
           Three light themes for the DPDP learning site
         </h1>
         <p className="m-0 text-[15px] leading-[1.7] text-[#4B5563] [text-wrap:pretty]">
-          Each sample shows the same five elements — nav, hero, primary actions,
-          a study card and the exam stat row — so the difference is theme, not
+          Each sample shows the same five elements - nav, hero, primary actions,
+          a study card and the exam stat row - so the difference is theme, not
           layout. Reply with an id to apply one across all 13 pages.
         </p>
       </div>
@@ -76,7 +76,7 @@ export default function ThemesPage() {
                 Learn the Data Protection Act, certify it today
               </h2>
               <p className="m-0 max-w-[52ch] text-[14px] leading-[1.75] text-[#5A5449]">
-                Nine chapters, forty-four sections, one Schedule of penalties —
+                Nine chapters, forty-four sections, one Schedule of penalties -
                 broken into study pages you can finish in an afternoon.
               </p>
               <div className="flex gap-[10px] pt-[2px]">
@@ -178,7 +178,7 @@ export default function ThemesPage() {
                 Learn the Data Protection Act, certify it today
               </h2>
               <p className="m-0 max-w-[52ch] text-[14px] leading-[1.7] text-[#4B5563]">
-                Nine chapters, forty-four sections, one Schedule of penalties —
+                Nine chapters, forty-four sections, one Schedule of penalties -
                 broken into study pages you can finish in an afternoon.
               </p>
               <div className="flex gap-[10px] pt-[2px]">
@@ -275,7 +275,7 @@ export default function ThemesPage() {
                 Learn the Data Protection Act, certify it today
               </h2>
               <p className="m-0 max-w-[52ch] text-[14px] leading-[1.75] text-[#4A483F]">
-                Nine chapters, forty-four sections, one Schedule of penalties —
+                Nine chapters, forty-four sections, one Schedule of penalties -
                 broken into study pages you can finish in an afternoon.
               </p>
               <div className="flex gap-[10px] pt-[2px]">

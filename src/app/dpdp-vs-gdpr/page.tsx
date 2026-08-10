@@ -127,7 +127,7 @@ const REUSE = [
     verdict: "Reuses well",
     tone: "safe" as const,
     items: [
-      "Your data inventory and processing records — the underlying mapping is the same work.",
+      "Your data inventory and processing records - the underlying mapping is the same work.",
       "Processor due diligence and contract machinery; section 8(2) also requires a valid contract.",
       "Security engineering. Section 8(5) asks for reasonable safeguards without naming a standard, so an existing ISO 27001 or SOC 2 programme is evidence, not waste.",
       "Retention and deletion tooling, which section 8(7) needs in a very similar shape.",
@@ -170,7 +170,7 @@ const FAQ = [
 ];
 
 export const metadata: Metadata = {
-  title: "DPDP Act vs GDPR — What Actually Differs",
+  title: "DPDP Act vs GDPR - What Actually Differs",
   description:
     "A provision-level comparison of India's DPDP Act, 2023 and the EU GDPR: lawful bases, rights, children, breach reporting, transfers and penalties.",
   alternates: { canonical: "/dpdp-vs-gdpr" },
@@ -207,7 +207,7 @@ export default function DpdpVsGdprPage() {
           eyebrow="DPDP Act, 2023 · Regulation (EU) 2016/679"
           title="Same Vocabulary."
           titleAccent="Different Machine."
-          lede="The DPDP Act borrows GDPR's grammar — notice, consent, processors, breach reporting — and then removes the provision most GDPR programmes are actually built on. If you map one onto the other clause by clause, the mapping fails in four specific places."
+          lede="The DPDP Act borrows GDPR's grammar - notice, consent, processors, breach reporting - and then removes the provision most GDPR programmes are actually built on. If you map one onto the other clause by clause, the mapping fails in four specific places."
         >
           <div className="mt-[22px] flex flex-wrap gap-[10px]">
             <Badge tone="primary">Provision-level</Badge>

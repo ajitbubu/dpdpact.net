@@ -32,7 +32,7 @@ const ROLES = [
     icon: Building2,
     ref: "§ 2(i)",
     title: "Data Fiduciary",
-    body: "Whoever determines the purpose and means of processing, alone or with others. Accountability sits here — irrespective of any agreement to the contrary, and irrespective of what a Data Principal does or fails to do.",
+    body: "Whoever determines the purpose and means of processing, alone or with others. Accountability sits here - irrespective of any agreement to the contrary, and irrespective of what a Data Principal does or fails to do.",
     accent: true,
   },
   {
@@ -72,7 +72,7 @@ const DEFINITIONS = [
   },
   {
     term: "Processing",
-    body: "A wholly or partly automated operation on digital personal data — collection, storage, use, sharing, erasure and more. § 2(x)",
+    body: "A wholly or partly automated operation on digital personal data - collection, storage, use, sharing, erasure and more. § 2(x)",
   },
   {
     term: "Personal data breach",
@@ -102,7 +102,7 @@ const DEFINITIONS = [
 const glossarySchema = {
   "@context": "https://schema.org",
   "@type": "DefinedTermSet",
-  name: "DPDP Act 2023 — defined terms",
+  name: "DPDP Act 2023 - defined terms",
   url: `${SITE_URL}/roles`,
   hasDefinedTerm: [
     ...ROLES.map((r) => ({
@@ -139,7 +139,7 @@ const LIABILITY = [
   {
     ref: "§ 2(i)",
     title: "The test is purpose and means, not possession",
-    body: "A Data Fiduciary is any person who, alone or with others, determines the purpose and means of processing. Holding the data is neither necessary nor sufficient — deciding why and how is what makes you one.",
+    body: "A Data Fiduciary is any person who, alone or with others, determines the purpose and means of processing. Holding the data is neither necessary nor sufficient - deciding why and how is what makes you one.",
     note: "“In conjunction with other persons” means two organisations can be Fiduciaries for the same processing. The Act sets out no apportionment between them.",
   },
   {
@@ -177,7 +177,7 @@ const BOARD = [
   {
     ref: "§ 28(1)",
     title: "A digital office by design",
-    body: "The Board functions as far as practicable as a digital office — receipt of complaints, allocation, hearing and pronouncement of decisions all conducted digitally, without requiring anyone to appear in person.",
+    body: "The Board functions as far as practicable as a digital office - receipt of complaints, allocation, hearing and pronouncement of decisions all conducted digitally, without requiring anyone to appear in person.",
   },
   {
     ref: "§ 25",
@@ -304,14 +304,14 @@ export default function RolesPage() {
       <ProvisionNotes
         eyebrow="Who carries the risk"
         heading="The roles are a liability map"
-        intro="Defining the six roles is the easy half. The half that decides outcomes is which of them the Act can actually hold to account — and the answer is lopsided."
+        intro="Defining the six roles is the easy half. The half that decides outcomes is which of them the Act can actually hold to account - and the answer is lopsided."
         items={LIABILITY}
       />
 
       <ProvisionNotes
         eyebrow="§§ 18–26 · The Board"
         heading="The regulator, as an institution"
-        intro="The Data Protection Board is the only body that can impose a penalty under this Act, and the only forum — section 39 bars civil courts from matters it is empowered to decide."
+        intro="The Data Protection Board is the only body that can impose a penalty under this Act, and the only forum - section 39 bars civil courts from matters it is empowered to decide."
         items={BOARD}
         tone="sunken"
       />

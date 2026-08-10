@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "verify": "npm run lint && npm run typecheck && npm run build",
-    "indexnow": "node scripts/indexnow.mjs"
+    "verify": "npm run lint && npm run typecheck && npm run check-content && npm run build",
+    "indexnow": "node scripts/indexnow.mjs",
+    "check-content": "node scripts/check-content.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

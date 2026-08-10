@@ -314,7 +314,7 @@ export default function ConsentManagerPage() {
               </p>
               <div className="mt-[6px] flex flex-col gap-[8px]">
                 {[
-                  { href: RULES_SOURCE, label: "DPDP Rules, 2025 — Gazette text" },
+                  { href: RULES_SOURCE, label: "DPDP Rules, 2025 - Gazette text" },
                   { href: MEITY_HUB, label: "MeitY DPDP Rules hub" },
                 ].map((source) => (
                   <a
@@ -347,7 +347,7 @@ export default function ConsentManagerPage() {
           },
           {
             href: routes.rules,
-            label: "DPDP Rules 2025 — requirements and timeline",
+            label: "DPDP Rules 2025 - requirements and timeline",
             blurb: "The commencement tranches, including the one Rule 4 sits in.",
           },
           {

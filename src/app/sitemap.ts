@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { ACT_PARTS } from "@/lib/act-sections";
+import { INDUSTRIES } from "@/lib/industries";
 import { BLOG_POSTS } from "@/lib/blog-posts";
 import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
@@ -14,7 +15,7 @@ import { CONTENT_UPDATED, SITE_URL } from "@/lib/site";
  * carries `noindex`.
  *
  * `/exam` was excluded on the same grounds until it was given a server-rendered
- * FAQ answering the questions people actually search before sitting a paper —
+ * FAQ answering the questions people actually search before sitting a paper -
  * whether it is proctored, what happens on a fail, whether an account is
  * needed. That is readable content rather than chrome, so the page is indexed
  * and listed here. The FAQ deliberately avoids `/certification`'s questions:
@@ -24,7 +25,7 @@ const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Si
   { path: "/", priority: 1.0, changeFrequency: "monthly" },
   { path: "/reader", priority: 0.9, changeFrequency: "yearly" },
   { path: "/reader/full-text", priority: 0.9, changeFrequency: "yearly" },
-  // The statute itself: one URL per provision. `yearly` is honest — the text
+  // The statute itself: one URL per provision. `yearly` is honest - the text
   // of an Act does not change between amendments.
   ...ACT_PARTS.map((part) => ({
     path: `/reader/${part.slug}`,
@@ -44,6 +45,12 @@ const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Si
   { path: "/significant-data-fiduciary", priority: 0.8, changeFrequency: "monthly" },
   { path: "/dpdp-applicability", priority: 0.8, changeFrequency: "monthly" },
   { path: "/dpdp-penalty-calculator", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/implementation", priority: 0.9, changeFrequency: "monthly" },
+  ...INDUSTRIES.map((industry) => ({
+    path: `/implementation/${industry.slug}`,
+    priority: 0.8,
+    changeFrequency: "monthly" as const,
+  })),
   { path: "/blog", priority: 0.8, changeFrequency: "monthly" },
   { path: "/blog/dpdp-act-2023-practical-primer", priority: 0.7, changeFrequency: "monthly" },
   ...BLOG_POSTS.map((post) => ({
@@ -58,8 +65,8 @@ const PAGES: { path: string; priority: number; changeFrequency: MetadataRoute.Si
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Not `new Date()`: a lastmod that moves with every deploy — including
-  // CSS-only ones — teaches crawlers to ignore the field, so it is worth
+  // Not `new Date()`: a lastmod that moves with every deploy - including
+  // CSS-only ones - teaches crawlers to ignore the field, so it is worth
   // nothing when the Act text actually changes. Bump CONTENT_UPDATED instead.
   const lastModified = CONTENT_UPDATED;
 

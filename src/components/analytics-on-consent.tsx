@@ -7,7 +7,7 @@ import * as React from "react";
  * Loads GA4 only once analytics consent exists.
  *
  * Previously `gtag.js` was rendered unconditionally: 161.6 KiB downloaded and
- * executed on every visit, including for the visitor who declines — to run a
+ * executed on every visit, including for the visitor who declines - to run a
  * tracker that `cc-bootstrap.js` had already denied permission to track. The
  * layout self-hosts the consent SDK precisely so that asking about tracking
  * does not itself hand the visitor to a third party; loading Google's tracker
@@ -23,7 +23,7 @@ import * as React from "react";
  * `consent default denied` before anything loads; the SDK pushes
  * `consent update` when preferences are saved. Both are queued in the array,
  * so gtag.js replays them in order on arrival and settles on the granted
- * state — the late load loses nothing.
+ * state - the late load loses nothing.
  */
 
 interface ConsentCategories {

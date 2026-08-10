@@ -61,7 +61,7 @@ export default async function ActSectionPage({
 
   /**
    * `Legislation` again, but scoped to this provision and pointed at the Act
-   * via `isPartOf` — the pairing that lets an answer engine cite a section
+   * via `isPartOf` - the pairing that lets an answer engine cite a section
    * rather than the whole statute.
    */
   const schema = {
@@ -139,7 +139,7 @@ export default async function ActSectionPage({
               </span>
               <h1 className="m-0 font-display text-[clamp(27px,4.4vw,40px)] font-semibold leading-[1.18] tracking-[-0.03em] text-text [text-wrap:pretty]">
                 {part.kind === "sch" ? (
-                  "The Schedule — Monetary Penalties"
+                  "The Schedule - Monetary Penalties"
                 ) : (
                   <>
                     <span className="text-primary-text">
@@ -186,7 +186,7 @@ export default async function ActSectionPage({
                 {study.label}
               </Link>
               {/* Chapter IX has no study page, so `study` already points at
-                  the full text — don't render the same link twice. */}
+                  the full text - don't render the same link twice. */}
               {study.href !== routes.readerFullText ? (
                 <Link
                   href={routes.readerFullText}

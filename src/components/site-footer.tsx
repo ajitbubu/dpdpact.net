@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 
+import { INDUSTRY_MENU, INDUSTRY_SLUGS, industryPath } from "@/lib/industries-menu";
 import { routes } from "@/lib/routes";
 
 const ACT_LINKS = [
@@ -57,7 +58,7 @@ export function SiteFooter() {
           </Link>
           <p className="max-w-[34ch] text-[14px] leading-[1.7] text-text-secondary">
             Study the Digital Personal Data Protection Act, 2023 section by
-            section — then prove it with a graded certification.
+            section - then prove it with a graded certification.
           </p>
           <div className="flex flex-wrap gap-[8px]">
             <span className="inline-block rounded-full bg-primary-tint px-[11px] py-[5px] font-sans text-[12px] font-semibold text-primary-text">
@@ -84,10 +85,32 @@ export function SiteFooter() {
           ))}
         </div>
 
+        {/*
+         * The Implementation mega menu renders only when open, so it gives a
+         * crawler nothing. This column is where the industry pages actually
+         * earn their site-wide internal links - the same job the other columns
+         * already do for the study pages.
+         */}
+        <div className="flex flex-col gap-[11px]">
+          <span className={columnHeadingClass}>By industry</span>
+          {INDUSTRY_SLUGS.map((slug) => (
+            <Link
+              key={slug}
+              href={industryPath(slug)}
+              className={columnLinkClass}
+            >
+              {INDUSTRY_MENU[slug].name}
+            </Link>
+          ))}
+          <Link href={routes.implementation} className={columnLinkClass}>
+            All implementation guides
+          </Link>
+        </div>
+
         <div className="flex flex-col gap-[11px]">
           <span className={columnHeadingClass}>Source</span>
           <span className="text-[14px] leading-[1.7] text-text-secondary">
-            The Gazette of India, Extraordinary, Part II — Section 1, No. 25, 11
+            The Gazette of India, Extraordinary, Part II - Section 1, No. 25, 11
             August 2023.
           </span>
           <span className="text-[14px] leading-[1.7] text-text-secondary">

@@ -18,12 +18,12 @@ const BIG_IDEAS = [
   {
     n: "01",
     title: "A lawful basis is required",
-    body: "Personal data may be processed only for a lawful purpose — with consent, or under one of the certain legitimate uses in section 7. There is no open-ended business-interest ground.",
+    body: "Personal data may be processed only for a lawful purpose - with consent, or under one of the certain legitimate uses in section 7. There is no open-ended business-interest ground.",
   },
   {
     n: "02",
     title: "Notice comes first",
-    body: "Every consent request is accompanied or preceded by a notice: the data, the purpose, how to exercise rights, how to complain — in English or any Eighth Schedule language.",
+    body: "Every consent request is accompanied or preceded by a notice: the data, the purpose, how to exercise rights, how to complain - in English or any Eighth Schedule language.",
   },
   {
     n: "03",
@@ -67,11 +67,11 @@ const EXEMPTIONS = [
 const FAQ = [
   {
     q: "What is the DPDP Act 2023?",
-    a: "The Digital Personal Data Protection Act, 2023 is India's first standalone data protection law. It received the President's assent on 11 August 2023 as Act No. 22 of 2023, and runs to 9 chapters, 44 sections and one Schedule of penalties. It governs the processing of digital personal data — data about an identifiable individual, held in digital form.",
+    a: "The Digital Personal Data Protection Act, 2023 is India's first standalone data protection law. It received the President's assent on 11 August 2023 as Act No. 22 of 2023, and runs to 9 chapters, 44 sections and one Schedule of penalties. It governs the processing of digital personal data - data about an identifiable individual, held in digital form.",
   },
   {
     q: "Who does the DPDP Act apply to?",
-    a: "It applies to anyone who determines the purpose and means of processing digital personal data — the Data Fiduciary — whether that data was collected in digital form or collected on paper and digitised later. Accountability sits with the Data Fiduciary irrespective of any agreement to the contrary.",
+    a: "It applies to anyone who determines the purpose and means of processing digital personal data - the Data Fiduciary - whether that data was collected in digital form or collected on paper and digitised later. Accountability sits with the Data Fiduciary irrespective of any agreement to the contrary.",
   },
   {
     q: "Does the DPDP Act apply outside India?",
@@ -120,19 +120,19 @@ const EXEMPTION_DEPTH = [
   {
     ref: "§ 17(1)",
     title: "What survives an exemption",
-    body: "Where a section 17(1) ground applies, Chapter II is disapplied — except sub-sections (1) and (5) of section 8. Chapter III and section 16 go too.",
+    body: "Where a section 17(1) ground applies, Chapter II is disapplied - except sub-sections (1) and (5) of section 8. Chapter III and section 16 go too.",
     note: "So accountability and reasonable security safeguards continue to apply even to exempt processing. An exemption is never a licence to hold data insecurely.",
   },
   {
     ref: "§ 17(3)",
     title: "The startup exemption nobody plans for",
-    body: "Having regard to the volume and nature of personal data processed, the Central Government may notify Data Fiduciaries or classes of them — expressly including startups — for whom section 5, sections 8(3) and 8(7), and sections 10 and 11 do not apply.",
+    body: "Having regard to the volume and nature of personal data processed, the Central Government may notify Data Fiduciaries or classes of them - expressly including startups - for whom section 5, sections 8(3) and 8(7), and sections 10 and 11 do not apply.",
     note: "That is notice, data accuracy, erasure, Significant Data Fiduciary duties and the right of access, switched off by notification. It is not automatic and no class has been notified, so it is something to watch rather than to rely on.",
   },
   {
     ref: "§ 17(4)",
     title: "The State keeps its data",
-    body: "For processing by the State or its instrumentalities, the erasure duty in section 8(7) and the erasure right in section 12(3) do not apply — and where the processing does not involve a decision affecting the Data Principal, neither does the correction duty in section 12(2).",
+    body: "For processing by the State or its instrumentalities, the erasure duty in section 8(7) and the erasure right in section 12(3) do not apply - and where the processing does not involve a decision affecting the Data Principal, neither does the correction duty in section 12(2).",
     note: "A citizen has no right under this Act to have her data erased from a government system.",
   },
   {
@@ -161,7 +161,7 @@ export default function OverviewPage() {
         eyebrow="Chapter I · Sections 1–3"
         title="What the Act Governs,"
         titleAccent="And Where It Stops"
-        lede="The Digital Personal Data Protection Act, 2023 received the President's assent on 11 August 2023. It regulates the processing of digital personal data — data about an identifiable individual, held in digital form — and balances the individual's right to protect it against lawful needs to use it."
+        lede="The Digital Personal Data Protection Act, 2023 received the President's assent on 11 August 2023. It regulates the processing of digital personal data - data about an identifiable individual, held in digital form - and balances the individual's right to protect it against lawful needs to use it."
       >
         <div className="mt-[22px] flex flex-wrap gap-[10px]">
           <Badge>Act No. 22 of 2023</Badge>
@@ -207,12 +207,12 @@ export default function OverviewPage() {
               </span>
               <span className="flex flex-col gap-[12px]">
                 <span className="block text-[14.5px] leading-[1.75] text-text-secondary">
-                  <strong className="text-text">Inside India</strong> — to
+                  <strong className="text-text">Inside India</strong> - to
                   digital personal data collected in digital form, or collected
                   on paper and digitised later.
                 </span>
                 <span className="block text-[14.5px] leading-[1.75] text-text-secondary">
-                  <strong className="text-text">Outside India</strong> — where
+                  <strong className="text-text">Outside India</strong> - where
                   the processing is connected to offering goods or services to
                   Data Principals within India.
                 </span>
@@ -234,10 +234,10 @@ export default function OverviewPage() {
               <span className="flex flex-col gap-[12px]">
                 <span className="block text-[14.5px] leading-[1.75] text-text-secondary">
                   <strong className="text-text">Personal or domestic use</strong>{" "}
-                  — data an individual processes for her own purposes.
+                  - data an individual processes for her own purposes.
                 </span>
                 <span className="block text-[14.5px] leading-[1.75] text-text-secondary">
-                  <strong className="text-text">Lawfully public data</strong> —
+                  <strong className="text-text">Lawfully public data</strong> -
                   data the Data Principal made public herself, or that someone
                   was legally obliged to publish.
                 </span>
@@ -325,14 +325,14 @@ export default function OverviewPage() {
       <ProvisionNotes
         eyebrow="§ 3(c) · Out of scope"
         heading="Two situations the Act never reaches"
-        intro="Before asking which obligations apply, check whether the Act applies at all. These are exclusions from scope, not exemptions within it — nothing survives them."
+        intro="Before asking which obligations apply, check whether the Act applies at all. These are exclusions from scope, not exemptions within it - nothing survives them."
         items={OUT_OF_SCOPE}
       />
 
       <ProvisionNotes
         eyebrow="§ 17 · Beyond the grounds"
         heading="What an exemption does not switch off"
-        intro="The grounds are above. These four points decide how an exemption actually behaves — including two powers the Government holds and has not yet used."
+        intro="The grounds are above. These four points decide how an exemption actually behaves - including two powers the Government holds and has not yet used."
         items={EXEMPTION_DEPTH}
         tone="sunken"
       />

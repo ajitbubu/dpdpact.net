@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { INDUSTRY_MENU, INDUSTRY_SLUGS, industryPath } from "@/lib/industries-menu";
 import { cn } from "@/lib/utils";
 import { routes, type NavKey } from "@/lib/routes";
 
@@ -78,20 +79,22 @@ const linkClass =
   "whitespace-nowrap font-sans text-[14px] font-semibold no-underline hover:text-primary-text";
 
 /**
- * DpdpMenu — the grouped "DPDP" tab.
+ * Open/close behaviour shared by the two dropdown tabs.
  *
  * Opens on hover for pointer users and on click/Enter/Space for everyone else.
  * Hover alone is never required: the trigger is a real button with
  * `aria-expanded`, Escape closes it and returns focus, and an outside click or
  * a route change dismisses it.
+ *
+ * Extracted when the Implementation mega menu became the second consumer -
+ * the dismissal rules are the part that is easy to get subtly wrong, and two
+ * copies would drift.
  */
-function DpdpMenu({ active }: { active?: NavKey }) {
+function useNavMenu() {
   const [open, setOpen] = React.useState(false);
   const wrapRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const closeTimer = React.useRef<number | null>(null);
-
-  const isActive = !!active && DPDP_KEYS.includes(active);
 
   // Dismiss on outside click and on Escape.
   React.useEffect(() => {
@@ -135,25 +138,36 @@ function DpdpMenu({ active }: { active?: NavKey }) {
     }
   };
 
+  /** Spread onto the positioned wrapper that contains trigger and panel. */
+  const wrapProps = {
+    ref: wrapRef,
+    onMouseEnter: () => {
+      cancelClose();
+      setOpen(true);
+    },
+    onMouseLeave: () => {
+      // Small grace period so the diagonal trip from trigger to panel
+      // does not close it.
+      cancelClose();
+      closeTimer.current = window.setTimeout(() => setOpen(false), 120);
+    },
+    // Closing on blur-out keeps Tab-away behaving like Escape.
+    onBlur: (e: React.FocusEvent) => {
+      if (!wrapRef.current?.contains(e.relatedTarget as Node)) setOpen(false);
+    },
+  };
+
+  return { open, setOpen, triggerRef, wrapProps };
+}
+
+/** DpdpMenu - the grouped "DPDP" tab. */
+function DpdpMenu({ active }: { active?: NavKey }) {
+  const { open, setOpen, triggerRef, wrapProps } = useNavMenu();
+
+  const isActive = !!active && DPDP_KEYS.includes(active);
+
   return (
-    <div
-      ref={wrapRef}
-      className="relative"
-      onMouseEnter={() => {
-        cancelClose();
-        setOpen(true);
-      }}
-      onMouseLeave={() => {
-        // Small grace period so the diagonal trip from trigger to panel
-        // does not close it.
-        cancelClose();
-        closeTimer.current = window.setTimeout(() => setOpen(false), 120);
-      }}
-      // Closing on blur-out keeps Tab-away behaving like Escape.
-      onBlur={(e) => {
-        if (!wrapRef.current?.contains(e.relatedTarget as Node)) setOpen(false);
-      }}
-    >
+    <div className="relative" {...wrapProps}>
       <button
         ref={triggerRef}
         type="button"
@@ -220,7 +234,122 @@ function DpdpMenu({ active }: { active?: NavKey }) {
 }
 
 /**
- * SiteNav — sticky masthead. Collapses to a hamburger below 1020px.
+ * IndustryMenu - the "Implementation" mega menu.
+ *
+ * A wide panel rather than a list because the nine industries need their
+ * statutory hook visible to be choosable: "Online gaming" alone does not tell
+ * you why it has its own page, and "50 lakh users" does. Same disclosure
+ * behaviour as the DPDP tab, via `useNavMenu`.
+ *
+ * Width is clamped to the viewport because `body` sets `overflow-x-hidden`, so
+ * a panel wider than the window would be clipped rather than scrollable.
+ */
+function IndustryMenu({ active }: { active?: NavKey }) {
+  const { open, setOpen, triggerRef, wrapProps } = useNavMenu();
+  const isActive = active === "implementation";
+
+  return (
+    <div className="relative" {...wrapProps}>
+      <button
+        ref={triggerRef}
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="true"
+        aria-controls="industry-menu"
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          linkClass,
+          "flex cursor-pointer items-center gap-[5px] border-0 bg-transparent p-0",
+          isActive ? "text-primary" : "text-text-secondary",
+        )}
+      >
+        Implementation
+        <span
+          aria-hidden="true"
+          className={cn(
+            "text-[9px] leading-none transition-transform duration-[var(--dur-fast)]",
+            open && "rotate-180",
+          )}
+        >
+          ▼
+        </span>
+      </button>
+
+      {open && (
+        <div
+          id="industry-menu"
+          className={cn(
+            "absolute left-1/2 top-[calc(100%+14px)] z-[70] -translate-x-1/2",
+            "w-[min(760px,calc(100vw-40px))]",
+            "rounded-md border border-border bg-surface",
+            "shadow-[0_12px_32px_rgba(20,20,15,.13)]",
+          )}
+        >
+          <div className="flex items-baseline justify-between gap-[var(--space-4)] border-b border-border px-[18px] py-[13px]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-text-muted">
+              By industry
+            </span>
+            <span className="text-[12px] leading-[1.5] text-text-muted">
+              Nine sectors the Act or the Rules treat differently
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-[2px] p-[6px]">
+            {INDUSTRY_SLUGS.map((slug) => {
+              const industry = INDUSTRY_MENU[slug];
+              const Icon = industry.icon;
+              return (
+                <Link
+                  key={slug}
+                  href={industryPath(slug)}
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    "flex flex-col gap-[3px] rounded-sm px-[12px] py-[10px] no-underline",
+                    "hover:bg-[var(--bg-sunken)]",
+                  )}
+                >
+                  <span className="flex items-center gap-[8px]">
+                    <Icon
+                      size={16}
+                      strokeWidth={1.7}
+                      className="shrink-0 text-primary-text"
+                      aria-hidden
+                    />
+                    <span className="font-sans text-[13.5px] font-semibold leading-[1.25] text-text">
+                      {industry.name}
+                    </span>
+                  </span>
+                  <span className="text-[11.5px] leading-[1.4] text-text-muted">
+                    {industry.menuNote}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          <Link
+            href={routes.implementation}
+            onClick={() => setOpen(false)}
+            className={cn(
+              "flex items-center justify-between border-t border-border px-[18px] py-[12px] no-underline",
+              "hover:bg-[var(--bg-sunken)]",
+            )}
+          >
+            <span className="font-sans text-[13px] font-semibold text-primary-text">
+              All implementation guides
+            </span>
+            <span aria-hidden className="text-[13px] text-primary-text">
+              →
+            </span>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * SiteNav - sticky masthead. Collapses to a hamburger below 1020px.
  *
  * The source design measured its own width with a ResizeObserver because DC
  * components render in isolated frames; a CSS breakpoint is equivalent here
@@ -263,6 +392,8 @@ export function SiteNav({ active }: { active?: NavKey }) {
           </Link>
 
           <DpdpMenu active={active} />
+
+          <IndustryMenu active={active} />
 
           {TOP_ITEMS.filter((i) => i.key !== "overview").map((item) => (
             <Link
@@ -319,7 +450,7 @@ export function SiteNav({ active }: { active?: NavKey }) {
             Overview
           </Link>
 
-          {/* The same grouping as the desktop tab, flattened under a heading —
+          {/* The same grouping as the desktop tab, flattened under a heading -
               a nested dropdown inside a drawer is worse than a section label. */}
           <span className="px-[4px] pb-[6px] pt-[16px] font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
             DPDP
@@ -335,6 +466,37 @@ export function SiteNav({ active }: { active?: NavKey }) {
               {item.label}
             </Link>
           ))}
+
+          <span className="px-[4px] pb-[6px] pt-[16px] font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
+            Implementation by industry
+          </span>
+          {INDUSTRY_SLUGS.map((slug) => {
+            const industry = INDUSTRY_MENU[slug];
+            const Icon = industry.icon;
+            return (
+              <Link
+                key={slug}
+                href={industryPath(slug)}
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-[10px] border-b border-border px-[4px] py-[15px] font-sans text-[15px] font-semibold text-text no-underline"
+              >
+                <Icon
+                  size={17}
+                  strokeWidth={1.7}
+                  className="shrink-0 text-primary-text"
+                  aria-hidden
+                />
+                {industry.name}
+              </Link>
+            );
+          })}
+          <Link
+            href={routes.implementation}
+            onClick={() => setMenuOpen(false)}
+            className="border-b border-border px-[4px] py-[15px] font-sans text-[15px] font-semibold text-primary-text no-underline"
+          >
+            All implementation guides
+          </Link>
 
           <span className="px-[4px] pb-[6px] pt-[16px] font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
             More

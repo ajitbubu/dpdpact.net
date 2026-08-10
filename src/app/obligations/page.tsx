@@ -17,25 +17,25 @@ const STEPS = [
   {
     step: "Step 01 · § 4",
     title: "Establish the ground",
-    body: "Process only for a lawful purpose — one not expressly forbidden by law — with consent, or under a certain legitimate use.",
+    body: "Process only for a lawful purpose - one not expressly forbidden by law - with consent, or under a certain legitimate use.",
     accent: false,
   },
   {
     step: "Step 02 · § 5",
     title: "Give notice",
-    body: "Itemise the data and purpose, how rights are exercised, and how to complain to the Board — before or with the consent request. Pre-Act consents need a fresh notice too.",
+    body: "Itemise the data and purpose, how rights are exercised, and how to complain to the Board - before or with the consent request. Pre-Act consents need a fresh notice too.",
     accent: false,
   },
   {
     step: "Step 03 · § 6",
     title: "Take consent properly",
-    body: "Free, specific, informed, unconditional, unambiguous, limited to the data necessary — withdrawable as easily as it was given, and provable by you in a proceeding.",
+    body: "Free, specific, informed, unconditional, unambiguous, limited to the data necessary - withdrawable as easily as it was given, and provable by you in a proceeding.",
     accent: false,
   },
   {
     step: "Step 04 · § 8(5)",
     title: "Safeguard the data",
-    body: "Reasonable security safeguards to prevent a personal data breach — including data held on your behalf by a processor. The single most expensive obligation to miss.",
+    body: "Reasonable security safeguards to prevent a personal data breach - including data held on your behalf by a processor. The single most expensive obligation to miss.",
     accent: false,
   },
   {
@@ -47,7 +47,7 @@ const STEPS = [
   {
     step: "Step 06 · § 8(7)–(8)",
     title: "Erase when done",
-    body: "On withdrawal of consent, or once the purpose is no longer served — and cause your processors to erase. The purpose is deemed served-out after the prescribed period of no contact.",
+    body: "On withdrawal of consent, or once the purpose is no longer served - and cause your processors to erase. The purpose is deemed served-out after the prescribed period of no contact.",
     accent: false,
   },
   {
@@ -94,38 +94,38 @@ const LEGITIMATE_USES = [
 /**
  * What the DPDP Rules, 2025 turn each statutory duty into.
  *
- * The Act states duties at the level of principle — "reasonable security
+ * The Act states duties at the level of principle - "reasonable security
  * safeguards", "in such form and manner as may be prescribed". This is where
  * the prescribing happened, and it is the difference between knowing the
  * section and being able to implement it.
  */
 const RULE_LAYER = [
   {
-    act: "§ 5 — Notice",
+    act: "§ 5 - Notice",
     rule: "Rule 3",
     title: "The notice must itemise, not summarise",
     body: "An itemised description of the personal data to be processed, the specified purpose, and a specific description of the goods, services or uses that the processing enables. It must be presented in clear and plain language and stand independently of other information, with links to withdraw consent, exercise rights and complain to the Board.",
     build: "A privacy policy does not satisfy this. The notice is a discrete artefact tied to the consent request, and it has to name the data rather than gesture at categories.",
   },
   {
-    act: "§ 8(5) — Safeguards",
+    act: "§ 8(5) - Safeguards",
     rule: "Rule 6",
     title: "Named measures, and a one-year log floor",
     body: "Encryption, obfuscation, masking or virtual tokens; appropriate access controls with visibility over who accessed what; retention of access logs and processing logs for at least one year; regular monitoring and review of those logs; business continuity and recovery arrangements; and the same obligations flowed down to processors by contract.",
     build: "The log floor is the operationally expensive one. One year of access and processing logs, monitored rather than merely stored, is an infrastructure commitment more than a policy commitment.",
   },
   {
-    act: "§ 8(6) — Breach",
+    act: "§ 8(6) - Breach",
     rule: "Rule 7",
     title: "Two audiences, two clocks, no threshold",
     body: "Affected Data Principals are told without delay. The Board receives an initial intimation without delay, then a detailed report within 72 hours, extendable only by the Board. There is no harm threshold anywhere in the section or the rule.",
     build: "This is the widest gap from GDPR. Article 33 lets you skip notification where a breach is unlikely to result in risk, and only tells individuals when risk is high. Here every personal data breach is reportable to both.",
   },
   {
-    act: "§ 8(7)–(8) — Erasure",
+    act: "§ 8(7)–(8) - Erasure",
     rule: "Rule 8",
     title: "An inactivity clock, and a warning before deletion",
-    body: "For specified classes of platform above stated user thresholds — e-commerce, online gaming and social media — personal data is erased after three years of user inactivity, with at least 48 hours notice to the individual before deletion. Separately, logs are kept a minimum of one year for lawful requests and investigations before being erased.",
+    body: "For specified classes of platform above stated user thresholds - e-commerce, online gaming and social media - personal data is erased after three years of user inactivity, with at least 48 hours notice to the individual before deletion. Separately, logs are kept a minimum of one year for lawful requests and investigations before being erased.",
     build: "Two systems, pulling opposite ways: delete the person's data on an inactivity timer, keep the logs about it for a year. Both need to be automated, and the 48-hour notice needs a delivery path that still works for a dormant account.",
   },
 ];
@@ -167,7 +167,7 @@ export default function ObligationsPage() {
         eyebrow="Chapter II · Sections 4–10"
         title="The Compliance Lifecycle,"
         titleAccent="Ask To Erase"
-        lede="Sections 4 to 10 read as a sequence — from the moment data is asked for to the moment it must be deleted. Accountability never moves: the Data Fiduciary answers for its processors, whatever the contract says."
+        lede="Sections 4 to 10 read as a sequence - from the moment data is asked for to the moment it must be deleted. Accountability never moves: the Data Fiduciary answers for its processors, whatever the contract says."
       />
 
       <section className="bg-[var(--bg-app)]">
@@ -210,7 +210,7 @@ export default function ObligationsPage() {
                   <Baby size={20} />
                 </span>
                 <span className="font-display text-[19px] font-semibold text-text">
-                  Children — section 9
+                  Children - section 9
                 </span>
               </span>
               <span className="text-[14.5px] leading-[1.75] text-text-secondary">
@@ -231,7 +231,7 @@ export default function ObligationsPage() {
                   <ShieldAlert size={20} />
                 </span>
                 <span className="font-display text-[19px] font-semibold text-text">
-                  Significant Data Fiduciaries — section 10
+                  Significant Data Fiduciaries - section 10
                 </span>
               </span>
               <span className="text-[14.5px] leading-[1.75] text-text-secondary">
@@ -251,7 +251,7 @@ export default function ObligationsPage() {
           {/* --------------------------------------- Certain legitimate uses */}
           <div className="flex flex-col gap-[14px]">
             <h2 className="m-0 font-display text-[clamp(23px,3.2vw,32px)] font-semibold leading-[1.2] tracking-[-0.025em] text-text">
-              Certain legitimate uses — section 7
+              Certain legitimate uses - section 7
             </h2>
             <p className="m-0 max-w-[74ch] text-[15px] leading-[1.7] text-text-secondary">
               Nine closed categories where consent is not the basis. Read them
@@ -304,7 +304,7 @@ export default function ObligationsPage() {
             First, a processor contract allocates work and cost, never
             liability. When a processor loses data, the Board still looks at the
             Data Fiduciary. Second, a Data Principal who breaches her section 15
-            duties — say, by supplying false information — does not thereby
+            duties - say, by supplying false information - does not thereby
             reduce your obligations towards her data. Her breach is separately
             penalisable at up to ₹10,000; yours is not offset by it.
           </p>
@@ -397,7 +397,7 @@ export default function ObligationsPage() {
               {
                 s: "§ 5 + Rule 3",
                 q: "What did the notice have to say?",
-                a: "It had to itemise the personal data (the mobile number), state the specified purpose (delivery updates for orders placed), describe the service that enables, and link to withdrawal, rights and Board complaints — in plain language, standing on its own rather than buried in terms of service.",
+                a: "It had to itemise the personal data (the mobile number), state the specified purpose (delivery updates for orders placed), describe the service that enables, and link to withdrawal, rights and Board complaints - in plain language, standing on its own rather than buried in terms of service.",
               },
               {
                 s: "§ 6(1)",
@@ -407,7 +407,7 @@ export default function ObligationsPage() {
               {
                 s: "§ 8(7)–(8)",
                 q: "When must the number be deleted?",
-                a: "When the customer withdraws consent, or as soon as it is reasonable to assume the purpose is no longer served — whichever is earlier. The Act deems the purpose served-out once the customer neither approaches you for it nor exercises any right for the prescribed period, and section 8(11) clarifies that means no contact initiated by her. You must also cause your SMS processor to erase its copy.",
+                a: "When the customer withdraws consent, or as soon as it is reasonable to assume the purpose is no longer served - whichever is earlier. The Act deems the purpose served-out once the customer neither approaches you for it nor exercises any right for the prescribed period, and section 8(11) clarifies that means no contact initiated by her. You must also cause your SMS processor to erase its copy.",
               },
             ].map((row) => (
               <div
@@ -432,7 +432,7 @@ export default function ObligationsPage() {
           <p className="m-0 max-w-[76ch] text-[14px] leading-[1.7] text-text-muted">
             The trap is step three. Teams arriving from GDPR reach for
             legitimate interests to justify the marketing use, find it missing,
-            and then try to read section 7(a) — data voluntarily provided — as a
+            and then try to read section 7(a) - data voluntarily provided - as a
             substitute. It is not: 7(a) is tied to the purpose for which the
             data was volunteered, which brings you back to order updates.
           </p>
@@ -479,7 +479,7 @@ export default function ObligationsPage() {
             Sections 4 to 10 sit in the eighteen-month tranche of the
             commencement notification, so these duties bite in mid-May 2027. The
             Rules are already notified, which means what they will require is
-            known rather than speculative — see{" "}
+            known rather than speculative - see{" "}
             <Link href={routes.rules} className="font-semibold text-primary-text">
               the commencement timeline
             </Link>{" "}

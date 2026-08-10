@@ -38,7 +38,7 @@ export function ActBlocks({ blocks }: { blocks: Block[] }) {
               style={{ paddingLeft: PAD[1], fontSize: BODY_FONT_SIZE }}
             >
               <em className="font-semibold not-italic text-text">
-                Explanation.—
+                Explanation.-
               </em>
               {block[1]}
             </p>
@@ -74,7 +74,7 @@ export function ActScheduleTable() {
   return (
     <div className="flex flex-col gap-[16px]">
       <p className="m-0 font-sans text-[13.5px] font-normal italic leading-[1.6] text-text-muted">
-        {SCHEDULE.note} — penalties the Data Protection Board may impose on
+        {SCHEDULE.note} - penalties the Data Protection Board may impose on
         conclusion of an inquiry.
       </p>
 

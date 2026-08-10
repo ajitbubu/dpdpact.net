@@ -7,8 +7,8 @@ import { breadcrumbSchema } from "@/lib/breadcrumbs";
 /**
  * Questions about sitting the paper.
  *
- * `/certification` answers the programme-level ones — what it costs, the pass
- * mark, who it is for — so these deliberately do not repeat them. Two pages
+ * `/certification` answers the programme-level ones - what it costs, the pass
+ * mark, who it is for - so these deliberately do not repeat them. Two pages
  * answering the same question compete with each other for it, and the exam is
  * the weaker page of the two to win on price or audience.
  */

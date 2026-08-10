@@ -39,7 +39,7 @@ export const ACT_PARTS: ActPart[] = [
     kind: "sch" as const,
     n: "S",
     heading: SCHEDULE.title,
-    chNum: "—",
+    chNum: "-",
     chTitle: SCHEDULE.title,
     blocks: [],
   },
@@ -76,8 +76,8 @@ export function getActNeighbours(slug: string) {
 /** Title as it appears in headings and metadata. */
 export function partLabel(part: ActPart): string {
   return part.kind === "sch"
-    ? "The Schedule — Monetary Penalties"
-    : `Section ${part.n} — ${part.heading}`;
+    ? "The Schedule - Monetary Penalties"
+    : `Section ${part.n} - ${part.heading}`;
 }
 
 /** Trim to a whole word inside `max` characters. */
@@ -89,15 +89,15 @@ function clamp(text: string, max: number): string {
 
 /**
  * Search title. Front-loads "Section N" because that is how the query is
- * typed, then clamps to 60 characters — fourteen statutory headings are long
+ * typed, then clamps to 60 characters - fourteen statutory headings are long
  * enough to blow past the SERP limit on their own, one of them at 86
  * characters. The `<h1>` still carries the heading in full; only the title
  * tag is trimmed.
  */
 export function partTitle(part: ActPart): string {
   return part.kind === "sch"
-    ? "DPDP Act Schedule — Penalties Under Section 33"
-    : clamp(`DPDP Act Section ${part.n} — ${part.heading}`, 60);
+    ? "DPDP Act Schedule - Penalties Under Section 33"
+    : clamp(`DPDP Act Section ${part.n} - ${part.heading}`, 60);
 }
 
 /** Description built from the section's own opening text, so no two match. */
@@ -106,7 +106,7 @@ export function partDescription(part: ActPart): string {
     return "The Schedule to India's DPDP Act, 2023: seven penalty heads and the maximum monetary penalty the Data Protection Board may impose for each.";
   }
   const opening = part.blocks.find((block) => block[0] === "p")?.[2] ?? "";
-  const lede = `Full text of section ${part.n} of India's DPDP Act, 2023 — ${part.heading}.`;
+  const lede = `Full text of section ${part.n} of India's DPDP Act, 2023 - ${part.heading}.`;
   return clamp(opening ? `${lede} ${opening}` : lede, 158);
 }
 
@@ -124,7 +124,7 @@ export function partStudyPage(part: ActPart): { href: Route; label: string } {
   if (n <= 15) return { href: "/rights", label: "Rights & duties explained" };
   if (n <= 17) return { href: "/overview", label: "Overview & scope explained" };
   // 18–26 is the Board's constitution, which /roles covers. 27–34 is inquiry,
-  // appeal, ADR and penalties — /penalties covers those and /roles never
+  // appeal, ADR and penalties - /penalties covers those and /roles never
   // mentions them, so the boundary sits at 26, not 32.
   if (n <= 26) return { href: "/roles", label: "Key roles explained" };
   if (n <= 34) return { href: "/penalties", label: "Penalties explained" };

@@ -71,7 +71,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
     sources: [
-      { label: "DPDP Act reader — sections 5 and 6", href: "/reader" },
+      { label: "DPDP Act reader - sections 5 and 6", href: "/reader" },
       { label: "DPDP Rules, 2025 Gazette", href: RULES_SOURCE },
     ],
     related: [
@@ -119,7 +119,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
     sources: [
-      { label: "DPDP Act reader — section 8", href: "/reader" },
+      { label: "DPDP Act reader - section 8", href: "/reader" },
       { label: "DPDP Rules, 2025 Gazette", href: RULES_SOURCE },
     ],
     related: [
@@ -277,7 +277,7 @@ export const BLOG_POSTS: BlogPost[] = [
     updated: "2026-08-02",
     readTime: "7 min read",
     intro:
-      "The DPDP Act defines a child as an individual under eighteen. Services likely to involve children need a product-level approach to age assurance, parental consent and prohibited processing—not a paragraph added to a privacy policy.",
+      "The DPDP Act defines a child as an individual under eighteen. Services likely to involve children need a product-level approach to age assurance, parental consent and prohibited processing-not a paragraph added to a privacy policy.",
     sections: [
       {
         heading: "Identify where age changes the journey",
@@ -302,7 +302,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
     sources: [
-      { label: "DPDP Act reader — section 9", href: "/reader" },
+      { label: "DPDP Act reader - section 9", href: "/reader" },
       { label: "DPDP Rules, 2025 Gazette", href: RULES_SOURCE },
     ],
     related: [
@@ -346,7 +346,7 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
     sources: [
       { label: "Key roles explained", href: "/roles" },
-      { label: "DPDP Act reader — section 10", href: "/reader" },
+      { label: "DPDP Act reader - section 10", href: "/reader" },
     ],
     related: [
       { label: "DPDP Rules 2025 timeline", href: "/dpdp-rules-2025" },
@@ -368,7 +368,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Start with purpose completion",
         paragraphs: [
-          "Section 8(7) connects erasure to the specified purpose no longer being served and retention no longer being necessary for compliance with law. Teams therefore need an operational event—such as account closure, delivery completion or the end of a support case—that systems can recognise.",
+          "Section 8(7) connects erasure to the specified purpose no longer being served and retention no longer being necessary for compliance with law. Teams therefore need an operational event-such as account closure, delivery completion or the end of a support case-that systems can recognise.",
           "Do not turn one schedule into a universal DPDP period. Different data may remain necessary for a continuing service, a legal obligation, security evidence or another documented purpose. Record the reason and the system of record for each exception.",
         ],
         bullets: [
@@ -398,8 +398,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
     sources: [
-      { label: "DPDP Act reader — sections 6 and 8", href: "/reader" },
-      { label: "DPDP Rules, 2025 Gazette — rule 8", href: RULES_SOURCE },
+      { label: "DPDP Act reader - sections 6 and 8", href: "/reader" },
+      { label: "DPDP Rules, 2025 Gazette - rule 8", href: RULES_SOURCE },
       { label: "Act commencement notification", href: COMMENCEMENT_SOURCE },
     ],
     related: [
@@ -423,7 +423,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "Keep accountability with the Data Fiduciary",
         paragraphs: [
           "Section 8 makes the Data Fiduciary responsible for compliance in respect of processing undertaken by it or on its behalf. Section 8(2) permits engagement of a Data Processor only under a valid contract, so outsourcing the system does not outsource the accountability.",
-          "Build a processor register from actual integrations, expense records and infrastructure—not only the contracts folder. For each processor, record the service, personal data, purpose, locations, sub-processors, owner and exit path.",
+          "Build a processor register from actual integrations, expense records and infrastructure-not only the contracts folder. For each processor, record the service, personal data, purpose, locations, sub-processors, owner and exit path.",
         ],
       },
       {
@@ -448,8 +448,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
     sources: [
-      { label: "DPDP Act reader — section 8", href: "/reader" },
-      { label: "DPDP Rules, 2025 Gazette — rule 6", href: RULES_SOURCE },
+      { label: "DPDP Act reader - section 8", href: "/reader" },
+      { label: "DPDP Rules, 2025 Gazette - rule 6", href: RULES_SOURCE },
     ],
     related: [
       { label: "DPDP guide for SaaS companies", href: blogPath("dpdp-act-for-saas-companies") },
@@ -497,8 +497,8 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
     sources: [
-      { label: "DPDP Act reader — sections 4 to 8", href: "/reader" },
-      { label: "DPDP Rules, 2025 Gazette — rules 3 and 6", href: RULES_SOURCE },
+      { label: "DPDP Act reader - sections 4 to 8", href: "/reader" },
+      { label: "DPDP Rules, 2025 Gazette - rules 3 and 6", href: RULES_SOURCE },
     ],
     related: [
       { label: "Consent notice guide", href: blogPath("dpdp-consent-notice-guide") },

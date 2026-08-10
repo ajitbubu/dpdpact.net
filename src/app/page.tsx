@@ -53,7 +53,7 @@ const STUDY_PATH = [
     icon: GitBranch,
     range: "Chapter II · §§ 4–10",
     title: "Obligations",
-    body: "Notice, consent, safeguards, breach reporting, erasure — the compliance lifecycle in order.",
+    body: "Notice, consent, safeguards, breach reporting, erasure - the compliance lifecycle in order.",
     accent: false,
   },
   {
@@ -284,7 +284,7 @@ export default function HomePage() {
             </h2>
             <p className="m-0 text-[clamp(14.5px,1.5vw,16.5px)] leading-[1.7] text-text-secondary">
               Each page holds one theme of the law with the exact provisions
-              behind it — read in order, or jump to what you are being audited
+              behind it - read in order, or jump to what you are being audited
               on.
             </p>
           </div>

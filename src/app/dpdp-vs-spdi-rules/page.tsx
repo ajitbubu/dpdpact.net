@@ -31,28 +31,28 @@ const SPDI_SOURCE =
 const AMENDMENTS = [
   {
     ref: "§ 44(1)",
-    target: "TRAI Act, 1997 — section 14(c)",
+    target: "TRAI Act, 1997 - section 14(c)",
     status: "In force",
     tone: "safe" as const,
     body: "Substitutes the sub-clauses listing which appeals the Telecom Disputes Settlement and Appellate Tribunal hears, adding the Appellate Tribunal under the DPDP Act. This is what makes TDSAT the appeal route from the Data Protection Board.",
   },
   {
     ref: "§ 44(3)",
-    target: "RTI Act, 2005 — section 8(1)(j)",
+    target: "RTI Act, 2005 - section 8(1)(j)",
     status: "In force",
     tone: "safe" as const,
     body: "Replaces the old public-interest balancing clause with a flat exemption: “information which relates to personal information”. This is the least-discussed change in the Act and the only one that narrows a right rather than creating one.",
   },
   {
     ref: "§ 44(2)(a)",
-    target: "IT Act, 2000 — section 43A",
+    target: "IT Act, 2000 - section 43A",
     status: "Not yet in force",
     tone: "warning" as const,
     body: "“Section 43A shall be omitted.” Until this commences, the compensation regime for negligent handling of sensitive personal data continues to operate alongside the DPDP Act.",
   },
   {
     ref: "§ 44(2)(c)",
-    target: "IT Act, 2000 — section 87(2)(ob)",
+    target: "IT Act, 2000 - section 87(2)(ob)",
     status: "Not yet in force",
     tone: "warning" as const,
     body: "Omits the rule-making power under which the SPDI Rules, 2011 were framed. This is the provision that ultimately strands the SPDI Rules, and it is why their fate is tied to section 44(2) rather than to the DPDP Rules.",
@@ -87,7 +87,7 @@ const OUTGOING = [
 const COMPARISON = [
   {
     dimension: "What is protected",
-    spdi: "Sensitive personal data or information only — a closed list of eight categories in Rule 3.",
+    spdi: "Sensitive personal data or information only - a closed list of eight categories in Rule 3.",
     dpdp: "All digital personal data: any data about an identifiable individual, in digital form or digitised later. No sensitive tier at all.",
   },
   {
@@ -158,7 +158,7 @@ const FAQ = [
 export const metadata: Metadata = {
   // Absolute: with the site-wide ` | DPDP Academy` suffix this runs to 62
   // characters and truncates in the SERP.
-  title: { absolute: "SPDI Rules vs DPDP Act — What Changes, and When" },
+  title: { absolute: "SPDI Rules vs DPDP Act - What Changes, and When" },
   description:
     "Section 43A of the IT Act and the SPDI Rules, 2011 are still in force. What the DPDP Act repeals, what it already changed, and the dates each takes effect.",
   alternates: { canonical: "/dpdp-vs-spdi-rules" },
@@ -169,7 +169,7 @@ const pageSchema = {
   "@type": "Article",
   headline: "SPDI Rules vs the DPDP Act: what is repealed, and when",
   description:
-    "A provision-by-provision account of section 44 of the DPDP Act, 2023 — which amendments commenced on publication and which are scheduled — and what that means for IT Act section 43A and the SPDI Rules, 2011.",
+    "A provision-by-provision account of section 44 of the DPDP Act, 2023 - which amendments commenced on publication and which are scheduled - and what that means for IT Act section 43A and the SPDI Rules, 2011.",
   datePublished: "2026-08-09",
   dateModified: CONTENT_UPDATED,
   author: { "@type": "Organization", name: SITE_NAME + " Editorial" },
@@ -473,7 +473,7 @@ export default function DpdpVsSpdiRulesPage() {
         guides={[
           {
             href: routes.rules,
-            label: "DPDP Rules 2025 — requirements and timeline",
+            label: "DPDP Rules 2025 - requirements and timeline",
             blurb:
               "The commencement tranches in full, and what each one turns on.",
           },
@@ -485,7 +485,7 @@ export default function DpdpVsSpdiRulesPage() {
           },
           {
             href: actPath("section-44"),
-            label: "Section 44 — Amendments to certain Acts",
+            label: "Section 44 - Amendments to certain Acts",
             blurb: "The provision itself, verbatim, with the sections it edits.",
           },
           {

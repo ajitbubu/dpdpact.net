@@ -8,7 +8,7 @@ import { ArrowLeft, RotateCcw } from "lucide-react";
  *
  * Every branch ends on a provision, and the wording of each question is kept
  * close to the statute so the answer can be checked against the text rather
- * than trusted. Nothing is sent anywhere — the whole thing is component state.
+ * than trusted. Nothing is sent anywhere - the whole thing is component state.
  */
 
 type Verdict = {
@@ -43,7 +43,7 @@ const STEPS: Step[] = [
     no: OUT(
       "The Act does not reach this",
       "The DPDP Act governs personal data. Data about no identifiable individual falls outside it entirely, however sensitive it may be commercially.",
-      ["§ 2(t) — personal data"],
+      ["§ 2(t) - personal data"],
       "Nothing further to check here. If some of your data is personal and some is not, run this again for the part that is.",
     ),
     yes: "digital",
@@ -51,7 +51,7 @@ const STEPS: Step[] = [
   {
     id: "digital",
     question: "Is it in digital form, or collected on paper and digitised afterwards?",
-    hint: "The Act is about digital personal data. Paper records that stay on paper are outside it — but the moment you scan or key them in, they are inside.",
+    hint: "The Act is about digital personal data. Paper records that stay on paper are outside it - but the moment you scan or key them in, they are inside.",
     no: OUT(
       "Outside the Act, for now",
       "The Act applies to digital personal data: collected in digital form, or collected non-digitally and digitised subsequently. Records that remain non-digital are not covered.",
@@ -84,7 +84,7 @@ const STEPS: Step[] = [
     id: "domestic",
     question:
       "Is this an individual processing the data purely for a personal or domestic purpose?",
-    hint: "A private contacts list, family photographs. The exclusion attaches to the purpose, not to the person — an individual processing for a business purpose is not covered by it.",
+    hint: "A private contacts list, family photographs. The exclusion attaches to the purpose, not to the person - an individual processing for a business purpose is not covered by it.",
     yes: OUT(
       "Excluded from the Act",
       "Personal data processed by an individual for any personal or domestic purpose is expressly outside the Act.",
@@ -109,7 +109,7 @@ const STEPS: Step[] = [
       headline: "The DPDP Act applies to this processing",
       because:
         "It is digital personal data, processed in India or in connection with offering goods or services to individuals in India, and neither of the section 3(c) exclusions applies.",
-      refs: ["§ 3(a)–(b)", "§ 3(c) — neither exclusion met"],
+      refs: ["§ 3(a)–(b)", "§ 3(c) - neither exclusion met"],
       next:
         "Being in scope is the start. Section 7 may give you a lawful basis without consent, and section 17 may switch off large parts of the Act for particular grounds, State processing or notified classes.",
     },

@@ -59,7 +59,7 @@ const RULE_DUTIES = [
   },
   {
     title: "The Board sees the findings",
-    body: "A report containing significant observations from the assessment and audit is furnished to the Data Protection Board. This is the part that changes the stakes — the regulator receives your own auditor's list of problems.",
+    body: "A report containing significant observations from the assessment and audit is furnished to the Data Protection Board. This is the part that changes the stakes - the regulator receives your own auditor's list of problems.",
   },
   {
     title: "Algorithmic due diligence",
@@ -74,7 +74,7 @@ const RULE_DUTIES = [
 const FAQ = [
   {
     q: "How do I know if my company is a Significant Data Fiduciary?",
-    a: "You are one when the Central Government notifies you, or a class you belong to, as one. There is no threshold you cross automatically — no user count, no revenue line, no volume of records. Section 10(1) lists the factors the Government weighs, not a test you can apply to yourself.",
+    a: "You are one when the Central Government notifies you, or a class you belong to, as one. There is no threshold you cross automatically - no user count, no revenue line, no volume of records. Section 10(1) lists the factors the Government weighs, not a test you can apply to yourself.",
   },
   {
     q: "Does the DPDP Act require Significant Data Fiduciaries to keep all data in India?",
@@ -286,7 +286,7 @@ export default function SignificantDataFiduciaryPage() {
                 </Link>
                 , which permits transfer unless the Government notifies a
                 country as restricted, and which expressly preserves stricter
-                sectoral rules that already apply — the RBI&apos;s payment data
+                sectoral rules that already apply - the RBI&apos;s payment data
                 requirements being the obvious example.
               </p>
             </div>
@@ -300,13 +300,13 @@ export default function SignificantDataFiduciaryPage() {
                 Section 10 is quoted from the Act as published in the Gazette.
                 The obligations attributed to the Rules are consistent across
                 published analyses, but those analyses do not agree on the rule
-                number — some place them at Rule 12 and others at Rule 13. The
+                number - some place them at Rule 12 and others at Rule 13. The
                 substance is not in dispute; the citation is. Work from the
                 Gazette text if you need to cite a rule.
               </p>
               <div className="mt-[6px] flex flex-col gap-[8px]">
                 {[
-                  { href: RULES_SOURCE, label: "DPDP Rules, 2025 — Gazette text" },
+                  { href: RULES_SOURCE, label: "DPDP Rules, 2025 - Gazette text" },
                   { href: SFLC_SOURCE, label: "SFLC.in on SDFs and data transfers" },
                 ].map((source) => (
                   <a

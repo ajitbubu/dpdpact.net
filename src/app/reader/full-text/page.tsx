@@ -12,9 +12,9 @@ import { routes } from "@/lib/routes";
 import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { absolute: "DPDP Act 2023 — Full Text of All 44 Sections" },
+  title: { absolute: "DPDP Act 2023 - Full Text of All 44 Sections" },
   description:
-    "The complete text of India's Digital Personal Data Protection Act, 2023 — all nine chapters, 44 sections and the penalty Schedule, as published in the Gazette.",
+    "The complete text of India's Digital Personal Data Protection Act, 2023 - all nine chapters, 44 sections and the penalty Schedule, as published in the Gazette.",
   alternates: { canonical: routes.readerFullText },
 };
 
@@ -91,7 +91,7 @@ export default function ActFullTextPage() {
                 {ACT.actNo} · assented {ACT.assent}
               </span>
               <h1 className="m-0 max-w-[24ch] font-display text-[clamp(28px,4.6vw,42px)] font-semibold leading-[1.15] tracking-[-0.03em] text-text [text-wrap:pretty]">
-                {ACT.title} —{" "}
+                {ACT.title} -{" "}
                 <span className="text-primary-text">Full Text</span>
               </h1>
               <p className="m-0 max-w-[68ch] text-[15.5px] leading-[1.75] text-text-secondary">
@@ -131,7 +131,7 @@ export default function ActFullTextPage() {
                 {CHAPTERS.map((chapter) => (
                   <li key={chapter.id} className="flex flex-col gap-[6px]">
                     <span className="font-display text-[15px] font-semibold leading-[1.3] text-text">
-                      Chapter {chapter.num} — {chapter.title}
+                      Chapter {chapter.num} - {chapter.title}
                     </span>
                     <span className="flex flex-wrap gap-x-[14px] gap-y-[5px]">
                       {chapter.sections.map((section) => (
@@ -151,7 +151,7 @@ export default function ActFullTextPage() {
                     href="#schedule"
                     className="font-display text-[15px] font-semibold leading-[1.3] text-text no-underline hover:text-primary-text"
                   >
-                    The Schedule — Monetary Penalties
+                    The Schedule - Monetary Penalties
                   </a>
                 </li>
               </ol>
@@ -167,7 +167,7 @@ export default function ActFullTextPage() {
                   id={chapter.id}
                   className="mb-[8px] scroll-mt-[90px] font-display text-[clamp(21px,2.8vw,27px)] font-semibold leading-[1.25] tracking-[-0.025em] text-text"
                 >
-                  Chapter {chapter.num} — {chapter.title}
+                  Chapter {chapter.num} - {chapter.title}
                 </h2>
 
                 {chapter.sections.map((section) => (
@@ -200,7 +200,7 @@ export default function ActFullTextPage() {
                   href={`/reader/${SCHEDULE_PART?.slug ?? "schedule"}`}
                   className="text-text no-underline hover:text-primary-text"
                 >
-                  The Schedule — Monetary Penalties
+                  The Schedule - Monetary Penalties
                 </Link>
               </h2>
               <ActScheduleTable />
@@ -208,7 +208,7 @@ export default function ActFullTextPage() {
 
             <p className="mt-[38px] max-w-[68ch] text-[13.5px] leading-[1.7] text-text-muted">
               Statutory text reproduced from the Gazette of India. Educational
-              content, not legal advice — see our{" "}
+              content, not legal advice - see our{" "}
               <Link href={routes.editorialPolicy} className="text-primary-text">
                 editorial policy
               </Link>

@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * Badge — soft-tinted status pill. Semantic colours are reserved for security
+ * Badge - soft-tinted status pill. Semantic colours are reserved for security
  * states: a 15%-opacity tinted background plus full-colour text, in an
  * uppercase 12px tracked label.
  */

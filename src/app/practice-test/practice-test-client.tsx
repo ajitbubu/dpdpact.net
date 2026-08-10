@@ -47,7 +47,7 @@ export function PracticeTestClient() {
     setDone(false);
   }, []);
 
-  // The first paper has to be drawn after hydration — `draw()` is random, so
+  // The first paper has to be drawn after hydration - `draw()` is random, so
   // running it during render would not match the server HTML. One extra render
   // on mount is the cost of that.
   React.useEffect(() => {
@@ -117,7 +117,7 @@ export function PracticeTestClient() {
           <p className="m-0 max-w-[70ch] text-[15px] leading-[1.7] text-text-secondary">
             Ten questions drawn at random from the Digital Personal Data
             Protection Act, 2023. Answer one and you get the explanation
-            immediately, along with the section it comes from — so a wrong answer
+            immediately, along with the section it comes from - so a wrong answer
             tells you exactly what to re-read. There is no timer, no sign-up and
             no limit on attempts, and nothing you do here is recorded.
           </p>
@@ -255,8 +255,8 @@ export function PracticeTestClient() {
                   </span>
                   <span className="text-[14.5px] leading-[1.7] text-text-secondary">
                     {finalPct >= 70
-                      ? `You answered ${correct} of ${total} correctly — comfortably above the 70% certification threshold. Sit the graded exam while it is fresh.`
-                      : `You answered ${correct} of ${total} correctly. The pass mark is 70%, so revisit the provisions below and try again — practice attempts are unlimited.`}
+                      ? `You answered ${correct} of ${total} correctly - comfortably above the 70% certification threshold. Sit the graded exam while it is fresh.`
+                      : `You answered ${correct} of ${total} correctly. The pass mark is 70%, so revisit the provisions below and try again - practice attempts are unlimited.`}
                   </span>
                 </span>
               </div>
@@ -312,7 +312,7 @@ export function PracticeTestClient() {
             </div>
             <span className="text-[12.5px] leading-[1.7] text-text-muted">
               Questions are drawn at random from a 30-item bank covering all nine
-              chapters and the Schedule. Practice results are never recorded —
+              chapters and the Schedule. Practice results are never recorded -
               for a graded result and a certificate, sit the{" "}
               <Link href={routes.exam} className="text-primary-text">
                 certification exam

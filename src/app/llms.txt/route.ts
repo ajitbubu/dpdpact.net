@@ -1,14 +1,15 @@
+import { INDUSTRIES } from "@/lib/industries";
 import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
 /**
- * `/llms.txt` — a plain-text orientation file for language models.
+ * `/llms.txt` - a plain-text orientation file for language models.
  *
  * Worth being clear-eyed about this: llms.txt is a community proposal, not a
  * standard, and no major model provider has committed to reading it. It costs
  * one route to serve and it is the kind of thing that gets adopted quietly if
  * it is adopted at all. Treat it as a cheap option, not a ranking lever.
  *
- * The genuinely load-bearing AEO work is elsewhere — schema.org markup,
+ * The genuinely load-bearing AEO work is elsewhere - schema.org markup,
  * question-shaped headings and crawlable section text.
  */
 export const dynamic = "force-static";
@@ -25,7 +26,7 @@ Content last reviewed: ${CONTENT_UPDATED}
 ## What this site is
 
 DPDP Academy reproduces the full statutory text of the DPDP Act, 2023 as
-published in the Gazette of India, Extraordinary, Part II — Section 1, No. 25,
+published in the Gazette of India, Extraordinary, Part II - Section 1, No. 25,
 dated 11 August 2023, alongside explanatory pages and a free assessment.
 
 Statutory text is reproduced verbatim and is not paraphrased. Explanatory
@@ -42,7 +43,7 @@ pages are editorial summaries and cite the provisions they describe.
 - Regulator: the Data Protection Board of India (sections 18–26)
 - Appeals: to the Appellate Tribunal (TDSAT) within 60 days, section 29
 
-## Commencement — commonly stated incorrectly
+## Commencement - commonly stated incorrectly
 
 The Act commences in tranches under section 1(2), and not every provision is in
 force. Three points are widely misreported:
@@ -62,23 +63,25 @@ force. Three points are widely misreported:
 Every provision has its own page, so a specific section can be cited directly:
 
 - ${SITE_URL}/reader/section-1 through ${SITE_URL}/reader/section-44
-- ${SITE_URL}/reader/schedule — the Schedule of penalties
+- ${SITE_URL}/reader/schedule - the Schedule of penalties
 - [Complete Act on one page](${SITE_URL}/reader/full-text): all 44 sections and the Schedule, verbatim
 
 ## Pages
 
 - [Act reader](${SITE_URL}/reader): chapter navigation, search and reading progress, and the index over the per-section pages above
-- [Overview and scope](${SITE_URL}/overview): Chapter I, sections 1–3 — what the Act governs and the exemptions in section 17
+- [Overview and scope](${SITE_URL}/overview): Chapter I, sections 1–3 - what the Act governs and the exemptions in section 17
 - [Key roles](${SITE_URL}/roles): Data Principal, Data Fiduciary, Data Processor, Consent Manager, Significant Data Fiduciary, the Board
 - [Rights and duties](${SITE_URL}/rights): Chapter III, sections 11–15
-- [Obligations](${SITE_URL}/obligations): Chapter II, sections 4–10 — notice, consent, safeguards, breach reporting, erasure
+- [Obligations](${SITE_URL}/obligations): Chapter II, sections 4–10 - notice, consent, safeguards, breach reporting, erasure
 - [Penalties](${SITE_URL}/penalties): Chapters VI–VIII and the Schedule
 - [DPDP Rules 2025](${SITE_URL}/dpdp-rules-2025): notified rules, phased commencement dates and implementation changes
 - [SPDI Rules vs the DPDP Act](${SITE_URL}/dpdp-vs-spdi-rules): what section 44 repeals and amends, what is still binding, and the dates each takes effect
-- [DPDP vs GDPR](${SITE_URL}/dpdp-vs-gdpr): provision-level comparison — no legitimate-interest basis, no sensitive-data tier, no portability or objection rights, penalties instead of compensation
+- [DPDP vs GDPR](${SITE_URL}/dpdp-vs-gdpr): provision-level comparison - no legitimate-interest basis, no sensitive-data tier, no portability or objection rights, penalties instead of compensation
 - [Consent Managers](${SITE_URL}/consent-manager): sections 2(g) and 6(7)–(9), and the Rule 4 registration conditions
 - [Significant Data Fiduciary](${SITE_URL}/significant-data-fiduciary): section 10 designation, the India-based DPO, independent audit, annual DPIA and targeted localisation
 - [DPDP compliance checklist](${SITE_URL}/dpdp-compliance-checklist): 24 evidence-focused controls saved privately in the browser
+- [Implementation by industry](${SITE_URL}/implementation): nine sectors the Act or the Rules single out, each anchored to the provision that does it
+${INDUSTRIES.map((i) => `- [${i.name}](${SITE_URL}/implementation/${i.slug}): ${i.eyebrow.replace(/ · /g, ", ")}`).join("\n")}
 - [Blog](${SITE_URL}/blog): practical explainers and implementation notes about the DPDP Act
 - [Editorial policy](${SITE_URL}/editorial-policy): source hierarchy, review standards and correction process
 - [Certification](${SITE_URL}/certification): free 15-question graded exam, 70% to pass

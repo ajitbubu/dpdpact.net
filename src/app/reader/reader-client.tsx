@@ -23,7 +23,7 @@ const PAD = [
 ];
 const BODY_FONT_SIZE = "15.5px";
 
-/** Height of the sticky masthead (72px bar + 1px rule) — sticky offsets. */
+/** Height of the sticky masthead (72px bar + 1px rule) - sticky offsets. */
 const NAV_H = "73px";
 
 /**
@@ -91,7 +91,7 @@ const PAGES: Page[] = (() => {
   list.push({
     kind: "sch",
     chId: "schedule",
-    chNum: "—",
+    chNum: "-",
     chTitle: "The Schedule",
     n: "S",
     heading: "The Schedule",
@@ -190,7 +190,7 @@ function Highlight({ parts }: { parts: Segment[] }) {
  * It exists because this component owns its own `SiteNav` and `SiteFooter`,
  * unlike every other page, which composes them in `page.tsx`. Anything the
  * route appended after `<ReaderClient />` therefore landed *below* the footer.
- * Passing it in as a prop keeps the node server-rendered — a server component
+ * Passing it in as a prop keeps the node server-rendered - a server component
  * handed to a client component as a prop is not pulled into the client bundle.
  */
 export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
@@ -361,7 +361,7 @@ export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
       ? { top: "The Schedule", main: "Monetary penalties for breach" }
       : {
           top: `Chapter ${page.chNum} · ${page.chTitle}`,
-          main: `Section ${page.n} — ${page.heading}`,
+          main: `Section ${page.n} - ${page.heading}`,
         };
   })();
 
@@ -383,8 +383,8 @@ export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
   const isRead = idx >= 0 && !!read[pageKey(idx)];
 
   /**
-   * The rail is rendered in two places — a permanent column from 1020px and a
-   * drawer below it — so it lives in a variable rather than being duplicated.
+   * The rail is rendered in two places - a permanent column from 1020px and a
+   * drawer below it - so it lives in a variable rather than being duplicated.
    * Its touch targets relax below 1020px, where it is only ever the drawer.
    */
   const rail = (
@@ -703,7 +703,7 @@ export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
                   </p>
                   <p className="m-0 font-sans text-[14px] font-normal italic leading-[1.7] text-text-muted">
                     Be it enacted by Parliament in the Seventy-fourth Year of
-                    the Republic of India as follows:—
+                    the Republic of India as follows:-
                   </p>
                   <div className="flex flex-wrap gap-[10px] pt-[4px]">
                     {[
@@ -729,7 +729,7 @@ export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
                     >
                       {idx > 0
                         ? `Resume at section ${PAGES[idx].n}`
-                        : "Start reading — Section 1"}
+                        : "Start reading - Section 1"}
                     </Button>
                     <Button variant="secondary" onClick={() => goTo(TOTAL - 1)}>
                       Jump to the Schedule
@@ -919,7 +919,7 @@ export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
                       </div>
                       <h1 className="m-0 font-display text-[clamp(20px,5.4vw,27px)] font-semibold leading-[1.25] tracking-[-0.025em] text-text [text-wrap:pretty]">
                         {page.kind === "sch"
-                          ? "The Schedule — Monetary Penalties"
+                          ? "The Schedule - Monetary Penalties"
                           : page.heading}
                       </h1>
                       {matchN > 0 && (
@@ -972,7 +972,7 @@ export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
                             }}
                           >
                             <em className="font-semibold not-italic text-text">
-                              Explanation.—
+                              Explanation.-
                             </em>
                             {b[1]}
                           </p>
@@ -1002,7 +1002,7 @@ export function ReaderClient({ footerSlot }: { footerSlot?: React.ReactNode }) {
                     {page.kind === "sch" && (
                       <div className="flex flex-col gap-[16px]">
                         <div className="font-sans text-[13px] font-normal italic leading-[1.6] text-text-muted">
-                          {SCHEDULE.note} — penalties the Data Protection Board
+                          {SCHEDULE.note} - penalties the Data Protection Board
                           may impose on conclusion of an inquiry.
                         </div>
                         {/* Below 720px the three columns stack: a 200px penalty
