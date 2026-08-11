@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { ActivityTable } from "@/components/activity-table";
 import { DataFlow } from "@/components/data-flow";
 import { EditorialReview } from "@/components/editorial-review";
+import { IndustryInfographic } from "@/components/industry-infographic";
 import { Faq } from "@/components/faq";
 import { PageHero } from "@/components/page-hero";
 import { RelatedGuides } from "@/components/related-guides";
@@ -147,6 +148,9 @@ export default async function IndustryPage({
                 ))}
               </div>
             </div>
+
+            {/* The sector in one graphic, generated from the same activities. */}
+            <IndustryInfographic industry={industry} />
 
             {/* Numbers this sector needs at a glance. */}
             <div className="grid gap-[var(--space-4)] sm:grid-cols-3">
