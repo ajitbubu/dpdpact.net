@@ -1,10 +1,10 @@
 "use client";
 
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import * as React from "react";
 
 /**
- * Loads GA4 only once analytics consent exists.
+ * Loads GA4, and the Tag Manager container, only once analytics consent exists.
  *
  * Previously `gtag.js` was rendered unconditionally: 161.6 KiB downloaded and
  * executed on every visit, including for the visitor who declines - to run a
@@ -24,6 +24,21 @@ import * as React from "react";
  * `consent update` when preferences are saved. Both are queued in the array,
  * so gtag.js replays them in order on arrival and settles on the granted
  * state - the late load loses nothing.
+ *
+ * The container rides the same gate. Loading gtm.js `beforeInteractive`, as
+ * Google's install snippet directs, means ordering it against the consent
+ * defaults by hand - a container that loads without a default can fire tags
+ * ungated. Mounting it here removes that hazard rather than managing it:
+ * nothing can precede `cc-bootstrap.js` when nothing loads before consent.
+ *
+ * `GoogleTagManager` initialises the queue as `w[l]=w[l]||[]`, so it adopts the
+ * array the bootstrap already populated instead of replacing it. The defaults
+ * survive; the container sees the granted state on arrival.
+ *
+ * There is deliberately no `<noscript>` iframe. The scriptless fallback loads
+ * `ns.html` unconditionally, which would hand the container every visitor who
+ * cannot run the banner that asks their permission - the one visitor who can
+ * never consent getting the one load that never asks.
  */
 
 interface ConsentCategories {
@@ -57,9 +72,11 @@ function subscribe(onStoreChange: () => void) {
 
 export function AnalyticsOnConsent({
   gaId,
+  gtmId,
   cookieName,
 }: {
   gaId: string;
+  gtmId?: string;
   cookieName: string;
 }) {
   /**
@@ -75,5 +92,12 @@ export function AnalyticsOnConsent({
     () => false,
   );
 
-  return granted ? <GoogleAnalytics gaId={gaId} /> : null;
+  if (!granted) return null;
+
+  return (
+    <>
+      <GoogleAnalytics gaId={gaId} />
+      {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
+    </>
+  );
 }
