@@ -3,61 +3,157 @@
 import type { Route } from "next";
 import * as React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+import {
+  Building2,
+  Calculator,
+  ClipboardCheck,
+  FileText,
+  Fingerprint,
+  Gavel,
+  GitCompare,
+  Globe,
+  ListChecks,
+  Scale,
+  SearchCheck,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { INDUSTRY_MENU, INDUSTRY_SLUGS, industryPath } from "@/lib/industries-menu";
 import { cn } from "@/lib/utils";
 import { routes, type NavKey } from "@/lib/routes";
 
-/** The four study pages, grouped behind the "DPDP" tab. */
-const DPDP_ITEMS: { key: NavKey; href: Route; label: string; note: string }[] =
-  [
-    {
-      key: "roles",
-      href: routes.roles,
-      label: "Key Roles",
-      note: "§ 2 · § 10 · §§ 18–26",
-    },
-    {
-      key: "rights",
-      href: routes.rights,
-      label: "Rights & Duties",
-      note: "Chapter III · §§ 11–15",
-    },
-    {
-      key: "obligations",
-      href: routes.obligations,
-      label: "Obligations",
-      note: "Chapter II · §§ 4–10",
-    },
-    {
-      key: "penalties",
-      href: routes.penalties,
-      label: "Penalties",
-      note: "Chapters VI–VIII · Schedule",
-    },
-    {
-      key: "rules",
-      href: routes.rules,
-      label: "DPDP Rules 2025",
-      note: "Phased commencement · 2025–2027",
-    },
-    {
-      key: "rules",
-      href: routes.spdi,
-      label: "SPDI Rules vs DPDP",
-      note: "What is repealed, and what still binds you today",
-    },
-    {
-      key: "overview",
-      href: routes.gdpr,
-      label: "DPDP vs GDPR",
-      note: "Where the two regimes genuinely diverge",
-    },
-  ];
+/**
+ * The DPDP tab, as a grouped mega menu.
+ *
+ * Grouped rather than a flat list because the twelve destinations are three
+ * different kinds of thing: the Act read chapter by chapter, the Rules and the
+ * guidance built on them, and the comparisons and tools you reach for when
+ * working out where you stand. A single column of twelve makes the reader do
+ * that sorting themselves.
+ *
+ * Four of these were previously reachable only from the footer or a related
+ * link: the compliance checklist, Consent Managers, Significant Data Fiduciary,
+ * the applicability checker and the penalty calculator. The two tools in
+ * particular are the most useful things on the site and were the hardest to
+ * find.
+ *
+ * `Overview` is deliberately absent: it is the top-level tab immediately to the
+ * left, and listing it here would light up two nav items for one page.
+ */
+const DPDP_GROUPS: {
+  title: string;
+  items: { href: Route; label: string; note: string; icon: LucideIcon }[];
+}[] = [
+  {
+    title: "The Act",
+    items: [
+      {
+        href: routes.roles,
+        label: "Key Roles",
+        note: "§ 2 · § 10 · §§ 18-26",
+        icon: Users,
+      },
+      {
+        href: routes.rights,
+        label: "Rights & Duties",
+        note: "Chapter III · §§ 11-15",
+        icon: Scale,
+      },
+      {
+        href: routes.obligations,
+        label: "Obligations",
+        note: "Chapter II · §§ 4-10",
+        icon: ClipboardCheck,
+      },
+      {
+        href: routes.penalties,
+        label: "Penalties",
+        note: "Chapters VI-VIII · Schedule",
+        icon: Gavel,
+      },
+    ],
+  },
+  {
+    title: "Rules & guidance",
+    items: [
+      {
+        href: routes.rules,
+        label: "DPDP Rules 2025",
+        note: "Phased commencement · 2025-2027",
+        icon: FileText,
+      },
+      {
+        href: routes.checklist,
+        label: "Compliance checklist",
+        note: "24 controls, saved in your browser",
+        icon: ListChecks,
+      },
+      {
+        href: routes.consentManager,
+        label: "Consent Managers",
+        note: "§ 2(g) · §§ 6(7)-(9) · rule 4",
+        icon: Fingerprint,
+      },
+      {
+        href: routes.sdf,
+        label: "Significant Data Fiduciary",
+        note: "§ 10 · DPO, audit, DPIA",
+        icon: Building2,
+      },
+    ],
+  },
+  {
+    title: "Compare & check",
+    items: [
+      {
+        href: routes.spdi,
+        label: "SPDI Rules vs DPDP",
+        note: "What is repealed, and what still binds you",
+        icon: GitCompare,
+      },
+      {
+        href: routes.gdpr,
+        label: "DPDP vs GDPR",
+        note: "Where the two regimes genuinely diverge",
+        icon: Globe,
+      },
+      {
+        href: routes.applicability,
+        label: "Does it apply to you?",
+        note: "A decision path through § 3",
+        icon: SearchCheck,
+      },
+      {
+        href: routes.penaltyCalculator,
+        label: "Penalty explorer",
+        note: "The Schedule, by contravention",
+        icon: Calculator,
+      },
+    ],
+  },
+];
 
-const DPDP_KEYS = DPDP_ITEMS.map((i) => i.key);
+const DPDP_HREFS = DPDP_GROUPS.flatMap((g) => g.items.map((i) => i.href));
+
+/**
+ * Which NavKeys light the tab up.
+ *
+ * Separate from the item list on purpose. Several pages share one `NavKey`
+ * (`/consent-manager` and `/significant-data-fiduciary` both pass `roles`), so
+ * a key can say "this tab is current" but never "this item is current" - which
+ * is why per-item highlighting below matches the pathname instead.
+ */
+const DPDP_KEYS: NavKey[] = [
+  "roles",
+  "rights",
+  "obligations",
+  "penalties",
+  "rules",
+];
 
 /** Top-level items that sit outside the DPDP group. */
 const TOP_ITEMS: { key: NavKey; href: Route; label: string }[] = [
@@ -90,11 +186,38 @@ const linkClass =
  * the dismissal rules are the part that is easy to get subtly wrong, and two
  * copies would drift.
  */
+const NAV_MENU_CLOSERS = new Set<() => void>();
+
 function useNavMenu() {
   const [open, setOpen] = React.useState(false);
   const wrapRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const closeTimer = React.useRef<number | null>(null);
+
+  /**
+   * Close any other open menu before opening this one.
+   *
+   * Leaving a panel starts a 120ms grace timer, but entering the next one
+   * opens it immediately, so moving between the two tabs used to show both
+   * panels at once for that gap. With two narrow dropdowns it was invisible;
+   * with two mega menus they overlap across most of their width and it reads
+   * as a glitch. The registry is module-scoped because the two menus are
+   * siblings with no shared parent state.
+   */
+  const close = React.useCallback(() => setOpen(false), []);
+  React.useEffect(() => {
+    NAV_MENU_CLOSERS.add(close);
+    return () => {
+      NAV_MENU_CLOSERS.delete(close);
+    };
+  }, [close]);
+
+  const openExclusively = React.useCallback(() => {
+    NAV_MENU_CLOSERS.forEach((other) => {
+      if (other !== close) other();
+    });
+    setOpen(true);
+  }, [close]);
 
   // Dismiss on outside click and on Escape.
   React.useEffect(() => {
@@ -143,7 +266,7 @@ function useNavMenu() {
     ref: wrapRef,
     onMouseEnter: () => {
       cancelClose();
-      setOpen(true);
+      openExclusively();
     },
     onMouseLeave: () => {
       // Small grace period so the diagonal trip from trigger to panel
@@ -157,14 +280,18 @@ function useNavMenu() {
     },
   };
 
-  return { open, setOpen, triggerRef, wrapProps };
+  return { open, setOpen, openExclusively, triggerRef, wrapProps };
 }
 
 /** DpdpMenu - the grouped "DPDP" tab. */
 function DpdpMenu({ active }: { active?: NavKey }) {
-  const { open, setOpen, triggerRef, wrapProps } = useNavMenu();
+  const { open, setOpen, openExclusively, triggerRef, wrapProps } =
+    useNavMenu();
+  const pathname = usePathname();
 
-  const isActive = !!active && DPDP_KEYS.includes(active);
+  const isActive =
+    (!!active && DPDP_KEYS.includes(active)) ||
+    DPDP_HREFS.some((href) => href === pathname);
 
   return (
     <div className="relative" {...wrapProps}>
@@ -174,7 +301,7 @@ function DpdpMenu({ active }: { active?: NavKey }) {
         aria-expanded={open}
         aria-haspopup="true"
         aria-controls="dpdp-menu"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? setOpen(false) : openExclusively())}
         className={cn(
           linkClass,
           "flex cursor-pointer items-center gap-[5px] border-0 bg-transparent p-0",
@@ -197,36 +324,88 @@ function DpdpMenu({ active }: { active?: NavKey }) {
         <div
           id="dpdp-menu"
           className={cn(
-            "absolute left-1/2 top-[calc(100%+14px)] z-[70] w-[286px] -translate-x-1/2",
-            "flex flex-col rounded-md border border-border bg-surface p-[6px]",
+            "absolute left-1/2 top-[calc(100%+14px)] z-[70] -translate-x-1/2",
+            // 720, not wider: the desktop nav starts at 1020px, where this
+            // trigger sits 371px from the left, so a centred panel has 743px
+            // before it clips off the left edge. At 820 it did.
+            "w-[min(720px,calc(100vw-40px))]",
+            "rounded-md border border-border bg-surface",
             "shadow-[0_12px_32px_rgba(20,20,15,.13)]",
           )}
         >
-          {DPDP_ITEMS.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              aria-current={active === item.key ? "page" : undefined}
-              className={cn(
-                "flex flex-col gap-[2px] rounded-sm px-[12px] py-[10px] no-underline",
-                "hover:bg-[var(--bg-sunken)]",
-                active === item.key ? "bg-primary-tint" : "bg-transparent",
-              )}
-            >
-              <span
-                className={cn(
-                  "font-sans text-[14px] font-semibold",
-                  active === item.key ? "text-primary-text" : "text-text",
-                )}
-              >
-                {item.label}
-              </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-text-muted">
-                {item.note}
-              </span>
-            </Link>
-          ))}
+          <div className="flex items-baseline justify-between gap-[var(--space-4)] border-b border-border px-[18px] py-[13px]">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-text-muted">
+              The Act, the Rules, and the tools
+            </span>
+            <span className="text-[12px] leading-[1.5] text-text-muted">
+              Act No. 22 of 2023 · Rules notified 13 November 2025
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-[2px] p-[6px]">
+            {DPDP_GROUPS.map((group) => (
+              <div key={group.title} className="flex flex-col">
+                <span className="px-[12px] pb-[4px] pt-[8px] font-mono text-[10.5px] uppercase tracking-[0.14em] text-primary-text">
+                  {group.title}
+                </span>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  // Pathname, not the shared NavKey: two items used to claim
+                  // aria-current="page" at once on /dpdp-rules-2025.
+                  const current = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={current ? "page" : undefined}
+                      className={cn(
+                        "flex flex-col gap-[3px] rounded-sm px-[12px] py-[9px] no-underline",
+                        "hover:bg-[var(--bg-sunken)]",
+                        current ? "bg-primary-tint" : "bg-transparent",
+                      )}
+                    >
+                      <span className="flex items-center gap-[8px]">
+                        <Icon
+                          size={16}
+                          strokeWidth={1.7}
+                          className="shrink-0 text-primary-text"
+                          aria-hidden
+                        />
+                        <span
+                          className={cn(
+                            "font-sans text-[13.5px] font-semibold leading-[1.25]",
+                            current ? "text-primary-text" : "text-text",
+                          )}
+                        >
+                          {item.label}
+                        </span>
+                      </span>
+                      <span className="text-[11.5px] leading-[1.4] text-text-muted">
+                        {item.note}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href={routes.readerFullText}
+            onClick={() => setOpen(false)}
+            className={cn(
+              "flex items-center justify-between border-t border-border px-[18px] py-[12px] no-underline",
+              "hover:bg-[var(--bg-sunken)]",
+            )}
+          >
+            <span className="font-sans text-[13px] font-semibold text-primary-text">
+              Read the complete Act, all 44 sections on one page
+            </span>
+            <span aria-hidden className="text-[13px] text-primary-text">
+              &rarr;
+            </span>
+          </Link>
         </div>
       )}
     </div>
@@ -245,7 +424,8 @@ function DpdpMenu({ active }: { active?: NavKey }) {
  * a panel wider than the window would be clipped rather than scrollable.
  */
 function IndustryMenu({ active }: { active?: NavKey }) {
-  const { open, setOpen, triggerRef, wrapProps } = useNavMenu();
+  const { open, setOpen, openExclusively, triggerRef, wrapProps } =
+    useNavMenu();
   const isActive = active === "implementation";
 
   return (
@@ -256,7 +436,7 @@ function IndustryMenu({ active }: { active?: NavKey }) {
         aria-expanded={open}
         aria-haspopup="true"
         aria-controls="industry-menu"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? setOpen(false) : openExclusively())}
         className={cn(
           linkClass,
           "flex cursor-pointer items-center gap-[5px] border-0 bg-transparent p-0",
@@ -357,6 +537,7 @@ function IndustryMenu({ active }: { active?: NavKey }) {
  */
 export function SiteNav({ active }: { active?: NavKey }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
@@ -450,21 +631,34 @@ export function SiteNav({ active }: { active?: NavKey }) {
             Overview
           </Link>
 
-          {/* The same grouping as the desktop tab, flattened under a heading -
-              a nested dropdown inside a drawer is worse than a section label. */}
-          <span className="px-[4px] pb-[6px] pt-[16px] font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
-            DPDP
-          </span>
-          {DPDP_ITEMS.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              onClick={() => setMenuOpen(false)}
-              aria-current={active === item.key ? "page" : undefined}
-              className="border-b border-border px-[4px] py-[15px] font-sans text-[15px] font-semibold text-text no-underline"
-            >
-              {item.label}
-            </Link>
+          {/* The desktop columns become sections here: a nested dropdown
+              inside a drawer is worse than a heading you can scroll past. */}
+          {DPDP_GROUPS.map((group) => (
+            <React.Fragment key={group.title}>
+              <span className="px-[4px] pb-[6px] pt-[16px] font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
+                {group.title}
+              </span>
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    className="flex items-center gap-[10px] border-b border-border px-[4px] py-[15px] font-sans text-[15px] font-semibold text-text no-underline"
+                  >
+                    <Icon
+                      size={17}
+                      strokeWidth={1.7}
+                      className="shrink-0 text-primary-text"
+                      aria-hidden
+                    />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </React.Fragment>
           ))}
 
           <span className="px-[4px] pb-[6px] pt-[16px] font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-text-muted">
