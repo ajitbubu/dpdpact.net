@@ -319,6 +319,18 @@ export default function OverviewPage() {
             blurb:
               "Customer, workforce and product data as a Data Fiduciary, a processor, or both.",
           },
+          {
+            href: routes.deadline,
+            label: "DPDP compliance deadline: the three commencement phases",
+            blurb:
+              "What is in force, what starts in November 2026, and what is scheduled for May 2027.",
+          },
+          {
+            href: routes.templates,
+            label: "Free DPDP compliance templates",
+            blurb:
+              "Move from the framework into readiness, notice, inventory, processor, breach and rights artefacts.",
+          },
         ]}
       />
 

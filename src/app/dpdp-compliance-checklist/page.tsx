@@ -3,11 +3,13 @@ import { AlertTriangle, CheckSquare2 } from "lucide-react";
 
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
+import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/button";
 import { CHECKLIST_TOTAL } from "@/lib/compliance-checklist";
+import { blogPath } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
 
 import { ChecklistClient } from "./checklist-client";
@@ -80,6 +82,15 @@ export default function DpdpComplianceChecklistPage() {
                 </div>
 
                 <LinkButton
+                  href={routes.templates}
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                >
+                  Open compliance templates
+                </LinkButton>
+
+                <LinkButton
                   href={routes.rules}
                   variant="secondary"
                   size="lg"
@@ -92,6 +103,32 @@ export default function DpdpComplianceChecklistPage() {
           </div>
         </section>
       </main>
+
+      <RelatedGuides
+        heading="Turn readiness gaps into work products"
+        guides={[
+          {
+            href: routes.templates,
+            label: "DPDP compliance templates and resources",
+            blurb: "Build the inventory, notice, processor, breach and rights artefacts behind the checklist evidence.",
+          },
+          {
+            href: routes.deadline,
+            label: "DPDP compliance deadline and timeline",
+            blurb: "Map each workstream to the November 2026 or May 2027 commencement phase.",
+          },
+          {
+            href: blogPath("dpdp-data-inventory-purpose-mapping"),
+            label: "DPDP data inventory and purpose mapping",
+            blurb: "Start with systems, purposes, recipients, processors, retention and accountable owners.",
+          },
+          {
+            href: blogPath("dpdp-act-for-startups"),
+            label: "A 90-day DPDP readiness plan",
+            blurb: "Sequence the work into a practical startup implementation programme.",
+          },
+        ]}
+      />
 
       <EditorialReview scope="the DPDP Act, 2023 and notified DPDP Rules, 2025" />
       <SiteFooter />

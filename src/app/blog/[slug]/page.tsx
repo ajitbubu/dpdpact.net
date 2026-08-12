@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowRight, ExternalLink, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Download,
+  ExternalLink,
+  ShieldCheck,
+} from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -17,6 +23,14 @@ import { routes } from "@/lib/routes";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const dynamicParams = false;
+
+const formatEditorialDate = (date: string) =>
+  new Intl.DateTimeFormat("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(date + "T00:00:00Z"));
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
@@ -121,7 +135,10 @@ export default async function BlogArticlePage({
                 {post.intro}
               </p>
               <div className="mt-[8px] flex flex-wrap gap-x-[18px] gap-y-[6px] font-mono text-[12px] text-text-muted">
-                <span>Published 2 August 2026</span>
+                <span>Published {formatEditorialDate(post.published)}</span>
+                {post.updated !== post.published ? (
+                  <span>Updated {formatEditorialDate(post.updated)}</span>
+                ) : null}
                 <span>
                   By {EDITORIAL_AUTHOR.name} · {EDITORIAL_AUTHOR.role}
                 </span>
@@ -192,6 +209,36 @@ export default async function BlogArticlePage({
                   ) : null}
                 </section>
               ))}
+
+              {post.downloads ? (
+                <section className="mt-[38px] rounded-lg border border-border-strong bg-[var(--bg-sunken)] p-[22px]">
+                  <div className="flex items-center gap-[9px]">
+                    <Download size={19} aria-hidden="true" className="text-primary-text" />
+                    <h2 className="m-0 font-display text-[22px] font-semibold text-text">
+                      Editable starter files
+                    </h2>
+                  </div>
+                  <p className="mb-0 mt-[8px] text-[13.5px] leading-[1.7] text-text-secondary">
+                    Adapt these files to your processing, systems, sector rules and approved legal position. Instructions and placeholders are deliberately visible.
+                  </p>
+                  <div className="mt-[16px] grid gap-[10px] sm:grid-cols-2">
+                    {post.downloads.map((file) => (
+                      <a
+                        key={file.href}
+                        href={file.href}
+                        download
+                        className="flex flex-col gap-[7px] rounded-sm border border-border bg-surface px-[16px] py-[14px] no-underline hover:border-primary-text"
+                      >
+                        <span className="flex items-center justify-between gap-[10px] text-[13.5px] font-semibold text-text">
+                          {file.label}
+                          <span className="font-mono text-[10.5px] text-primary-text">{file.format}</span>
+                        </span>
+                        <span className="text-[12.5px] leading-[1.6] text-text-secondary">{file.description}</span>
+                      </a>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
 
               <section className="mt-[42px] border-y border-border py-[24px]">
                 <div className="mb-[13px] flex items-center gap-[9px]">

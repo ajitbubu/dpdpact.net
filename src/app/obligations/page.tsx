@@ -526,6 +526,18 @@ export default function ObligationsPage() {
             blurb:
               "Link personal data to purposes, legal grounds, notices, processors and accountable owners.",
           },
+          {
+            href: blogPath("dpdp-breach-notification-guide"),
+            label: "DPDP breach notification: build the two-stage response",
+            blurb:
+              "Affected-person notices, both Board stages, processor coordination and editable response files.",
+          },
+          {
+            href: routes.templates,
+            label: "DPDP compliance templates and implementation resources",
+            blurb:
+              "Editable consent and breach files plus working structures for inventories, processors and rights requests.",
+          },
         ]}
       />
 

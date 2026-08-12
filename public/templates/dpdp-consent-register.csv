@@ -1,0 +1,2 @@
+consent_event_id,data_principal_reference,purpose_id,notice_version,notice_language,data_categories,affirmative_action,consent_timestamp_utc,collection_channel,withdrawal_timestamp_utc,withdrawal_channel,systems_notified,processors_notified,retention_trigger,evidence_location,control_owner
+[UNIQUE_ID],[PSEUDONYMOUS_REFERENCE],[PURPOSE-001],[VERSION],[LANGUAGE],[ITEMISED_CATEGORIES],[ACTION_TAKEN],[ISO_8601],[WEB_OR_APP],,,[SYSTEM_LIST],[PROCESSOR_LIST],[TRIGGER],[CONTROLLED_EVIDENCE_URL],[OWNER]

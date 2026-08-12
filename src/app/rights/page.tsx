@@ -222,6 +222,18 @@ export default function RightsPage() {
             blurb:
               "Verifiable parental consent, age assurance and the notified exemptions.",
           },
+          {
+            href: routes.templates,
+            label: "DPDP compliance templates and request resources",
+            blurb:
+              "The request workflow, evidence fields and related implementation files in one library.",
+          },
+          {
+            href: routes.checklist,
+            label: "DPDP readiness checklist",
+            blurb:
+              "Test whether rights channels, identity checks, processor routing and grievance evidence are in place.",
+          },
         ]}
       />
 

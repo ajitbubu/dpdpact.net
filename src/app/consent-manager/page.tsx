@@ -351,10 +351,20 @@ export default function ConsentManagerPage() {
             blurb: "The commencement tranches, including the one Rule 4 sits in.",
           },
           {
+            href: routes.deadline,
+            label: "DPDP compliance deadline and Consent Manager start date",
+            blurb: "The dedicated timeline for 13 November 2026 and 13 May 2027.",
+          },
+          {
             href: blogPath("dpdp-consent-notice-guide"),
             label: "DPDP consent notices: what product teams need to ship",
             blurb:
               "Purpose-level consent, withdrawal and the evidence to retain.",
+          },
+          {
+            href: routes.templates,
+            label: "Consent notice template and register",
+            blurb: "Editable starter files and the implementation resources behind them.",
           },
           {
             href: routes.gdpr,

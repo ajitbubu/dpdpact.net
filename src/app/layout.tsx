@@ -53,6 +53,7 @@ const CONSENT_COOKIE_NAME = "cc_consent";
 
 const CONSENT_CONFIG = {
   cookieName: CONSENT_COOKIE_NAME,
+  policyUrl: "/cookie-policy",
   categories: {
     necessary: {
       enabled: true,
@@ -89,7 +90,7 @@ const CONSENT_CONFIG = {
   labels: {
     // The SDK's default text claims personalisation and content-targeting
     // cookies. This site sets neither - functional and marketing are empty -
-    // and it links to a Privacy and Cookie Policy that do not exist here yet.
+    // and it links to policies that must match the disclosures below.
     bannerText:
       "We use strictly necessary cookies to make this site work, and only with your consent Google Analytics to understand how it is used. We do not use advertising or personalisation cookies, and we do not sell or share personal data.",
   },
@@ -237,6 +238,12 @@ const siteSchema = {
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       publishingPrinciples: `${SITE_URL}/editorial-policy`,
+      sameAs: ["https://github.com/ajitbubu/dpdpact.net"],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "corrections and feedback",
+        url: `${SITE_URL}/contact`,
+      },
     },
     {
       "@type": "WebSite",

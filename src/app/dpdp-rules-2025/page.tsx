@@ -302,6 +302,20 @@ export default function DpdpRulesPage() {
               </LinkButton>
             </div>
 
+            <div className="flex flex-wrap items-center justify-between gap-[16px] rounded-lg border border-border bg-surface p-[20px]">
+              <div>
+                <h2 className="m-0 font-display text-[20px] font-semibold text-text">
+                  Need the dates without the full Rules commentary?
+                </h2>
+                <p className="mb-0 mt-[6px] text-[13.5px] leading-[1.65] text-text-secondary">
+                  Use the dedicated commencement page to map each implementation workstream to its scheduled phase.
+                </p>
+              </div>
+              <LinkButton href={routes.deadline} variant="secondary" size="md">
+                Open the deadline timeline
+              </LinkButton>
+            </div>
+
             <div className="flex flex-col gap-[14px]">
               <h2 className="m-0 font-display text-[clamp(23px,3vw,30px)] font-semibold text-text">
                 Official sources

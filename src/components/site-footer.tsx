@@ -15,6 +15,7 @@ const ACT_LINKS = [
   { href: routes.obligations, label: "Obligations" },
   { href: routes.penalties, label: "Penalties & the Board" },
   { href: routes.rules, label: "DPDP Rules 2025" },
+  { href: routes.deadline, label: "DPDP compliance deadline" },
   { href: routes.spdi, label: "SPDI Rules vs DPDP" },
   { href: routes.gdpr, label: "DPDP vs GDPR" },
   { href: routes.consentManager, label: "Consent Managers" },
@@ -25,6 +26,7 @@ const ACT_LINKS = [
 
 const CERT_LINKS = [
   { href: routes.checklist, label: "Compliance checklist" },
+  { href: routes.templates, label: "Compliance templates" },
   { href: routes.applicability, label: "Does DPDP apply to you?" },
   { href: routes.penaltyCalculator, label: "Penalty calculator" },
   { href: routes.certification, label: "Programme overview" },
@@ -116,8 +118,23 @@ export function SiteFooter() {
           <span className="text-[14px] leading-[1.7] text-text-secondary">
             Ministry of Law and Justice, Legislative Department.
           </span>
+          <Link href={routes.sources} className={columnLinkClass}>
+            Official source register
+          </Link>
           <Link href={routes.editorialPolicy} className={columnLinkClass}>
             Editorial policy & corrections
+          </Link>
+          <Link href={routes.about} className={columnLinkClass}>
+            About DPDP Academy
+          </Link>
+          <Link href={routes.contact} className={columnLinkClass}>
+            Contact & corrections
+          </Link>
+          <Link href={routes.privacy} className={columnLinkClass}>
+            Privacy policy
+          </Link>
+          <Link href={routes.cookies} className={columnLinkClass}>
+            Cookie policy
           </Link>
         </div>
       </div>
