@@ -3,6 +3,8 @@
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import * as React from "react";
 
+import { DownloadTracker } from "@/components/download-tracker";
+
 /**
  * Loads GA4, and the Tag Manager container, only once analytics consent exists.
  *
@@ -98,6 +100,7 @@ export function AnalyticsOnConsent({
     <>
       <GoogleAnalytics gaId={gaId} />
       {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
+      <DownloadTracker />
     </>
   );
 }

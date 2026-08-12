@@ -79,3 +79,8 @@ Track monthly:
 - Newsletter, academic, association and media citations.
 
 Record the source, destination URL, date first seen and whether the citation is editorial. Never treat a self-created profile link as equivalent to an independent citation.
+
+Operational files:
+
+- `SEO_MEASUREMENT_LOG.csv` contains the eight-week baseline and weekly reporting schedule.
+- `SEO_OUTREACH_PIPELINE.csv` records verified contact sources, the single relevant asset for each audience and the next action.
