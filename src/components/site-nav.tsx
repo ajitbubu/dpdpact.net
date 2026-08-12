@@ -10,7 +10,9 @@ import {
   Calculator,
   ClipboardCheck,
   FileText,
+  CalendarClock,
   Fingerprint,
+  FolderOpen,
   Gavel,
   GitCompare,
   Globe,
@@ -87,10 +89,22 @@ const DPDP_GROUPS: {
         icon: FileText,
       },
       {
+        href: routes.deadline,
+        label: "Compliance deadline",
+        note: "13 Nov 2026 · 13 May 2027",
+        icon: CalendarClock,
+      },
+      {
         href: routes.checklist,
         label: "Compliance checklist",
         note: "24 controls, saved in your browser",
         icon: ListChecks,
+      },
+      {
+        href: routes.templates,
+        label: "Compliance templates",
+        note: "Six implementation resources",
+        icon: FolderOpen,
       },
       {
         href: routes.consentManager,

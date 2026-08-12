@@ -19,7 +19,7 @@
  * Bump CACHE_VERSION to invalidate everything.
  */
 
-const CACHE_VERSION = "v13";
+const CACHE_VERSION = "v16";
 const PRECACHE = `dpdp-precache-${CACHE_VERSION}`;
 const RUNTIME = `dpdp-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";
@@ -38,6 +38,13 @@ const PRECACHE_URLS = [
   "/penalties",
   "/dpdp-rules-2025",
   "/dpdp-compliance-checklist",
+  "/dpdp-compliance-templates",
+  "/dpdp-compliance-deadline",
+  "/about",
+  "/contact",
+  "/privacy-policy",
+  "/cookie-policy",
+  "/sources",
   "/reader",
   "/blog",
   "/blog/dpdp-act-2023-practical-primer",

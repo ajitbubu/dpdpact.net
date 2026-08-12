@@ -22,7 +22,7 @@ export const SITE_DESCRIPTION =
  * that moves with the build clock while the content sits still is a false
  * signal that gets discounted once it is noticed.
  */
-export const CONTENT_UPDATED = "2026-08-09";
+export const CONTENT_UPDATED = "2026-08-11";
 
 /**
  * The Act as published by MeitY, in PDF.

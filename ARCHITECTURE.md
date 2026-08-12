@@ -11,13 +11,13 @@ flowchart LR
     A[DPDP Academy<br/>React application]
     B[(Browser storage<br/>localStorage)]
     C[(Cache Storage<br/>service worker)]
-    G[Google Analytics 4]
+    G[Google Analytics 4<br/>+ Tag Manager]
 
     U -->|HTTPS navigation| H
     H -->|HTML, RSC, JS, CSS, fonts, icons| A
     A <--> |progress, booking, credential| B
     A <--> |offline pages and assets| C
-    A -->|production analytics| G
+    A -->|production analytics, after consent| G
 ```
 
 There is intentionally no application server, database, authentication service, payment service, or credential-verification API. Certification and booking records exist only in the current browser and are therefore educational conveniences, not authoritative records.
@@ -77,7 +77,7 @@ flowchart TB
 
 - `src/app/` uses the Next.js App Router. Most informational routes are server components that prerender crawlable HTML.
 - Interactive routes use a server `page.tsx` for metadata/structured data and a colocated client component for browser behavior.
-- `src/app/layout.tsx` supplies global fonts, metadata defaults, organization/website JSON-LD, service-worker registration, and production-only GA4.
+- `src/app/layout.tsx` supplies global fonts, metadata defaults, organization/website JSON-LD, service-worker registration, and production-only GA4 and Tag Manager.
 - `src/lib/site.ts` pins the canonical origin as a hardcoded constant (`https://dpdpact.net`). It is deliberately not derived from the environment or the deployment URL, so preview, production and local builds all agree on one origin rather than each declaring its own.
 
 ### Presentation and design system
@@ -205,6 +205,7 @@ flowchart LR
 - The canonical origin is compiled in rather than supplied by the environment, so no build-time origin configuration is required on any host.
 - The service worker requires HTTPS outside localhost.
 - GA4 is enabled whenever `NODE_ENV` is `production`; `NEXT_PUBLIC_GA_ID` can override its property.
+- The Tag Manager container is gated identically; `NEXT_PUBLIC_GTM_ID` can override it. Both load only once analytics consent is granted, so `NODE_ENV` decides whether they *can* load, not whether they do.
 
 ## 6. Architectural qualities and boundaries
 

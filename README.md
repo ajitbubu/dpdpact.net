@@ -260,6 +260,22 @@ at `/dpdp-rules-2025` and `/dpdp-compliance-checklist`.
 Google Analytics 4 (`G-4CRHNPWKYX`) via `@next/third-parties`, wired up in
 `src/app/layout.tsx`. Nothing to configure — a production build ships it.
 
+Tag Manager (`GTM-T44V6VLW`) rides alongside it, mounted from the same consent
+gate. **GA4 is wired directly and does not run through the container**, so the
+container must never hold a GA4 configuration tag for `G-4CRHNPWKYX` — that
+would count every page view twice, once from `PageViewTracker` and once from
+GTM. The container is for measurement tags GA4 does not cover.
+
+**The container is analytics-only, and that is a consent boundary, not a
+preference.** It is mounted behind the analytics category, so every tag inside
+it inherits an analytics grant. An advertising or marketing tag dropped into it
+would fire for visitors who agreed to measurement and refused marketing. Those
+belong behind their own gate on the marketing category.
+
+**Tags that set cookies must be disclosed.** The cookie table in
+`CONSENT_CONFIG` lists what the site actually sets, and GTM itself sets none.
+Adding a tag that does means adding its cookies there too.
+
 | Where                        | Analytics |
 | ---------------------------- | --------- |
 | `npm run dev`                | off       |
@@ -303,8 +319,8 @@ environment if that matters.
 
 ## Cookie consent
 
-Google Consent Mode v2, gating GA4. Everything is denied until the visitor
-chooses.
+Google Consent Mode v2, gating GA4 and Tag Manager. Everything is denied until
+the visitor chooses.
 
 | Piece | Where |
 | --- | --- |
@@ -312,7 +328,7 @@ chooses.
 | Banner + preference UI | `public/cookie-consent.js` |
 | Configuration | `CONSENT_CONFIG` in `src/app/layout.tsx` |
 | `init()` call + `cc:consent` event | `public/cc-init.js` |
-| GA4, mounted only once granted | `src/components/analytics-on-consent.tsx` |
+| GA4 and GTM, mounted only once granted | `src/components/analytics-on-consent.tsx` |
 
 **Load order is load-bearing.** The bootstrap pushes `consent: default` with
 every storage type denied and must execute *before* `gtag.js` — once gtag has
@@ -330,6 +346,18 @@ reads the `cc_consent` cookie through `useSyncExternalStore` and mounts
 `GoogleAnalytics` only when granted, so `gtag.js` — 161.6 KiB — never downloads
 for a visitor who declines or ignores the banner. Accepting mounts it
 immediately via the `cc:consent` event, with no reload.
+
+**The container is mounted from the same gate, which is what makes its load
+order safe.** Loading `gtm.js` before the consent defaults lets a container fire
+tags ungated; mounting it behind consent means nothing can precede
+`cc-bootstrap.js`, because nothing loads at all until the visitor has chosen.
+`GoogleTagManager` initialises the queue as `w[l]=w[l]||[]`, so it adopts the
+`dataLayer` the bootstrap already filled rather than replacing it.
+
+**There is deliberately no GTM `<noscript>` iframe.** The standard snippet's
+scriptless fallback loads `ns.html` unconditionally, which would hand the
+container exactly those visitors who cannot run the banner that asks their
+permission.
 
 This is Consent Mode *basic*, not *advanced*. Advanced loads gtag before
 consent so Google can send cookieless pings and model unobserved conversions;

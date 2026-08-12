@@ -25,6 +25,22 @@ import "./globals.css";
 const GA_MEASUREMENT_ID = "G-4CRHNPWKYX";
 
 /**
+ * Tag Manager container. Public in the same way the measurement ID is, and
+ * committed here for the same reason.
+ *
+ * This container was dropped once already for being empty: 115 KB of blocking
+ * script to deliver nothing is a bad trade. It earns its place only while it
+ * holds tags. If it empties out again, drop it again.
+ *
+ * Analytics-only, by decision. The container is mounted behind the *analytics*
+ * consent category, so anything added to it inherits that grant. A marketing or
+ * advertising tag placed in here would fire for visitors who consented to
+ * measurement and nothing else, which is the consent gate leaking. Such a tag
+ * needs its own gate on the marketing category, not a slot in this container.
+ */
+const GTM_CONTAINER_ID = "GTM-T44V6VLW";
+
+/**
  * Cookie consent, self-hosted from `public/` rather than a CDN. A site about
  * data protection should not hand its visitors to a third party in order to
  * ask them about tracking, and it keeps the consent gate working offline.
@@ -37,6 +53,7 @@ const CONSENT_COOKIE_NAME = "cc_consent";
 
 const CONSENT_CONFIG = {
   cookieName: CONSENT_COOKIE_NAME,
+  policyUrl: "/cookie-policy",
   categories: {
     necessary: {
       enabled: true,
@@ -73,7 +90,7 @@ const CONSENT_CONFIG = {
   labels: {
     // The SDK's default text claims personalisation and content-targeting
     // cookies. This site sets neither - functional and marketing are empty -
-    // and it links to a Privacy and Cookie Policy that do not exist here yet.
+    // and it links to policies that must match the disclosures below.
     bannerText:
       "We use strictly necessary cookies to make this site work, and only with your consent Google Analytics to understand how it is used. We do not use advertising or personalisation cookies, and we do not sell or share personal data.",
   },
@@ -87,6 +104,15 @@ const CONSENT_CONFIG = {
 const gaId =
   process.env.NEXT_PUBLIC_GA_ID ??
   (process.env.NODE_ENV === "production" ? GA_MEASUREMENT_ID : undefined);
+
+/**
+ * Gated the same way as `gaId`, so local browsing never reaches the container.
+ * The consent scripts themselves still load in development, so the banner can
+ * be exercised without a live container behind it.
+ */
+const gtmId =
+  process.env.NEXT_PUBLIC_GTM_ID ??
+  (process.env.NODE_ENV === "production" ? GTM_CONTAINER_ID : undefined);
 
 const inter = Inter({
   variable: "--font-inter",
@@ -212,6 +238,12 @@ const siteSchema = {
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       publishingPrinciples: `${SITE_URL}/editorial-policy`,
+      sameAs: ["https://github.com/ajitbubu/dpdpact.net"],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "corrections and feedback",
+        url: `${SITE_URL}/contact`,
+      },
     },
     {
       "@type": "WebSite",
@@ -274,7 +306,11 @@ export default function RootLayout({
         {gaId ? <PageViewTracker /> : null}
       </body>
       {gaId ? (
-        <AnalyticsOnConsent gaId={gaId} cookieName={CONSENT_COOKIE_NAME} />
+        <AnalyticsOnConsent
+          gaId={gaId}
+          gtmId={gtmId}
+          cookieName={CONSENT_COOKIE_NAME}
+        />
       ) : null}
     </html>
   );

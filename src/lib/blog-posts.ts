@@ -1,5 +1,7 @@
 import type { Route } from "next";
 
+import { actPath } from "@/lib/act-sections";
+
 export interface BlogSection {
   heading: string;
   paragraphs: string[];
@@ -18,6 +20,12 @@ export interface BlogPost {
   sections: BlogSection[];
   sources: { label: string; href: string }[];
   related: { label: string; href: Route }[];
+  downloads?: {
+    label: string;
+    description: string;
+    href: string;
+    format: "Markdown" | "CSV";
+  }[];
 }
 
 const RULES_SOURCE =
@@ -33,8 +41,8 @@ export const BLOG_POSTS: BlogPost[] = [
       "A practical guide to DPDP consent notices, purpose-level consent, withdrawal and the implementation evidence product teams should retain.",
     category: "Consent management",
     published: "2026-08-02",
-    updated: "2026-08-02",
-    readTime: "8 min read",
+    updated: "2026-08-11",
+    readTime: "10 min read",
     intro:
       "A DPDP consent journey is not complete because a checkbox exists. The notice, purpose language, affirmative action, withdrawal path and downstream system behaviour must work as one auditable flow.",
     sections: [
@@ -69,6 +77,19 @@ export const BLOG_POSTS: BlogPost[] = [
           "A launch checklist should therefore include negative-path testing. Confirm what happens when the user has multiple accounts, a processor is temporarily unavailable, or a lawful retention override applies.",
         ],
       },
+      {
+        heading: "Keep a minimum implementation record",
+        paragraphs: [
+          "The organisation should be able to connect the wording shown to the individual with the purpose, data, system behaviour and processors that choice activated. A screenshot without the underlying configuration proves appearance, not operation.",
+          "Keep the record proportionate and access-controlled. A consent register should identify the event and relationship without becoming an unnecessary duplicate store of every personal-data field involved in the processing.",
+        ],
+        bullets: [
+          "Notice version, language and purpose identifier.",
+          "Affirmative action and timestamp.",
+          "Systems and processors activated by the choice.",
+          "Withdrawal timestamp, propagation result and lawful retention override, if any.",
+        ],
+      },
     ],
     sources: [
       { label: "DPDP Act reader - sections 5 and 6", href: "/reader" },
@@ -76,7 +97,22 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
     related: [
       { label: "DPDP Rules 2025 timeline", href: "/dpdp-rules-2025" },
-      { label: "Compliance checklist", href: "/dpdp-compliance-checklist" },
+      { label: "Downloadable DPDP compliance templates", href: "/dpdp-compliance-templates" },
+      { label: "Section 6 - Consent", href: actPath("section-6") },
+    ],
+    downloads: [
+      {
+        label: "Consent notice drafting template",
+        description: "A copy-ready Markdown structure for itemised purposes, affirmative choice, withdrawal, rights and the internal implementation record.",
+        href: "/templates/dpdp-consent-notice-template.md",
+        format: "Markdown",
+      },
+      {
+        label: "Consent event register",
+        description: "CSV columns for versioned consent and withdrawal evidence across systems and processors.",
+        href: "/templates/dpdp-consent-register.csv",
+        format: "CSV",
+      },
     ],
   },
   {
@@ -86,8 +122,8 @@ export const BLOG_POSTS: BlogPost[] = [
       "Understand DPDP breach notifications to affected Data Principals and the Board, including the Rules' two-stage Board reporting process.",
     category: "Security & breach",
     published: "2026-08-02",
-    updated: "2026-08-02",
-    readTime: "8 min read",
+    updated: "2026-08-11",
+    readTime: "10 min read",
     intro:
       "The DPDP framework does not make breach readiness a legal-team exercise after an incident. Detection, decision-making, evidence collection and communications must be designed before the clock starts.",
     sections: [
@@ -117,6 +153,19 @@ export const BLOG_POSTS: BlogPost[] = [
           "Exercise the playbook with a processor outage or delayed fact pattern. A tabletop test is useful only if it reveals whether the organisation can produce the information the Rules actually request.",
         ],
       },
+      {
+        heading: "Run the response from a timestamped decision log",
+        paragraphs: [
+          "The first hours rarely produce complete facts. Record confirmed facts, reasonable estimates, unknowns, owners and the next update time so communications can proceed without presenting assumptions as certainty.",
+          "The log should preserve when the organisation recognised a personal data breach, who authorised each communication, when affected Data Principals and the Board were notified, and why any additional time was requested.",
+        ],
+        bullets: [
+          "Use one incident identifier across security, legal, processor and communications records.",
+          "State the timezone beside every deadline and submission timestamp.",
+          "Store copies and receipts for every notification channel.",
+          "Close with corrective actions, owners and verification evidence.",
+        ],
+      },
     ],
     sources: [
       { label: "DPDP Act reader - section 8", href: "/reader" },
@@ -124,7 +173,22 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
     related: [
       { label: "Security safeguard obligations", href: "/obligations" },
-      { label: "Penalty framework", href: "/penalties" },
+      { label: "Downloadable breach response templates", href: "/dpdp-compliance-templates" },
+      { label: "DPDP compliance deadline", href: "/dpdp-compliance-deadline" },
+    ],
+    downloads: [
+      {
+        label: "Breach notification workbook",
+        description: "A Markdown working file for first facts, Data Principal notice, both Board stages, processor coordination and closure.",
+        href: "/templates/dpdp-breach-notification-workbook.md",
+        format: "Markdown",
+      },
+      {
+        label: "Breach incident register",
+        description: "CSV columns for deadlines, submissions, evidence, ownership and corrective-action tracking.",
+        href: "/templates/dpdp-breach-incident-register.csv",
+        format: "CSV",
+      },
     ],
   },
   {
@@ -172,8 +236,8 @@ export const BLOG_POSTS: BlogPost[] = [
       { label: "DPDP Rules, 2025 Gazette", href: RULES_SOURCE },
     ],
     related: [
-      { label: "Compliance checklist", href: "/dpdp-compliance-checklist" },
-      { label: "Key roles explained", href: "/roles" },
+      { label: "Compliance templates and request resources", href: "/dpdp-compliance-templates" },
+      { label: "Data Principal rights explained", href: "/rights" },
     ],
   },
   {
