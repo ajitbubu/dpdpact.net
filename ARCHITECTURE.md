@@ -89,10 +89,14 @@ flowchart TB
 
 ### Domain and content
 
-- `src/lib/dpdpa-data.ts` is the bundled statutory source: chapters, all 44 sections, structured text blocks, illustrations, and the penalty Schedule.
+- `src/lib/dpdpa-data.ts` is the bundled statutory source: chapters, all 44 sections, structured text blocks, illustrations, and the penalty Schedule. It holds the Act verbatim and is SHA-256 pinned by `scripts/check-content.mjs`; any change fails that check.
+- `src/lib/act-sections.ts` flattens the Act into one addressable part per section plus the Schedule, so server components can render statutory text without pulling in the reader's state machine.
+- `src/lib/industries.ts` and `src/lib/industries-menu.ts` hold the nine sector guides. Content and menu identity are split so the client nav can render the mega menu without bundling every guide's prose. See [docs/why-the-industry-model.md](./docs/why-the-industry-model.md).
+- `src/lib/blog-posts.ts` is the article source behind `/blog` and `/blog/[slug]`.
+- `src/lib/compliance-checklist.ts` backs the checklist page.
 - `src/lib/dpdp-quiz.ts` is the bundled question bank plus randomized draw and assessment constants.
 - `src/lib/credential.ts` defines the local credential contract and display-date formatting.
-- `src/lib/routes.ts` is the shared route registry.
+- `src/lib/routes.ts` is the shared route registry; `src/lib/breadcrumbs.ts` and `src/lib/editorial.ts` supply breadcrumb trails and review metadata.
 
 ### Browser state
 
@@ -112,9 +116,13 @@ Practice-test answers and live exam state remain in React memory. Reloading an a
 | Area | Routes | Rendering and behavior |
 | --- | --- | --- |
 | Landing and study | `/`, `/overview`, `/roles`, `/rights`, `/obligations`, `/penalties` | Static educational pages with shared navigation/footer and selected schema markup |
-| Rules and compliance | `/dpdp-rules-2025`, `/dpdp-compliance-checklist` | Static pages covering the DPDP Rules 2025 and the derived practical checklist |
+| Rules and compliance | `/dpdp-rules-2025`, `/dpdp-compliance-checklist`, `/dpdp-compliance-deadline`, `/dpdp-compliance-templates` | Static pages covering the DPDP Rules 2025, the derived checklist, the phased dates and the downloadable templates |
+| Implementation by industry | `/implementation`, `/implementation/[industry]` | Nine prerendered sector guides derived from one activity model, plus per-sector infographic and Open Graph image routes. See [docs/industry-guides.md](./docs/industry-guides.md) |
+| Comparison and scope | `/dpdp-vs-gdpr`, `/dpdp-vs-spdi-rules`, `/significant-data-fiduciary`, `/dpdp-applicability` | Static analysis pages; applicability adds a client-side checker |
+| Interactive tools | `/dpdp-penalty-calculator`, `/consent-manager` | Server metadata shell plus a colocated client component |
 | Editorial | `/blog`, `/blog/[slug]`, `/editorial-policy` | Static long-form articles plus the sourcing and correction policy |
-| Statute reader | `/reader` | Server metadata shell plus client-side table of contents, full-text search, keyboard navigation, and stored progress |
+| Trust and disclosure | `/about`, `/contact`, `/sources`, `/privacy-policy`, `/cookie-policy` | Static pages carrying provenance, contact and cookie disclosures |
+| Statute reader | `/reader`, `/reader/[section]`, `/reader/full-text` | `/reader` is a server metadata shell plus a client table of contents, full-text search, keyboard navigation and stored progress. `/reader/[section]` prerenders 45 crawlable pages (44 sections plus the Schedule) from `src/lib/act-sections.ts`; `/reader/full-text` serves the whole Act on one page |
 | Certification | `/certification` | Static course/schema shell plus client-side slot booking persisted locally |
 | Assessment | `/practice-test`, `/exam` | Client-side randomized questions; practice gives feedback, exam uses a wall-clock deadline and grades locally |
 | Credential | `/certificate`, `/certificate/standalone` | Shared client-rendered certificate; regular route has site chrome, standalone route is optimized for print/embed |
@@ -196,16 +204,21 @@ flowchart LR
     CI -->|required green| PR[PR to main]
     PR -->|merge| M[main branch]
     M -->|production build| V[dpdpact.net]
+    M -->|push to main| IN[IndexNow workflow]
+    IN -->|waits for the new<br/>deployment id| V
+    IN -->|submits sitemap URLs| B[Bing, Yandex, Seznam]
 ```
 
 - Deployment is driven by the Vercel git integration, not by a CLI step. A push to `dev` produces a preview; a merge to `main` produces production.
+- `.github/workflows/indexnow.yml` fires on merge to `main`, polls the homepage until Vercel's deployment id changes, then submits every sitemap URL to IndexNow. Google has not adopted IndexNow, so Search Console still needs a manual sitemap resubmission. See [docs/search-engine-submission.md](./docs/search-engine-submission.md).
+- `npm run check-content` validates the industry guides against the Act and fingerprints the statutory source. It runs in `npm run verify` only, not in CI or the Vercel build. See [docs/build-guards.md](./docs/build-guards.md).
 - `main` is protected: pull request required, the `verify` check must pass, and the branch must be current with `main` before merging.
 - Deployments are immutable and aliased, so a failed build leaves the previous production deployment serving and rollback is a re-alias rather than a rebuild.
 - The application is naturally suited to Vercel, but any host capable of serving the Next.js build can run it.
 - The canonical origin is compiled in rather than supplied by the environment, so no build-time origin configuration is required on any host.
 - The service worker requires HTTPS outside localhost.
 - GA4 is enabled whenever `NODE_ENV` is `production`; `NEXT_PUBLIC_GA_ID` can override its property.
-- The Tag Manager container is gated identically; `NEXT_PUBLIC_GTM_ID` can override it. Both load only once analytics consent is granted, so `NODE_ENV` decides whether they *can* load, not whether they do.
+- The Tag Manager container is gated identically; `NEXT_PUBLIC_GTM_ID` can override it. Both load only once analytics consent is granted, so `NODE_ENV` decides whether they *can* load, not whether they do. The full load order, cookie shape and event list are in [docs/consent-and-analytics.md](./docs/consent-and-analytics.md).
 
 ## 6. Architectural qualities and boundaries
 
@@ -223,8 +236,10 @@ flowchart LR
 - Bookings are not sent to a calendar or administrator.
 - There is no user identity, synchronization, backup, audit history, or multi-device continuity.
 - Live exam answers are not durable across reloads, and client-only grading is not tamper-resistant.
-- The reader's statutory body is client-rendered on one URL, limiting section-level indexing and deep linking.
-- Analytics starts in production without a consent gate.
+- `check-content` runs only in `npm run verify`, not in CI, so the Act-integrity
+  guarantee depends on a contributor running the right command before pushing.
+- Download counts come from an on-page click listener, so direct hits on an
+  asset URL and "Save link as" are not observed.
 
 ### Natural extension boundary
 
