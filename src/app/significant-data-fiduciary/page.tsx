@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { EditorialReview } from "@/components/editorial-review";
 import { Faq } from "@/components/faq";
+import { ProvisionRef } from "@/components/provision-ref";
 import { PageHero } from "@/components/page-hero";
 import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
@@ -12,7 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { blogPath } from "@/lib/blog-posts";
 import { routes } from "@/lib/routes";
-import { CONTENT_UPDATED, SITE_NAME, SITE_URL } from "@/lib/site";
+import {
+  CONTENT_UPDATED,
+  CONTENT_UPDATED_LABEL,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 
 const RULES_SOURCE =
   "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf";
@@ -137,7 +143,7 @@ export default function SignificantDataFiduciaryPage() {
         >
           <div className="mt-[22px] flex flex-wrap gap-[10px]">
             <Badge tone="primary">Designation, not a threshold</Badge>
-            <Badge tone="neutral">Current as of {CONTENT_UPDATED}</Badge>
+            <Badge tone="neutral">Current as of {CONTENT_UPDATED_LABEL}</Badge>
           </div>
         </PageHero>
 
@@ -200,7 +206,7 @@ export default function SignificantDataFiduciaryPage() {
                         <Icon size={20} aria-hidden="true" />
                       </span>
                       <span className="font-mono text-[12px] font-semibold text-text-muted tabular-nums">
-                        {duty.ref}
+                        <ProvisionRef value={duty.ref} />
                       </span>
                     </div>
                     <span className="mb-[9px] block font-display text-[18px] font-semibold leading-[1.3] text-text">

@@ -11,6 +11,7 @@ import {
 
 import { CommencementTimeline } from "@/components/diagrams";
 import { ProvisionNotes } from "@/components/provision-notes";
+import { ProvisionRef } from "@/components/provision-ref";
 import { Faq } from "@/components/faq";
 import { EditorialReview } from "@/components/editorial-review";
 import { PageHero } from "@/components/page-hero";
@@ -20,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { routes } from "@/lib/routes";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { CONTENT_UPDATED_LABEL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const RULES_SOURCE =
   "https://www.meity.gov.in/static/uploads/2025/11/53450e6e5dc0bfa85ebd78686cadad39.pdf";
@@ -201,7 +202,7 @@ export default function DpdpRulesPage() {
         >
           <div className="mt-[22px] flex flex-wrap gap-[10px]">
             <Badge tone="safe">Final rules notified</Badge>
-            <Badge tone="neutral">Current as of 2 August 2026</Badge>
+            <Badge tone="neutral">Current as of {CONTENT_UPDATED_LABEL}</Badge>
           </div>
         </PageHero>
 
@@ -273,7 +274,7 @@ export default function DpdpRulesPage() {
                       {body}
                     </p>
                     <span className="mt-[10px] block font-mono text-[11px] text-text-muted">
-                      {ref}
+                      <ProvisionRef value={ref} />
                     </span>
                   </div>
                 ))}

@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { EditorialReview } from "@/components/editorial-review";
 import { Faq } from "@/components/faq";
+import { ProvisionRef } from "@/components/provision-ref";
 import { PageHero } from "@/components/page-hero";
 import { RelatedGuides } from "@/components/related-guides";
 import { SiteFooter } from "@/components/site-footer";
@@ -12,7 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { actPath } from "@/lib/act-sections";
 import { routes } from "@/lib/routes";
-import { CONTENT_UPDATED, SITE_NAME, SITE_URL } from "@/lib/site";
+import {
+  CONTENT_UPDATED,
+  CONTENT_UPDATED_LABEL,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 
 const COMMENCEMENT_SOURCE =
   "https://www.meity.gov.in/static/uploads/2025/11/c56ceae6c383460ca69577428d36828b.pdf";
@@ -199,7 +205,7 @@ export default function DpdpVsSpdiRulesPage() {
         >
           <div className="mt-[22px] flex flex-wrap gap-[10px]">
             <Badge tone="warning">SPDI Rules still live</Badge>
-            <Badge tone="neutral">Current as of {CONTENT_UPDATED}</Badge>
+            <Badge tone="neutral">Current as of {CONTENT_UPDATED_LABEL}</Badge>
           </div>
         </PageHero>
 
@@ -247,7 +253,7 @@ export default function DpdpVsSpdiRulesPage() {
                   <Card key={item.ref} className="block h-full">
                     <div className="mb-[14px] flex items-start justify-between gap-[12px]">
                       <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-primary-text tabular-nums">
-                        {item.ref}
+                        <ProvisionRef value={item.ref} />
                       </span>
                       <Badge tone={item.tone}>{item.status}</Badge>
                     </div>
@@ -309,7 +315,7 @@ export default function DpdpVsSpdiRulesPage() {
                     }
                   >
                     <span className="flex-[0_0_130px] font-mono text-[13px] font-semibold text-primary-text">
-                      {item.ref}
+                      <ProvisionRef value={item.ref} />
                     </span>
                     <span className="flex min-w-0 flex-[1_1_320px] flex-col gap-[6px]">
                       <span className="font-sans text-[15px] font-semibold text-text">

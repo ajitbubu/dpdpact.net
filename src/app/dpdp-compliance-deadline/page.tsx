@@ -25,7 +25,9 @@ const MEITY_HUB =
   "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa";
 
 export const metadata: Metadata = {
-  title: "DPDP Compliance Deadline 2027 - Dates & Timeline",
+  // Kept under 45 characters: the root layout appends " | DPDP Academy", and
+  // the rendered title was truncating in the SERP at 63.
+  title: "DPDP Compliance Deadline 2027 - Key Dates",
   description:
     "Track the official DPDP compliance dates: provisions already in force, the 13 November 2026 Consent Manager phase and core duties from 13 May 2027.",
   alternates: { canonical: "/dpdp-compliance-deadline" },
