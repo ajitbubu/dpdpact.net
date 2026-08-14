@@ -63,7 +63,7 @@ export const CONTENT_UPDATED_LABEL = (() => {
  * association editor checking a claim before citing it will not open an issue,
  * and every one of them is exactly who this site needs to be reachable by.
  */
-export const CONTACT_EMAIL = "corrections@dpdpact.net";
+export const CONTACT_EMAIL = "sam@faceoff.world";
 
 /**
  * The registered entity behind the site.
