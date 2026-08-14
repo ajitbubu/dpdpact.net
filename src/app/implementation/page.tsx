@@ -21,7 +21,7 @@ import {
 export const metadata: Metadata = {
   title: { absolute: "DPDP Act by Industry: Implementation Guides" },
   description:
-    "How India's DPDP Act applies sector by sector - e-commerce, online gaming, social media, healthcare, financial services, EdTech, SaaS, startups and government. Each guide is anchored to a specific provision.",
+    "How India's DPDP Act applies sector by sector - nine guides for e-commerce, gaming, healthcare, finance, SaaS and more, each anchored to a specific provision.",
   alternates: { canonical: "/implementation" },
 };
 

@@ -18,6 +18,7 @@ import {
 } from "@/lib/act-sections";
 import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { ACT } from "@/lib/dpdpa-data";
+import { LEGAL_REVIEWED_ON } from "@/lib/editorial";
 import { routes } from "@/lib/routes";
 import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
@@ -160,7 +161,7 @@ export default async function ActSectionPage({
                 >
                   the Act as published by MeitY (PDF)
                 </a>
-                .
+                . Last checked against that publication on {LEGAL_REVIEWED_ON}.
               </p>
             </div>
           </div>

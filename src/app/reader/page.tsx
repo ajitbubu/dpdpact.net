@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { ReaderClient } from "./reader-client";
 import { breadcrumbSchema } from "@/lib/breadcrumbs";
+import { LEGAL_REVIEWED_ON } from "@/lib/editorial";
 import { routes } from "@/lib/routes";
 import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 import { CHAPTERS } from "@/lib/dpdpa-data";
@@ -95,7 +96,7 @@ function SectionDirectory() {
           >
             the Act as published by MeitY (PDF)
           </a>
-          .
+          , and last checked against that publication on {LEGAL_REVIEWED_ON}.
         </p>
 
         <div className="grid gap-[26px] min-[720px]:grid-cols-2 min-[1020px]:grid-cols-3">

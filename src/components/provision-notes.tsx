@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { ProvisionRef } from "@/components/provision-ref";
+
 /**
  * A labelled list of provisions with commentary.
  *
@@ -50,7 +52,7 @@ export function ProvisionNotes({
               className="flex flex-wrap gap-[16px] rounded-lg border border-border bg-surface p-[clamp(18px,2.6vw,24px)]"
             >
               <span className="flex-[0_0_112px] font-mono text-[12.5px] font-semibold leading-[1.5] text-primary-text">
-                {item.ref}
+                <ProvisionRef value={item.ref} />
               </span>
               <span className="flex min-w-0 flex-[1_1_420px] flex-col gap-[8px]">
                 <span className="font-display text-[17.5px] font-semibold leading-[1.3] text-text">

@@ -10,6 +10,7 @@ import { AnalyticsOnConsent } from "@/components/analytics-on-consent";
 import { InstallPrompt } from "@/components/install-prompt";
 import { PageViewTracker } from "@/components/page-view-tracker";
 import { ServiceWorker } from "@/components/service-worker";
+import { ACTIVE_SOCIAL } from "@/lib/social";
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
@@ -238,7 +239,12 @@ const siteSchema = {
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       publishingPrinciples: `${SITE_URL}/editorial-policy`,
-      sameAs: ["https://github.com/ajitbubu/dpdpact.net"],
+      // Built from the same list the footer renders, so a profile can never be
+      // linked in the footer while being absent from the entity's `sameAs`.
+      sameAs: [
+        "https://github.com/ajitbubu/dpdpact.net",
+        ...ACTIVE_SOCIAL.map((p) => p.href),
+      ],
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "corrections and feedback",
@@ -264,7 +270,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      // `en-IN`, not `en`: the Act is Indian law, the audience is Indian, and
+      // `openGraph.locale` and the `WebSite` schema's `inLanguage` already say
+      // so. A bare `en` here was the one place the three disagreed.
+      lang="en-IN"
       // The design sets `scroll-behavior: smooth` on <html>; this tells Next
       // it is intentional so it does not fight it on route transitions.
       data-scroll-behavior="smooth"

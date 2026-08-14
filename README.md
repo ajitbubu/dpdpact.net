@@ -6,6 +6,20 @@ prove it with a graded certification.
 Ported from the **DPDPA** Claude Design project
 (`claude.ai/design/p/adb66042-51d7-4f5e-8d6a-3dff5f0f7617`) to Next.js.
 
+## Documentation
+
+This README covers the whole site. `docs/` goes deep on the subsystems that need
+it, and `ARCHITECTURE.md` covers the system as a whole.
+
+| Document | Read it when |
+| --- | --- |
+| [docs/industry-guides.md](./docs/industry-guides.md) | You need the types, exports or routes behind `/implementation` |
+| [docs/why-the-industry-model.md](./docs/why-the-industry-model.md) | You want to know why sector content is modelled as processing activities |
+| [docs/adding-an-industry-guide.md](./docs/adding-an-industry-guide.md) | You are adding a sector |
+| [docs/build-guards.md](./docs/build-guards.md) | You hit a failing check, or want to know what each gate actually runs |
+| [docs/consent-and-analytics.md](./docs/consent-and-analytics.md) | You are touching consent, GA4, GTM or event tracking |
+| [docs/search-engine-submission.md](./docs/search-engine-submission.md) | You are submitting URLs to IndexNow or Search Console |
+
 ## Running it
 
 ```bash
@@ -15,8 +29,12 @@ npm run start      # serve the production build
 
 npm run lint
 npm run typecheck
-npm run verify     # lint + typecheck + build — the same gate CI runs
+npm run check-content   # validate the industry guides against the Act
+npm run verify          # lint + typecheck + check-content + build
 ```
+
+`verify` is stricter than CI: CI does not run `check-content`. See
+[The gates](#the-gates).
 
 ### First-time setup after a clone
 
@@ -54,8 +72,15 @@ one serving and `vercel rollback` is instant.
 
 | Gate | When | Checks |
 | --- | --- | --- |
+| `npm run verify` | manually, before pushing | lint + typecheck + check-content + build |
 | `.githooks/pre-push` | every push | lint + typecheck (~8s) |
-| `.github/workflows/ci.yml` | push to `dev`, PR to `main` | lint + typecheck + build + smoke-test every route |
+| `.github/workflows/ci.yml` | push to `dev`, PR to `main` | lint + typecheck + build + smoke-test 16 routes |
+| Vercel build | push to `dev`, merge to `main` | build only |
+
+**`check-content` runs in `npm run verify` and nowhere else.** Not in the hook,
+not in CI, not in the Vercel build. It validates every section reference in the
+industry guides and fingerprints the Act text, so skipping `verify` ships those
+unchecked. Details and the fix in [docs/build-guards.md](./docs/build-guards.md).
 
 The hook skips branch deletions, which push no content to verify. Bypass it with
 `git push --no-verify` — but the same checks run in CI, so it only defers the
@@ -191,6 +216,15 @@ domain as canonical and keep your pages out of the index.
 | `robots.txt` | `src/app/robots.ts` |
 | `Organization` + `WebSite` schema | `layout.tsx` |
 | `Course` schema | `certification/page.tsx` |
+| `Article` schema per industry guide | `implementation/[industry]/page.tsx` |
+| Per-industry social card | `implementation/[industry]/opengraph-image.tsx` |
+| IndexNow submission after deploy | `scripts/indexnow.mjs` + `.github/workflows/indexnow.yml` |
+| Bing ownership | `public/BingSiteAuth.xml` and the `msvalidate.01` meta tag |
+| IndexNow key file | `public/4e5e58f853434784a7cfdb317e42c8d6.txt` |
+
+IndexNow reaches Bing, Yandex and Seznam. Google has not adopted it, so Search
+Console still needs a manual sitemap resubmission. See
+[docs/search-engine-submission.md](./docs/search-engine-submission.md).
 
 `openGraph.title` is deliberately **not** set in `layout.tsx`. When it's unset
 Next falls back to each page's own title, so social cards match the page; pinning
@@ -298,19 +332,28 @@ in the GA4 UI:
 | Gap | Fixed by |
 | --- | --- |
 | Client-side navigation sent no `page_view` | `src/components/page-view-tracker.tsx` |
-| The entry `page_view` of a first visit was discarded by consent mode | `public/cc-init.js` |
+| Asset downloads were not counted | `src/components/download-tracker.tsx` |
 
 **Leave "page changes based on browser history events" off** in the GA4 data
 stream's enhanced measurement settings. It covers the same navigations as
 `PageViewTracker`; with both on, every navigation is counted twice.
 
-The consent one is the subtler gap. `cc-bootstrap.js` denies `analytics_storage`
-before gtag loads, so a first visit's entry `page_view` goes out as a cookieless
-ping (`gcs=G100`) that GA4 keeps out of standard reports. Accepting afterwards
-does not resend it — gtag applies the new state only to later events — so
-`cc-init.js` resends it from the SDK's `onConsent` callback. It fires only when
-the visitor did *not* arrive already consenting, since gtag's own `config` call
-covers that case.
+`PageViewTracker` deliberately skips the entry page, because gtag's own `config`
+call already reports it.
+
+There is no longer any manual resend of that entry hit. Under Consent Mode
+*advanced* gtag loaded immediately and sent the first hit as a cookieless ping
+(`gcs=G100`) that standard reports discard, so `cc-init.js` used to resend it on
+grant. The site now runs Consent Mode *basic*: gtag does not load until consent
+exists, so its `config` call reports the entry page normally and a manual resend
+would count it twice. `cc-init.js` only dispatches the `cc:consent` DOM event
+that `AnalyticsOnConsent` listens for.
+
+`DownloadTracker` sends `seo_asset_download` for `/templates/*` and the
+commencement CSV. It is an on-page click listener, so direct hits on an asset
+URL and "Save link as" are not counted — treat the numbers as a floor. Full
+parameter list and limits in
+[docs/consent-and-analytics.md](./docs/consent-and-analytics.md).
 
 **Preview deployments count as production.** On Vercel and most hosts, preview
 builds run with `NODE_ENV=production`, so their traffic lands in the same
@@ -328,7 +371,11 @@ the visitor chooses.
 | Banner + preference UI | `public/cookie-consent.js` |
 | Configuration | `CONSENT_CONFIG` in `src/app/layout.tsx` |
 | `init()` call + `cc:consent` event | `public/cc-init.js` |
+| Modal branding credit | `public/cookie-branding.js` |
 | GA4 and GTM, mounted only once granted | `src/components/analytics-on-consent.tsx` |
+
+Cookie shape, the category-to-signal map and the full event list are in
+[docs/consent-and-analytics.md](./docs/consent-and-analytics.md).
 
 **Load order is load-bearing.** The bootstrap pushes `consent: default` with
 every storage type denied and must execute *before* `gtag.js` — once gtag has
@@ -399,6 +446,9 @@ cookie-expiry setting in GA4 if it is changed.
 - **shadcn/ui** conventions (`components.json`, `cn()`, CVA variants, `components/ui/`)
 - **lucide-react** for icons, **next/font** for Inter / JetBrains Mono / Fraunces / Pinyon Script
 - **@next/third-parties** for Google Analytics 4
+- No test framework. `scripts/check-content.mjs` is the only content validator,
+  and it self-tests its rules before trusting them — see
+  [docs/build-guards.md](./docs/build-guards.md)
 
 ## Routes
 
@@ -433,9 +483,23 @@ These have no design-source origin.
 | --- | --- |
 | `/dpdp-rules-2025` | DPDP Rules 2025 — compliance deadline 13 May 2027 |
 | `/dpdp-compliance-checklist` | Practical checklist derived from the Rules |
+| `/dpdp-compliance-deadline` | The phased commencement dates, with a downloadable CSV |
+| `/dpdp-compliance-templates` | Editable consent, breach and register templates |
+| `/implementation` | Hub for the nine sector guides |
+| `/implementation/[industry]` | Nine prerendered sector guides, plus infographic and OG image routes |
+| `/reader/[section]` | 45 crawlable statutory pages: 44 sections plus the Schedule |
+| `/reader/full-text` | The whole Act on one page |
+| `/dpdp-vs-gdpr` | Clause-level comparison with the GDPR |
+| `/dpdp-vs-spdi-rules` | What changes from the SPDI Rules, 2011 |
+| `/significant-data-fiduciary` | The SDF designation and its extra obligations |
+| `/dpdp-applicability` | Client-side applicability checker |
+| `/dpdp-penalty-calculator` | Client-side penalty explorer |
+| `/consent-manager` | Reopens the cookie preference modal |
 | `/blog`, `/blog/[slug]` | Index plus 10 articles from `src/lib/blog-posts.ts` |
 | `/blog/dpdp-act-2023-practical-primer` | A hand-written route, not driven by `blog-posts.ts` |
 | `/editorial-policy` | Sourcing and correction policy — an E-E-A-T signal |
+| `/about`, `/contact`, `/sources` | Provenance, corrections route and the official-source register |
+| `/privacy-policy`, `/cookie-policy` | The site's own disclosures |
 
 `support.js` is the Claude Design component runtime (it interprets `<x-dc>`,
 `<sc-if>`, `<sc-for>` and `<x-import>`). It has no equivalent here — those
@@ -474,7 +538,18 @@ them, so they were not ported.
 
 - `src/lib/dpdpa-data.ts` — the full Act: 9 chapters, 44 sections and the
   Schedule, transcribed from the Gazette. Statutory text is verbatim from the
-  design source; only the module wrapper changed.
+  design source; only the module wrapper changed. **SHA-256 pinned** by
+  `scripts/check-content.mjs`; any change to this file fails that check.
+- `src/lib/act-sections.ts` — the Act flattened into one addressable part per
+  section plus the Schedule, so server components can render statutory text
+  without pulling in the reader's state machine. Drives `/reader/[section]`.
+- `src/lib/industries.ts` (2618 lines) — the nine sector guides, modelled as
+  processing activities. Four views on each page derive from one `activities`
+  array. **Server-only.**
+- `src/lib/industries-menu.ts` — slugs, menu labels and icons. The client-safe
+  half of the split; `site-nav.tsx` imports this, never `industries.ts`.
+- `src/lib/blog-posts.ts` — the 10 articles behind `/blog`.
+- `src/lib/compliance-checklist.ts` — the checklist items.
 - `src/lib/dpdp-quiz.ts` — the 30-item question bank. Every item cites the
   provision it tests.
 

@@ -175,6 +175,7 @@ const TOP_ITEMS: { key: NavKey; href: Route; label: string }[] = [
   { key: "reader", href: routes.reader, label: "Learn" },
   { key: "blog", href: routes.blog, label: "Blog" },
   { key: "cert", href: routes.certification, label: "Certification" },
+  { key: "about", href: routes.about, label: "About" },
 ];
 
 const MOBILE_TAIL: { href: Route; label: string }[] = [
@@ -183,6 +184,7 @@ const MOBILE_TAIL: { href: Route; label: string }[] = [
   { href: routes.certification, label: "Certification" },
   { href: routes.practiceTest, label: "Practice Test" },
   { href: routes.certificate, label: "My Certificate" },
+  { href: routes.about, label: "About DPDP Academy" },
 ];
 
 const linkClass =
@@ -339,9 +341,10 @@ function DpdpMenu({ active }: { active?: NavKey }) {
           id="dpdp-menu"
           className={cn(
             "absolute left-1/2 top-[calc(100%+14px)] z-[70] -translate-x-1/2",
-            // 720, not wider: the desktop nav starts at 1020px, where this
-            // trigger sits 371px from the left, so a centred panel has 743px
-            // before it clips off the left edge. At 820 it did.
+            // 720, not wider: the desktop nav starts at 1100px, where this
+            // trigger sits far enough from the left that a centred panel
+            // clears the edge. At 820 it did not, back when the nav started
+            // at 1020px and the trigger sat 371px in.
             "w-[min(720px,calc(100vw-40px))]",
             "rounded-md border border-border bg-surface",
             "shadow-[0_12px_32px_rgba(20,20,15,.13)]",
@@ -575,7 +578,7 @@ export function SiteNav({ active }: { active?: NavKey }) {
           </span>
         </Link>
 
-        <nav className="hidden flex-1 items-center justify-center gap-[clamp(10px,1.6vw,22px)] min-[1020px]:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-[clamp(10px,1.6vw,22px)] min-[1100px]:flex">
           <Link
             href={routes.overview}
             className={cn(
@@ -604,7 +607,7 @@ export function SiteNav({ active }: { active?: NavKey }) {
           ))}
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-[10px] min-[1020px]:flex">
+        <div className="hidden shrink-0 items-center gap-[10px] min-[1100px]:flex">
           <Button
             variant="ghost"
             size="sm"
@@ -621,7 +624,7 @@ export function SiteNav({ active }: { active?: NavKey }) {
           </Button>
         </div>
 
-        <div className="flex flex-1 justify-end min-[1020px]:hidden">
+        <div className="flex flex-1 justify-end min-[1100px]:hidden">
           <button
             onClick={() => setMenuOpen((open) => !open)}
             aria-label="Menu"
@@ -636,7 +639,7 @@ export function SiteNav({ active }: { active?: NavKey }) {
       </div>
 
       {menuOpen && (
-        <div className="flex flex-col border-t border-border bg-surface px-[var(--space-5)] pb-[20px] pt-[8px] min-[1020px]:hidden">
+        <div className="flex flex-col border-t border-border bg-surface px-[var(--space-5)] pb-[20px] pt-[8px] min-[1100px]:hidden">
           <Link
             href={routes.overview}
             onClick={() => setMenuOpen(false)}

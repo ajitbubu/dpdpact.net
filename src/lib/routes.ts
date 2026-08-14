@@ -30,6 +30,7 @@ export const routes = {
   implementation: "/implementation",
   reader: "/reader",
   readerFullText: "/reader/full-text",
+  glossary: "/glossary",
   blog: "/blog",
   blogPrimer: "/blog/dpdp-act-2023-practical-primer",
   certification: "/certification",
@@ -52,4 +53,5 @@ export type NavKey =
   | "implementation"
   | "reader"
   | "blog"
-  | "cert";
+  | "cert"
+  | "about";

@@ -8,13 +8,14 @@ import { LinkButton } from "@/components/ui/button";
 import { getActPart } from "@/lib/act-sections";
 import { breadcrumbSchema } from "@/lib/breadcrumbs";
 import { ACT, CHAPTERS } from "@/lib/dpdpa-data";
+import { LEGAL_REVIEWED_ON } from "@/lib/editorial";
 import { routes } from "@/lib/routes";
 import { ACT_SOURCE_PDF, CONTENT_UPDATED, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: { absolute: "DPDP Act 2023 - Full Text of All 44 Sections" },
   description:
-    "The complete text of India's Digital Personal Data Protection Act, 2023 - all nine chapters, 44 sections and the penalty Schedule, as published in the Gazette.",
+    "The complete text of India's Digital Personal Data Protection Act, 2023 - all nine chapters, 44 sections and the Schedule, as published in the Gazette.",
   alternates: { canonical: routes.readerFullText },
 };
 
@@ -107,7 +108,7 @@ export default function ActFullTextPage() {
                 >
                   Read the official MeitY PDF
                 </a>
-                .
+                . Last checked against that publication on {LEGAL_REVIEWED_ON}.
               </p>
               <div className="mt-[6px] flex flex-wrap gap-[10px]">
                 <LinkButton href={routes.reader} variant="secondary">

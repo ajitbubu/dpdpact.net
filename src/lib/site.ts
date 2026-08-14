@@ -22,7 +22,75 @@ export const SITE_DESCRIPTION =
  * that moves with the build clock while the content sits still is a false
  * signal that gets discounted once it is noticed.
  */
-export const CONTENT_UPDATED = "2026-08-11";
+export const CONTENT_UPDATED = "2026-08-13";
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/**
+ * `CONTENT_UPDATED` written for a reader rather than a parser.
+ *
+ * The ISO form is what JSON-LD `dateModified` requires, but a visible badge
+ * reading `2026-08-11` sits badly next to the editorial strip's "9 August
+ * 2026". Derived rather than maintained separately: one page previously
+ * hardcoded its own date here and drifted nine days behind the others.
+ *
+ * Formatted by hand rather than through `toLocaleDateString` so the output
+ * cannot shift with the runtime's ICU data.
+ */
+export const CONTENT_UPDATED_LABEL = (() => {
+  const [year, month, day] = CONTENT_UPDATED.split("-").map(Number);
+  return `${day} ${MONTHS[month - 1]} ${year}`;
+})();
+
+/**
+ * Where a person can reach a person.
+ *
+ * The site ran on GitHub issues alone for a while. That is an excellent public
+ * record and a poor front door: a journalist, a law-school librarian or an
+ * association editor checking a claim before citing it will not open an issue,
+ * and every one of them is exactly who this site needs to be reachable by.
+ */
+export const CONTACT_EMAIL = "sam@faceoff.world";
+
+/**
+ * The registered entity behind the site.
+ *
+ * Empty fields are *not* rendered, following the same convention as
+ * `social.ts`: a half-filled corporate identity is worse than none, and on a
+ * page whose argument is "check our sources" an unverifiable claim about
+ * ourselves costs more than the empty space does.
+ *
+ * Fill `name` and `jurisdiction` from the certificate of incorporation, not
+ * from memory. `registrationNumber` is the CIN or equivalent; leave it empty
+ * rather than approximating it. Everything here is a public factual claim
+ * about a legal person, so it either matches the register or it stays blank.
+ */
+export const LEGAL_ENTITY = {
+  /** Registered name, exactly as incorporated. */
+  name: "",
+  /** e.g. "a private limited company registered in India". */
+  form: "",
+  /** CIN, LLPIN or equivalent. */
+  registrationNumber: "",
+  /** Registered office, at least to city and country. */
+  jurisdiction: "",
+} as const;
+
+/** Whether there is enough of an entity on record to state one publicly. */
+export const HAS_LEGAL_ENTITY = LEGAL_ENTITY.name !== "";
 
 /**
  * The Act as published by MeitY, in PDF.

@@ -38,6 +38,9 @@ const PAGES: {
     priority: 0.7,
     changeFrequency: "yearly" as const,
   })),
+  // Derived from the pinned Act text rather than written by hand, so it
+  // follows the site-wide source-review date like the other statutory pages.
+  { path: "/glossary", priority: 0.8, changeFrequency: "yearly" },
   { path: "/overview", priority: 0.8, changeFrequency: "monthly" },
   { path: "/roles", priority: 0.8, changeFrequency: "monthly" },
   { path: "/rights", priority: 0.8, changeFrequency: "monthly" },

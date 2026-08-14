@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 
+import { SocialLinks } from "@/components/social-links";
 import { INDUSTRY_MENU, INDUSTRY_SLUGS, industryPath } from "@/lib/industries-menu";
 import { routes } from "@/lib/routes";
 
@@ -67,6 +68,7 @@ export function SiteFooter() {
               Act No. 22 of 2023
             </span>
           </div>
+          <SocialLinks />
         </div>
 
         <div className="flex flex-col gap-[11px]">

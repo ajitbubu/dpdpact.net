@@ -33,6 +33,41 @@ Use the same public facts everywhere:
 
 Do not publish a personal author or reviewer name until the person has approved the biography and relevant credentials.
 
+### Wikidata item
+
+No entity currently resolves the name "DPDP Academy" to this domain, so a
+search for the brand returns four unrelated organisations instead. A Wikidata
+item is the cheapest fix: it is machine-read directly by knowledge graphs and
+its bar is far lower than Wikipedia's.
+
+Create at `https://www.wikidata.org/wiki/Special:NewItem` with:
+
+| Field | Value |
+|---|---|
+| Label (en) | DPDP Academy |
+| Description (en) | educational website about India's Digital Personal Data Protection Act, 2023 |
+| Also known as | dpdpact.net |
+| `P31` instance of | website (`Q35127`) |
+| `P856` official website | `https://dpdpact.net` |
+| `P407` language of work | English (`Q1860`) |
+| `P921` main subject | Digital Personal Data Protection Act, 2023 — look the Q-ID up rather than guessing; the item exists, because the English Wikipedia article does |
+| `P1324` source code repository | `https://github.com/ajitbubu/dpdpact.net` |
+| `P571` inception | first publication date of the site |
+
+Two honest caveats. Wikidata still expects an item to be identifiable from at
+least one source that is not the subject itself, so an item created before any
+independent coverage exists may be challenged or deleted — creating it is
+worth doing, but it is not guaranteed to stick. And Wikipedia is a separate,
+much higher bar: the *Digital Personal Data Protection Act, 2023* article has
+no external links section at all, and a citation to a site with no named author
+or legal entity would likely be reverted under `WP:RS`. Do not attempt the
+Wikipedia route until the identity work above is done and third-party coverage
+exists.
+
+Once profiles exist, add each one to the `sameAs` array in
+`src/app/layout.tsx` and `src/app/about/page.tsx`, which currently carries the
+repository URL alone.
+
 ## 3. Link-worthy assets to distribute
 
 | Asset | Audience | Useful pitch |

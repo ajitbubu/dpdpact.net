@@ -28,7 +28,12 @@ interface Miss {
   q: string;
 }
 
-export function PracticeTestClient() {
+/**
+ * `study` is server-rendered and passed in, the same arrangement `/exam` uses.
+ * Everything above it is state this component produces at runtime, so without
+ * it the route has nothing a crawler can read.
+ */
+export function PracticeTestClient({ study }: { study?: React.ReactNode }) {
   const [set, setSet] = React.useState<Question[]>([]);
   const [i, setI] = React.useState(0);
   const [picked, setPicked] = React.useState<number | null>(null);
@@ -322,6 +327,8 @@ export function PracticeTestClient() {
           </div>
         </div>
       </section>
+
+      {study}
 
       <SiteFooter />
     </div>

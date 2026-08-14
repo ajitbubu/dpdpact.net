@@ -11,7 +11,12 @@ import { SiteNav } from "@/components/site-nav";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { routes } from "@/lib/routes";
-import { CONTENT_UPDATED, SITE_NAME, SITE_URL } from "@/lib/site";
+import {
+  CONTENT_UPDATED,
+  CONTENT_UPDATED_LABEL,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 
 const GDPR_SOURCE = "https://eur-lex.europa.eu/eli/reg/2016/679/oj";
 
@@ -211,7 +216,7 @@ export default function DpdpVsGdprPage() {
         >
           <div className="mt-[22px] flex flex-wrap gap-[10px]">
             <Badge tone="primary">Provision-level</Badge>
-            <Badge tone="neutral">Current as of {CONTENT_UPDATED}</Badge>
+            <Badge tone="neutral">Current as of {CONTENT_UPDATED_LABEL}</Badge>
           </div>
         </PageHero>
 
