@@ -19,7 +19,7 @@
  * Bump CACHE_VERSION to invalidate everything.
  */
 
-const CACHE_VERSION = "v17";
+const CACHE_VERSION = "v18";
 const PRECACHE = `dpdp-precache-${CACHE_VERSION}`;
 const RUNTIME = `dpdp-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";

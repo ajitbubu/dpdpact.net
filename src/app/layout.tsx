@@ -93,7 +93,7 @@ const CONSENT_CONFIG = {
     // cookies. This site sets neither - functional and marketing are empty -
     // and it links to policies that must match the disclosures below.
     bannerText:
-      "We use strictly necessary cookies to make this site work, and only with your consent Google Analytics to understand how it is used. We do not use advertising or personalisation cookies, and we do not sell or share personal data.",
+      "We use strictly necessary cookies to make this site work, and only with your consent Google Analytics and Vercel Web Analytics to understand how it is used. We do not use advertising or personalisation cookies, and we do not sell or share personal data.",
   },
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 import * as React from "react";
 
 import { DownloadTracker } from "@/components/download-tracker";
@@ -100,6 +101,20 @@ export function AnalyticsOnConsent({
     <>
       <GoogleAnalytics gaId={gaId} />
       {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
+      {/*
+       * Vercel Web Analytics rides the same gate as everything else here.
+       *
+       * It sets no cookies, so it adds no row to the cookie table and a
+       * cookie-consent rule does not, strictly, reach it. It is gated anyway:
+       * the banner, the cookie policy and /about all tell the reader that
+       * analytics load only once they agree, and a beacon that fires for
+       * someone who declined would make all three false. On a site about a
+       * data protection statute that costs more than the measurement is worth.
+       *
+       * Mounting it here rather than in the root layout, where Vercel's own
+       * guide puts it, is the whole point: the layout renders unconditionally.
+       */}
+      <Analytics />
       <DownloadTracker />
     </>
   );
