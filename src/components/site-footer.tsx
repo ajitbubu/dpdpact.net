@@ -46,7 +46,21 @@ const columnHeadingClass =
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-[var(--bg-sunken)] font-sans text-text">
-      <div className="mx-auto grid w-full max-w-[1180px] grid-cols-[repeat(auto-fit,minmax(212px,1fr))] gap-[var(--space-7)] px-[var(--space-5)] pb-[var(--space-6)] pt-[var(--space-8)]">
+      {/*
+       * The track minimum is a fitting constraint, not the rendered width.
+       *
+       * At 212px with a 48px gutter the five columns needed more than the
+       * 1132px content box allows, so `auto-fit` dropped to four and pushed
+       * Source onto a second row: 409px of footer to render six links, beneath
+       * a first row left mostly blank under the short brand column. That one
+       * wrap was most of the footer's height.
+       *
+       * 150px is low enough to keep all five across down to ~1100px, and to
+       * give two columns rather than one on a phone, which takes ~350px off
+       * the mobile footer. The columns still render ~200px wide on desktop
+       * because `1fr` distributes whatever is left over.
+       */}
+      <div className="mx-auto grid w-full max-w-[1180px] grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-[var(--space-6)] px-[var(--space-5)] pb-[var(--space-5)] pt-[var(--space-7)]">
         <div className="flex flex-col gap-[12px]">
           {/*
            * A link, not a bare wordmark. The header logo was the only route
@@ -71,7 +85,7 @@ export function SiteFooter() {
           <SocialLinks />
         </div>
 
-        <div className="flex flex-col gap-[11px]">
+        <div className="flex flex-col gap-[9px]">
           <span className={columnHeadingClass}>The Act</span>
           {ACT_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className={columnLinkClass}>
@@ -80,7 +94,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="flex flex-col gap-[11px]">
+        <div className="flex flex-col gap-[9px]">
           <span className={columnHeadingClass}>Certification</span>
           {CERT_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className={columnLinkClass}>
@@ -95,7 +109,7 @@ export function SiteFooter() {
          * earn their site-wide internal links - the same job the other columns
          * already do for the study pages.
          */}
-        <div className="flex flex-col gap-[11px]">
+        <div className="flex flex-col gap-[9px]">
           <span className={columnHeadingClass}>By industry</span>
           {INDUSTRY_SLUGS.map((slug) => (
             <Link
@@ -111,7 +125,7 @@ export function SiteFooter() {
           </Link>
         </div>
 
-        <div className="flex flex-col gap-[11px]">
+        <div className="flex flex-col gap-[9px]">
           <span className={columnHeadingClass}>Source</span>
           <span className="text-[14px] leading-[1.7] text-text-secondary">
             The Gazette of India, Extraordinary, Part II - Section 1, No. 25, 11
@@ -141,7 +155,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center justify-between gap-[12px] border-t border-border px-[var(--space-5)] pb-[var(--space-6)] pt-[16px]">
+      <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center justify-between gap-[12px] border-t border-border px-[var(--space-5)] pb-[var(--space-5)] pt-[14px]">
         <span className="text-[12px] leading-[1.6] text-text-muted">
           Statutory text reproduced for study. Certification is an educational
           assessment, not legal advice or a government credential.
