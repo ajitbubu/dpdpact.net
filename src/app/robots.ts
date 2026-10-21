@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { SITE_URL } from "@/lib/site";
 
-const DISALLOW = ["/themes", "/certificate/standalone"];
+const DISALLOW = ["/themes", "/certificate/standalone", "/login"];
 
 /**
  * Every named agent below gets the same rule as `*`, so none of this changes
