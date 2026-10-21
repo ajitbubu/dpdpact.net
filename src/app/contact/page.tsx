@@ -9,6 +9,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import { ContactForm } from "./contact-form";
 import { Faq } from "@/components/faq";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
@@ -165,6 +166,10 @@ export default function ContactPage() {
                 applied the same day; one that does not has to be researched
                 from scratch before anything can change.
               </p>
+            </div>
+
+            <div className="mt-[24px]">
+              <ContactForm />
             </div>
 
             <h2 className="mb-[14px] mt-[40px] font-display text-[24px] font-semibold text-text">

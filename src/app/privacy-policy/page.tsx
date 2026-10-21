@@ -50,6 +50,28 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="m-0 font-display text-[26px] font-semibold text-text">
+                Messages you send
+              </h2>
+              <p className="mb-0 mt-[10px]">
+                The form on the{" "}
+                <a
+                  href={routes.contact}
+                  className="font-semibold text-primary-text"
+                >
+                  contact and corrections page
+                </a>{" "}
+                collects the name, email address and message you enter, for the
+                sole purpose of answering you. Submissions are delivered by
+                email through Resend, processed in the Asia Pacific (Tokyo)
+                region, and are not stored in a database here, published, or
+                used for any other purpose. Nothing on the form is required to
+                read the site: emailing the same address directly reaches the
+                same mailbox and asks nothing of this page.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="m-0 font-display text-[26px] font-semibold text-text">
                 Browser-local information
               </h2>
               <p className="mb-0 mt-[10px]">

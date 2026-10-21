@@ -19,7 +19,7 @@
  * Bump CACHE_VERSION to invalidate everything.
  */
 
-const CACHE_VERSION = "v18";
+const CACHE_VERSION = "v19";
 const PRECACHE = `dpdp-precache-${CACHE_VERSION}`;
 const RUNTIME = `dpdp-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";
@@ -108,6 +108,16 @@ self.addEventListener("fetch", (event) => {
 
   // Range requests bypass the cache entirely.
   if (request.headers.has("range")) return;
+
+  // Authenticated routes bypass the cache entirely, in both directions.
+  //
+  // The navigation branch below is network-first, but it still writes a copy of
+  // every response it sees into RUNTIME. For a sign-in form that means the
+  // authenticated HTML - and whatever the session put in it - is persisted to
+  // Cache Storage on disk, outlives the sign-out that should have ended it, and
+  // is replayed to the next person to open the browser offline. Nothing under
+  // /login is worth caching anyway: it is a live form, useless without network.
+  if (url.pathname === "/login" || url.pathname.startsWith("/login/")) return;
 
   // 1. Immutable build output — cache-first.
   if (url.pathname.startsWith("/_next/static/")) {

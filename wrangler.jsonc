@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dpdpact-net",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+    // Serve /offline.html at its own URL, as the service worker precaches it,
+    // instead of redirecting it to /offline.
+    "html_handling": "none"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "dpdpact-net"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

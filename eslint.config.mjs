@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Cloudflare build output (OpenNext and Wrangler).
+    ".open-next/**",
+    ".wrangler/**",
     // Vendored, minified consent SDK. `public/sw.js` is ours and stays linted.
     "public/cc-bootstrap.js",
     "public/cookie-consent.js",
